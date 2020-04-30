@@ -30,7 +30,17 @@
 		"react-test-renderer": "16.11.0",
 		"prettier": "^2.0.4",
 		"typescript": "^3.8.3",
-		"tslint": "5.18.0"
+		"tslint": "5.18.0",
+		"@react-native-community/masked-view": "^0.1.9",
+		"@react-navigation/bottom-tabs": "^5.2.6",
+		"@react-navigation/drawer": "^5.4.1",
+		"@react-navigation/material-bottom-tabs": "^5.1.8",
+		"@react-navigation/material-top-tabs": "^5.1.8",
+		"@react-navigation/native": "^5.1.5",
+		"@react-navigation/stack": "^5.2.10",
+		"react-native-gesture-handler": "^1.6.1",
+		"react-native-screens": "^2.5.0",
+		"react-native-safe-area-context": "^0.7.3"
 	},
 	"jest": {
 		"preset": "react-native",
