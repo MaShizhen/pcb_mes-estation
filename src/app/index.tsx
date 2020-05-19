@@ -1,17 +1,18 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, SectionList, } from 'react-native'
+import { SectionList, Text, TouchableOpacity, View } from 'react-native'
 import Icon from '../atom/icon'
 
 // 引入页面
-import esop_system from '../esop-system'
-import eandon_system from '../eandon-system'
-import data_collection from '../data-collection'
-import quality_management from '../quality-management'
 import dashboard_system from '../dashboard-system'
+import data_collection from '../data-collection'
+import eandon_system from '../eandon-system'
+import esop_system from '../esop-system'
+import quality_management from '../quality-management'
 import reporting_system from '../reporting-system'
 
+// tslint:disable-next-line: variable-name
 const Stack = createStackNavigator();
 
 export default function App() {
