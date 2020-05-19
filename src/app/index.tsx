@@ -78,7 +78,7 @@ export default function App() {
 			<View style={{ width: 120, backgroundColor: '#448AFF', alignItems: 'center' }}>
 				<SectionList
 					keyExtractor={(item) => {
-						return item.color
+						return item.path
 					}}
 					renderSectionHeader={({ section: { title } }) => (
 						<TouchableOpacity>
@@ -108,16 +108,21 @@ export default function App() {
 					sections={menus}
 				/>
 			</View>
-			<NavigationContainer ref={ref}>
-				<Stack.Navigator initialRouteName='esop_system'>
-					<Stack.Screen name='esop_system' component={esop_system} />
-					<Stack.Screen name='eandon_system' component={eandon_system} />
-					<Stack.Screen name='data_collection' component={data_collection} />
-					<Stack.Screen name='quality_management' component={quality_management} />
-					<Stack.Screen name='dashboard_system' component={dashboard_system} />
-					<Stack.Screen name='reporting_system' component={reporting_system} />
-				</Stack.Navigator>
-			</NavigationContainer>
+			<View style={{ width: '100%' }}>
+				<View>
+					<Text>123</Text>
+				</View>
+				<NavigationContainer ref={ref}>
+					<Stack.Navigator initialRouteName='esop_system'>
+						<Stack.Screen name='esop_system' component={esop_system} />
+						<Stack.Screen name='eandon_system' component={eandon_system} />
+						<Stack.Screen name='data_collection' component={data_collection} />
+						<Stack.Screen name='quality_management' component={quality_management} />
+						<Stack.Screen name='dashboard_system' component={dashboard_system} />
+						<Stack.Screen name='reporting_system' component={reporting_system} />
+					</Stack.Navigator>
+				</NavigationContainer>
+			</View>
 		</View >
 	);
 }
