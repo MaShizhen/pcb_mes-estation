@@ -4,7 +4,7 @@
 	"private": true,
 	"scripts": {
 		"test": "tsc -w & npm run start",
-		"android": "react-native run-android",
+		"android": "tsc && react-native run-android",
 		"ios": "react-native run-ios",
 		"start": "react-native start",
 		"jest": "jest",
@@ -64,7 +64,8 @@
 		"react-native-screens": "latest",
 		"react-native-tab-view": "latest",
 		"react-native-vector-icons": "latest",
-		"typescript": "next"
+		"typescript": "next",
+		"tslint": "latest"
 	},
 	"jest": {
 		"preset": "react-native",

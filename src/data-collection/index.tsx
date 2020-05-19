@@ -4,7 +4,7 @@ import { Text, View } from 'react-native';
 export default () => {
 	return (
 		<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-			<Text>Home Screen</Text>
+			<Text>数据采录</Text>
 		</View>
 	);
 }
