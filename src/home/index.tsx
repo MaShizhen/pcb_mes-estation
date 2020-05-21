@@ -1,6 +1,6 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import React, { useRef, useState } from 'react';
-import { SectionList, Text, TouchableOpacity, View } from 'react-native'
+import { SectionList, Text, TouchableOpacity, View, Image } from 'react-native'
 import Icon from '../atom/icon'
 
 // 引入页面
@@ -80,8 +80,11 @@ export default () => {
 						return item.path
 					}}
 					renderSectionHeader={({ section: { title } }) => (
-						<TouchableOpacity>
-							<Text style={{ fontWeight: "bold" }}>{title}111</Text>
+						<TouchableOpacity style={{ height: 80, alignItems: 'center', justifyContent: 'flex-end' }}>
+							{/* 头像 */}
+							<View style={{ alignItems: 'center' }}>
+								<Image source={require('../../imgs/science5.png')} style={{ width: 60, height: 60, borderRadius: 30 }} />
+							</View>
 						</TouchableOpacity>
 					)}
 					renderItem={({ item, index }) => {
