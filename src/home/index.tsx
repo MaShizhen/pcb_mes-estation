@@ -10,6 +10,7 @@ import eandon_system from '../eandon-system'
 import esop_system from '../esop-system'
 import quality_management from '../quality-management'
 import reporting_system from '../reporting-system'
+import { TextInput } from 'react-native-paper';
 
 // tslint:disable-next-line: variable-name
 const Stack = createStackNavigator();
@@ -111,8 +112,31 @@ export default () => {
 				/>
 			</View>
 			<View style={{ width: '100%' }}>
-				<View>
-					<Text>123</Text>
+				<View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: '#fff', flexWrap: 'wrap' }}>
+					<View style={{ flexDirection: 'row', alignItems: 'center' }}>
+						<Text style={{ height: 35, lineHeight: 35, textAlign: 'right', width: 100 }}>终端代码名称:</Text>
+						<Text style={{ height: 35, lineHeight: 35 }}>测试终端代码名称</Text>
+					</View>
+					<View style={{ flexDirection: 'row', alignItems: 'center' }}>
+						<Text style={{ height: 35, lineHeight: 35, textAlign: 'right', width: 100 }}>工序代码名称:</Text>
+						<Text style={{ height: 35, lineHeight: 35 }}>测试终端代码名称</Text>
+					</View>
+					<View style={{ flexDirection: 'row', alignItems: 'center' }}>
+						<Text style={{ height: 35, lineHeight: 35, textAlign: 'right', width: 100 }}>所属设备:</Text>
+						<Text style={{ height: 35, lineHeight: 35 }}>测试终端代码名称</Text>
+					</View>
+					<View style={{ flexDirection: 'row', alignItems: 'center' }}>
+						<Text style={{ height: 35, lineHeight: 35, textAlign: 'right', width: 100 }}>员工编号:</Text>
+						<Text style={{ height: 35, lineHeight: 35 }}>测试终端代码名称</Text>
+					</View>
+					<View style={{ flexDirection: 'row', alignItems: 'center' }}>
+						<Text style={{ height: 35, lineHeight: 35, textAlign: 'right', width: 100 }}>员工名称:</Text>
+						<Text style={{ height: 35, lineHeight: 35 }}>测试终端代码名称</Text>
+					</View>
+					<View style={{ flexDirection: 'row' }}>
+						<Text style={{ height: 35, lineHeight: 35, textAlign: 'right', width: 100 }}>消息:</Text>
+						<Text style={{ height: 35, lineHeight: 35 }}>测试终端代码名称</Text>
+					</View>
 				</View>
 				<Stack.Navigator initialRouteName='esop_system'>
 					<Stack.Screen name='esop_system' component={esop_system} />
