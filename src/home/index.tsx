@@ -1,6 +1,6 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import React, { useRef, useState } from 'react';
-import { SectionList, Text, TouchableOpacity, View } from 'react-native'
+import { SectionList, Text, TouchableOpacity, View, Image } from 'react-native'
 import Icon from '../atom/icon'
 
 // 引入页面
@@ -10,6 +10,7 @@ import eandon_system from '../eandon-system'
 import esop_system from '../esop-system'
 import quality_management from '../quality-management'
 import reporting_system from '../reporting-system'
+import { TextInput } from 'react-native-paper';
 
 // tslint:disable-next-line: variable-name
 const Stack = createStackNavigator();
@@ -80,8 +81,11 @@ export default () => {
 						return item.path
 					}}
 					renderSectionHeader={({ section: { title } }) => (
-						<TouchableOpacity>
-							<Text style={{ fontWeight: "bold" }}>{title}111</Text>
+						<TouchableOpacity style={{ height: 80, alignItems: 'center', justifyContent: 'flex-end' }}>
+							{/* 头像 */}
+							<View style={{ alignItems: 'center' }}>
+								<Image source={require('../../imgs/science5.png')} style={{ width: 60, height: 60, borderRadius: 30 }} />
+							</View>
 						</TouchableOpacity>
 					)}
 					renderItem={({ item, index }) => {
@@ -108,8 +112,31 @@ export default () => {
 				/>
 			</View>
 			<View style={{ width: '100%' }}>
-				<View>
-					<Text>123</Text>
+				<View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: '#fff', flexWrap: 'wrap' }}>
+					<View style={{ flexDirection: 'row', alignItems: 'center' }}>
+						<Text style={{ height: 35, lineHeight: 35, textAlign: 'right', width: 100 }}>终端代码名称:</Text>
+						<Text style={{ height: 35, lineHeight: 35 }}>测试终端代码名称</Text>
+					</View>
+					<View style={{ flexDirection: 'row', alignItems: 'center' }}>
+						<Text style={{ height: 35, lineHeight: 35, textAlign: 'right', width: 100 }}>工序代码名称:</Text>
+						<Text style={{ height: 35, lineHeight: 35 }}>测试终端代码名称</Text>
+					</View>
+					<View style={{ flexDirection: 'row', alignItems: 'center' }}>
+						<Text style={{ height: 35, lineHeight: 35, textAlign: 'right', width: 100 }}>所属设备:</Text>
+						<Text style={{ height: 35, lineHeight: 35 }}>测试终端代码名称</Text>
+					</View>
+					<View style={{ flexDirection: 'row', alignItems: 'center' }}>
+						<Text style={{ height: 35, lineHeight: 35, textAlign: 'right', width: 100 }}>员工编号:</Text>
+						<Text style={{ height: 35, lineHeight: 35 }}>测试终端代码名称</Text>
+					</View>
+					<View style={{ flexDirection: 'row', alignItems: 'center' }}>
+						<Text style={{ height: 35, lineHeight: 35, textAlign: 'right', width: 100 }}>员工名称:</Text>
+						<Text style={{ height: 35, lineHeight: 35 }}>测试终端代码名称</Text>
+					</View>
+					<View style={{ flexDirection: 'row' }}>
+						<Text style={{ height: 35, lineHeight: 35, textAlign: 'right', width: 100 }}>消息:</Text>
+						<Text style={{ height: 35, lineHeight: 35 }}>测试终端代码名称</Text>
+					</View>
 				</View>
 				<Stack.Navigator initialRouteName='esop_system'>
 					<Stack.Screen name='esop_system' component={esop_system} />
