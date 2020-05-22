@@ -1,6 +1,7 @@
+import { useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import React, { useRef, useState } from 'react';
-import { SectionList, Text, TouchableOpacity, View, Image } from 'react-native'
+import React, { useState } from 'react';
+import { Image, SectionList, Text, TouchableOpacity, View } from 'react-native'
 import Icon from '../atom/icon'
 
 // 引入页面
@@ -10,14 +11,13 @@ import eandon_system from '../eandon-system'
 import esop_system from '../esop-system'
 import quality_management from '../quality-management'
 import reporting_system from '../reporting-system'
-import { TextInput } from 'react-native-paper';
 
 // tslint:disable-next-line: variable-name
 const Stack = createStackNavigator();
 
 export default () => {
+	const navigation = useNavigation();
 	const [focused_index, setFocused_index] = useState(0);
-	const navigation_container = useRef(null);
 
 	const menus = [
 		{
@@ -75,7 +75,7 @@ export default () => {
 	]
 	return (
 		<View style={{ flex: 1, flexDirection: 'row' }}>
-			<View style={{ width: 120, backgroundColor: '#448AFF', alignItems: 'center' }}>
+			<View style={{ flex: 0.1, backgroundColor: '#448AFF', alignItems: 'center' }}>
 				<SectionList
 					keyExtractor={(item) => {
 						return item.path
@@ -93,7 +93,7 @@ export default () => {
 							<TouchableOpacity style={{ width: 120, paddingTop: 20, paddingBottom: 20 }} onPress={
 								() => {
 									setFocused_index(index)
-									navigation_container.current?.navigate(item.path)
+									navigation.navigate(item.path)
 								}}>
 								<View style={{ alignItems: 'center', justifyContent: 'center' }}>
 									<Icon style={{ alignContent: 'center' }} name={(() => {
@@ -111,7 +111,7 @@ export default () => {
 					sections={menus}
 				/>
 			</View>
-			<View style={{ width: '100%' }}>
+			<View style={{ flex: 0.9, backgroundColor: 'red' }}>
 				<View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: '#fff', flexWrap: 'wrap' }}>
 					<View style={{ flexDirection: 'row', alignItems: 'center' }}>
 						<Text style={{ height: 35, lineHeight: 35, textAlign: 'right', width: 100 }}>终端代码名称:</Text>
@@ -138,7 +138,9 @@ export default () => {
 						<Text style={{ height: 35, lineHeight: 35 }}>测试终端代码名称</Text>
 					</View>
 				</View>
-				<Stack.Navigator initialRouteName='esop_system'>
+				<Stack.Navigator initialRouteName='esop_system' screenOptions={{
+					animationEnabled: false
+				}}>
 					<Stack.Screen name='esop_system' component={esop_system} />
 					<Stack.Screen name='eandon_system' component={eandon_system} />
 					<Stack.Screen name='data_collection' component={data_collection} />
