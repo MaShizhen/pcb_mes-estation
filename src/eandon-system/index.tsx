@@ -4,7 +4,7 @@ import { Image, Text, View } from 'react-native';
 export default () => {
 	return (
 		<View style={{ flexDirection: 'row', flex: 1, marginTop: 10, backgroundColor: '#fff' }}>
-			<View style={{ flex: 0.3 }}>
+			<View style={{ flex: 0.2 }}>
 				<View style={{
 					height: 45, backgroundColor: '#fff'
 				}}>
@@ -16,6 +16,7 @@ export default () => {
 					</View>
 				</View>
 			</View>
+			<View style={{ flex: 0.1 }}></View>
 			<View style={{ flex: 0.7 }}>
 				<View style={{ height: 45, backgroundColor: '#fff' }}><Text style={{ lineHeight: 45, textAlign: 'center' }}>报警代码详情</Text></View>
 				<View>
