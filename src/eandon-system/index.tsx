@@ -31,7 +31,7 @@ export default () => {
 			</View>
 			{/* 筛选 start */}
 			{(() => {
-				if (1) {
+				if (0) {
 					return (
 						<Modal transparent={true}>
 							<TouchableOpacity style={{ backgroundColor: 'rgba(0,0,0,0.3)', top: 0, bottom: 0, left: 0, right: 0, position: 'absolute' }} activeOpacity={1}>
