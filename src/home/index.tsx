@@ -1,8 +1,9 @@
 import { useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import React, { useState } from 'react';
-import { Image, SectionList, Text, TouchableOpacity, View } from 'react-native'
+import { Image, SectionList, Text, TouchableOpacity, View, Picker } from 'react-native'
 import Icon from '../atom/icon'
+import Fdicon from '../atom/icon';
 
 // 引入页面
 import dashboard_system from '../dashboard-system'
@@ -122,10 +123,6 @@ export default () => {
 						<Text style={{ height: 35, lineHeight: 35 }}>测试终端代码名称</Text>
 					</View>
 					<View style={{ flexDirection: 'row', alignItems: 'center' }}>
-						<Text style={{ height: 35, lineHeight: 35, textAlign: 'right', width: 100 }}>所属设备:</Text>
-						<Text style={{ height: 35, lineHeight: 35 }}>测试终端代码名称</Text>
-					</View>
-					<View style={{ flexDirection: 'row', alignItems: 'center' }}>
 						<Text style={{ height: 35, lineHeight: 35, textAlign: 'right', width: 100 }}>员工编号:</Text>
 						<Text style={{ height: 35, lineHeight: 35 }}>测试终端代码名称</Text>
 					</View>
@@ -133,8 +130,16 @@ export default () => {
 						<Text style={{ height: 35, lineHeight: 35, textAlign: 'right', width: 100 }}>员工名称:</Text>
 						<Text style={{ height: 35, lineHeight: 35 }}>测试终端代码名称</Text>
 					</View>
-					<View style={{ flexDirection: 'row' }}>
-						<Text style={{ height: 35, lineHeight: 35, textAlign: 'right', width: 100 }}>消息:</Text>
+					<View style={{ flexDirection: 'row', alignItems: 'center' }}>
+						<Text style={{ height: 35, lineHeight: 35, textAlign: 'right', width: 100 }}>所属设备:</Text>
+						<Picker
+							style={{ height: 35, width: 100 }} >
+							<Picker.Item label="java" value="java" />
+							<Picker.Item label="JavaScript" value="js" />
+						</Picker>
+					</View>
+					<View style={{ flexDirection: 'row', alignItems: 'center' }}>
+						<Text style={{ height: 35, lineHeight: 35, textAlign: 'right', width: 100 }}><Fdicon name='xiaoxi1' size={18} color='red'></Fdicon>消息:</Text>
 						<Text style={{ height: 35, lineHeight: 35 }}>测试终端代码名称</Text>
 					</View>
 				</View>
