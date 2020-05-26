@@ -77,5 +77,8 @@
 			"json",
 			"node"
 		]
+	},
+	"dependencies": {
+		"react-native-table-component": "^1.2.1"
 	}
 }
