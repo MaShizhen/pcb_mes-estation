@@ -32,18 +32,20 @@ export default class ExampleFour extends Component {
 		return (
 			<ScrollView>
 				<View style={styles.container}>
-					<Table borderStyle={{ borderWidth: 1, borderColor: '#c8e1ff' }}>
+					<Table >
 						<Row data={state.tableHead} style={styles.head} textStyle={styles.text} />
 						{
 							state.tableData.map((rowData, index) => (
-								<TableWrapper key={index} style={styles.row}>
-									{
-										rowData.map((cellData, cellIndex) => (
-											<Cell key={cellIndex} data={cellIndex === 2 ? element(cellData, index) : cellData} textStyle={styles.text} />
-										))
-									}
-								</TableWrapper>
+								<TouchableOpacity onPress={() => this._alertIndex(index)} style={{ borderBottomWidth: 1, borderColor: '#c8e1ff' }}>
+									<TableWrapper key={index} style={styles.row}>
+										{
+											rowData.map((cellData, cellIndex) => (
+												<Cell key={cellIndex} data={cellIndex === 2 ? element(cellData, index) : cellData} textStyle={styles.text} />
+											))
+										}
+									</TableWrapper>
 
+								</TouchableOpacity>
 							))
 						}
 					</Table>
@@ -55,9 +57,7 @@ export default class ExampleFour extends Component {
 
 const styles = StyleSheet.create({
 	container: { flex: 1, padding: 16, paddingTop: 30, backgroundColor: '#fff' },
-	head: { height: 40, backgroundColor: '#f1f8ff', textAlign: 'center', color: 'red' },
+	head: { height: 60, backgroundColor: '#f1f8ff', textAlign: 'center' },
 	text: { margin: 6, textAlign: 'center' },
-	row: { flexDirection: 'row' },
-	btn: { width: 58, height: 18, backgroundColor: '#78B7BB', borderRadius: 2 },
-	btnText: { textAlign: 'center', color: '#fff' }
+	row: { height: 60, flexDirection: 'row' }
 });
