@@ -27,21 +27,25 @@ export default (prop: IProp) => {
 				Alert.alert("Modal has been closed.");
 			}}
 		>
-			<TouchableHighlight
-				onPress={() => prop.onHide()}
-				style={{ flex: 1 }}
-				underlayColor='transparent'>
-				<View style={styles.max}>
-					<ScrollView >
-						<View style={styles.container}>
-							<Table borderStyle={{ borderWidth: 1, borderColor: '#c8e1ff' }}>
-								<Row data={tableHead} style={styles.head} textStyle={styles.text} />
-								<Rows data={tableData} textStyle={styles.text} style={styles.row} />
-							</Table>
+			<View style={styles.max}>
+				<ScrollView>
+					<View style={styles.container}>
+						<View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
+							<TouchableHighlight
+								onPress={() => prop.onHide()}
+								style={{ width: 150, height: 40 }}
+								underlayColor='transparent'>
+								<Text style={{ fontSize: 25, color: '#c8e1ff', textAlign: 'right', lineHeight: 40 }}>关闭</Text>
+							</TouchableHighlight>
 						</View>
-					</ScrollView>
-				</View>
-			</TouchableHighlight>
+						<Table style={{}}>
+							<Row data={tableHead} style={styles.head} textStyle={styles.text} />
+							<Rows data={tableData} textStyle={styles.text} style={styles.row} />
+						</Table>
+					</View>
+				</ScrollView>
+			</View>
+
 
 		</Modal >
 
@@ -50,8 +54,8 @@ export default (prop: IProp) => {
 
 const styles = StyleSheet.create({
 	max: { flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', alignItems: "center", flexDirection: 'row', justifyContent: 'center' },
-	container: { padding: 16, backgroundColor: '#fff', margin: 20 },
+	container: { backgroundColor: '#fff', margin: 20, minHeight: 200, padding: 15 },
 	head: { height: 60, backgroundColor: '#f1f8ff' },
-	row: { height: 60 },
+	row: { height: 60, backgroundColor: '#fff', borderBottomWidth: 2, borderBottomColor: '#f1f8ff' },
 	text: { margin: 6, textAlign: 'center' }
 });
