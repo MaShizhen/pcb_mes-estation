@@ -33,6 +33,7 @@
 	},
 	"devDependencies": {
 		"@babel/core": "latest",
+		"@koimy/react-native-table-component": "^4.6.202005271638",
 		"@react-native-community/masked-view": "latest",
 		"@react-native-community/netinfo": "latest",
 		"@react-navigation/bottom-tabs": "latest",
@@ -64,8 +65,8 @@
 		"react-native-screens": "latest",
 		"react-native-tab-view": "latest",
 		"react-native-vector-icons": "latest",
-		"typescript": "next",
-		"tslint": "latest"
+		"tslint": "latest",
+		"typescript": "next"
 	},
 	"jest": {
 		"preset": "react-native",
@@ -77,8 +78,5 @@
 			"json",
 			"node"
 		]
-	},
-	"dependencies": {
-		"react-native-table-component": "^1.2.1"
 	}
 }

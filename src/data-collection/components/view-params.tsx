@@ -1,7 +1,8 @@
-import React from 'react';
-import { Modal, Text, TouchableHighlight, View, Alert, StyleSheet, ScrollView } from "react-native";
-import { Table, Row, Rows } from 'react-native-table-component';
-
+import { Modal, Text, TouchableHighlight, TouchableOpacity, View, Alert, StyleSheet, ScrollView, TextInput } from "react-native";
+import { Table, Row, Rows, TableWrapper, Cell } from '@koimy/react-native-table-component';
+import Fdicon from '../../atom/icon';
+import React, { useState } from 'react';
+import Window from './window'
 interface IProp {
 	visible: boolean;
 	id: string;
@@ -9,14 +10,43 @@ interface IProp {
 }
 
 export default (prop: IProp) => {
+	const [visible, sets_visible] = useState(false)
 	const tableHead = ['业务级参数代码', '业务级参数名称', '业务级参数说明', '业务级参数类型', '创建时间', '当前值', '下发值', '操作'];
 	const tableData = [
 		['1', '设备1202-设备电流', '设备1202-设备电流', '数值', '2020-02-02 17:58', '0.5', '11111', '读取'],
 		['1', '设备1202-设备电流', '设备1202-设备电流', '数值', '2020-02-02 17:58', '0.5', '11111', '读取'],
 		['1', '设备1202-设备电流', '设备1202-设备电流', '数值', '2020-02-02 17:58', '0.5', '11111', '读取'],
-		['a', 'b', 'c', 'd']
 	];
 
+	function alertIndex(data: number) {
+		sets_visible(true)
+	}
+
+	function element(data: string, index: number, cellIndex: number) {
+		if (cellIndex === 6) {
+			return (
+				<TouchableOpacity onPress={() => alertIndex(index)} >
+					<View style={{ borderWidth: 1, borderColor: '#999', flexDirection: 'row', alignItems: 'center', height: 30, justifyContent: 'space-around' }}>
+						<Text style={{ lineHeight: 30 }}>下发值</Text>
+						<Fdicon name='xiangqing' size={20} color='#242c3a'></Fdicon>
+					</View>
+				</TouchableOpacity>
+			);
+		} else {
+			return (
+				<TouchableOpacity >
+					<View style={{ flexDirection: 'row', alignItems: 'center', height: 30, justifyContent: 'center' }}>
+						<TouchableOpacity>
+							<Text style={{ color: '#5194d6' }}>读取</Text>
+						</TouchableOpacity>
+						<TouchableOpacity>
+							<Text style={{ color: '#5194d6', paddingLeft: 5 }}>下发</Text>
+						</TouchableOpacity>
+					</View>
+				</TouchableOpacity >
+			);
+		}
+	}
 
 	return (
 		<Modal
@@ -40,22 +70,33 @@ export default (prop: IProp) => {
 						</View>
 						<Table style={{}}>
 							<Row data={tableHead} style={styles.head} textStyle={styles.text} />
-							<Rows data={tableData} textStyle={styles.text} style={styles.row} />
+							{
+								tableData.map((rowData, index) => (
+									<TableWrapper key={index} style={styles.row}>
+										{
+											rowData.map((cellData, cellIndex) => (
+												<Cell key={cellIndex} data={(cellIndex === 6 || cellIndex === 7) ? element(cellData, index, cellIndex) : cellData} textStyle={styles.text} />
+											))
+										}
+									</TableWrapper>
+								))
+							}
 						</Table>
 					</View>
 				</ScrollView>
 			</View>
-
-
+			<Window visible={visible} id={''} onHide={() => {
+				sets_visible(false)
+			}} />
 		</Modal >
 
 	);
 }
 
 const styles = StyleSheet.create({
-	max: { flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', alignItems: "center", flexDirection: 'row', justifyContent: 'center' },
-	container: { backgroundColor: '#fff', margin: 20, minHeight: 200, padding: 15 },
-	head: { height: 60, backgroundColor: '#f1f8ff' },
-	row: { height: 60, backgroundColor: '#fff', borderBottomWidth: 2, borderBottomColor: '#f1f8ff' },
-	text: { margin: 6, textAlign: 'center' }
+	max: { backgroundColor: 'rgba(0,0,0,0.5)' },
+	container: { backgroundColor: '#fff', margin: 30, padding: 15 },
+	head: { height: 60, backgroundColor: '#f1f8ff', textAlign: 'center' },
+	text: { margin: 6, textAlign: 'center' },
+	row: { height: 60, flexDirection: 'row', borderBottomWidth: 1, borderColor: '#c8e1ff' }
 });

@@ -1,10 +1,11 @@
 import { createIconSet } from 'react-native-vector-icons';
 const glyphMap = {
+	"xiangqing": 58925,
+	"guanbi": 59083,
 	"xiaoxi": 59022,
 	"zuoyou": 58880,
 	"xiaoxi1": 58953,
 	"zuo": 58881,
-	"zhiwendaqia": 58919,
 	"qia": 58930,
 	"zhiwen": 59001,
 	"nfc-": 58902,

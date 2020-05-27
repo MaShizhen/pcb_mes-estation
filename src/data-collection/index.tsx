@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, Image, TouchableOpacity, ScrollView } from 'react-native';
-import { Table, TableWrapper, Row, Cell } from 'react-native-table-component';
+import { Table, TableWrapper, Row, Cell } from '@koimy/react-native-table-component';
 import ViewParams from './components/view-params'
 
 export default () => {
