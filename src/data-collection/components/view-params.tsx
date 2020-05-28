@@ -1,7 +1,7 @@
-import { Modal, Text, TouchableHighlight, TouchableOpacity, View, Alert, StyleSheet, ScrollView, TextInput } from "react-native";
-import { Table, Row, Rows, TableWrapper, Cell } from '@koimy/react-native-table-component';
-import Fdicon from '../../atom/icon';
+import { Cell, Row, Table, TableWrapper } from '@koimy/react-native-table-component';
 import React, { useState } from 'react';
+import { Alert, Modal, ScrollView, StyleSheet, Text, TouchableHighlight, TouchableOpacity, View } from "react-native";
+import Fdicon from '../../atom/icon';
 import Window from './window'
 interface IProp {
 	visible: boolean;
@@ -15,7 +15,7 @@ export default (prop: IProp) => {
 	const tableData = [
 		['1', '设备1202-设备电流', '设备1202-设备电流', '数值', '2020-02-02 17:58', '0.5', '11111', '读取'],
 		['1', '设备1202-设备电流', '设备1202-设备电流', '数值', '2020-02-02 17:58', '0.5', '11111', '读取'],
-		['1', '设备1202-设备电流', '设备1202-设备电流', '数值', '2020-02-02 17:58', '0.5', '11111', '读取'],
+		['1', '设备1202-设备电流', '设备1202-设备电流', '数值', '2020-02-02 17:58', '0.5', '11111', '读取']
 	];
 
 	function alertIndex(data: number) {
