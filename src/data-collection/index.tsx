@@ -1,4 +1,5 @@
 import { Cell, Row, Table, TableWrapper } from '@koimy/react-native-table-component';
+import { Container } from 'native-base';
 import React, { useState } from 'react';
 import { Image, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
 import ViewParams from './components/view-params'
@@ -28,28 +29,30 @@ export default () => {
 
 	return (
 		<ScrollView>
-			<View style={styles.container}>
-				<Table >
-					<Row data={tableHead} style={styles.head} textStyle={styles.text} />
-					{
-						tableData.map((rowData, index) => (
-							<TouchableOpacity onPress={() => _alertIndex(index)} style={{ borderBottomWidth: 1, borderColor: '#c8e1ff' }}>
-								<TableWrapper key={index} style={styles.row}>
-									{
-										rowData.map((cellData, cellIndex) => (
-											<Cell key={cellIndex} data={cellIndex === 2 ? element(cellData, index) : cellData} textStyle={styles.text} />
-										))
-									}
-								</TableWrapper>
+			<Container>
+				<View style={styles.container}>
+					<Table >
+						<Row data={tableHead} style={styles.head} textStyle={styles.text} />
+						{
+							tableData.map((rowData, index) => (
+								<TouchableOpacity onPress={() => _alertIndex(index)} style={{ borderBottomWidth: 1, borderColor: '#c8e1ff' }}>
+									<TableWrapper key={index} style={styles.row}>
+										{
+											rowData.map((cellData, cellIndex) => (
+												<Cell key={cellIndex} data={cellIndex === 2 ? element(cellData, index) : cellData} textStyle={styles.text} />
+											))
+										}
+									</TableWrapper>
 
-							</TouchableOpacity>
-						))
-					}
-				</Table>
-			</View>
-			<ViewParams visible={visible} id={''} onHide={() => {
-				set_visible(false)
-			}} />
+								</TouchableOpacity>
+							))
+						}
+					</Table>
+				</View>
+				<ViewParams visible={visible} id={''} onHide={() => {
+					set_visible(false)
+				}} />
+			</Container>
 		</ScrollView>
 	)
 }
