@@ -1,7 +1,6 @@
-import { Cell, Row, Rows, Table, TableWrapper } from '@koimy/react-native-table-component';
 import { Button } from 'native-base';
-import React, { useState } from 'react';
-import { Alert, Modal, StyleSheet, Text, TextInput, TouchableHighlight, TouchableOpacity, View } from "react-native";
+import React from 'react';
+import { Alert, Modal, StyleSheet, Text, TextInput, TouchableHighlight, View } from "react-native";
 import Fdicon from '../../atom/icon';
 interface IProp {
 	visible: boolean;

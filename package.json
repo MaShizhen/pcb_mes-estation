@@ -1,10 +1,10 @@
 {
-	"name": "MyApp",
+	"name": "pcb_mes-estation",
 	"version": "0.0.1",
 	"private": true,
 	"scripts": {
 		"test": "tsc -w & npm run start",
-		"android": "react-native run-android",
+		"android": "tsc && react-native run-android",
 		"ios": "tsc && tsc -w",
 		"start": "react-native start",
 		"jest": "jest",
@@ -36,6 +36,7 @@
 		"@koimy/react-native-table-component": "latest",
 		"@react-native-community/masked-view": "latest",
 		"@react-native-community/netinfo": "latest",
+		"@react-native-community/picker": "^1.6.1",
 		"@react-navigation/bottom-tabs": "latest",
 		"@react-navigation/drawer": "latest",
 		"@react-navigation/material-bottom-tabs": "latest",
@@ -55,6 +56,7 @@
 		"eslint-plugin-import": "latest",
 		"eslint-plugin-react": "latest",
 		"eslint-plugin-react-hooks": "latest",
+		"native-base": "latest",
 		"react": "latest",
 		"react-dom": "latest",
 		"react-native": "latest",
@@ -66,8 +68,7 @@
 		"react-native-tab-view": "latest",
 		"react-native-vector-icons": "latest",
 		"tslint": "latest",
-		"typescript": "next",
-		"native-base": "latest"
+		"typescript": "next"
 	},
 	"jest": {
 		"preset": "react-native",

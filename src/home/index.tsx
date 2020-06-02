@@ -1,7 +1,8 @@
+import { Picker } from '@react-native-community/picker'
 import { useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import React, { useState } from 'react';
-import { Image, SectionList, Text, TouchableOpacity, View, Picker } from 'react-native'
+import { Image, SectionList, Text, TouchableOpacity, View } from 'react-native'
 import Icon from '../atom/icon'
 import Fdicon from '../atom/icon';
 

@@ -1,5 +1,6 @@
+import { Picker } from '@react-native-community/picker'
 import React from 'react';
-import { Image, Text, View, ScrollView, Modal, TouchableOpacity, Picker } from 'react-native';
+import { Image, Modal, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 
 export default () => {
 	return (

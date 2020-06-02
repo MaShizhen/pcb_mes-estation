@@ -2,7 +2,7 @@ import { Cell, Row, Table, TableWrapper } from '@koimy/react-native-table-compon
 import React, { useState } from 'react';
 import { Alert, Modal, ScrollView, StyleSheet, Text, TouchableHighlight, TouchableOpacity, View } from "react-native";
 import Fdicon from '../../atom/icon';
-import Window from './window'
+import SetDistribution from './set-distribution'
 interface IProp {
 	visible: boolean;
 	id: string;
@@ -85,7 +85,7 @@ export default (prop: IProp) => {
 					</View>
 				</ScrollView>
 			</View>
-			<Window visible={visible} id={''} onHide={() => {
+			<SetDistribution visible={visible} id={''} onHide={() => {
 				sets_visible(false)
 			}} />
 		</Modal >
