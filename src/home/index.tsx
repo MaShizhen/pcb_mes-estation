@@ -1,8 +1,8 @@
-import { Picker } from '@react-native-community/picker'
+// import { Picker } from '@react-native-community/picker'
 import { useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import React, { useState } from 'react';
-import { Image, SectionList, Text, TouchableOpacity, View } from 'react-native'
+import { Image, Picker, SectionList, Text, TouchableOpacity, View } from 'react-native'
 import Icon from '../atom/icon'
 import Fdicon from '../atom/icon';
 
@@ -13,6 +13,7 @@ import eandon_system from '../eandon-system'
 import esop_system from '../esop-system'
 import quality_management from '../quality-management'
 import reporting_system from '../reporting-system'
+import view_params from '../view-params'
 
 // tslint:disable-next-line: variable-name
 const Stack = createStackNavigator();
@@ -145,14 +146,19 @@ export default () => {
 					</View>
 				</View>
 				<Stack.Navigator initialRouteName='esop_system' screenOptions={{
-					animationEnabled: false
+					animationEnabled: true
 				}}>
 					<Stack.Screen name='esop_system' component={esop_system} />
 					<Stack.Screen name='eandon_system' component={eandon_system} />
-					<Stack.Screen name='data_collection' component={data_collection} />
+					<Stack.Screen name='data_collection' component={data_collection} options={{
+						title: '数据采录'
+					}} />
 					<Stack.Screen name='quality_management' component={quality_management} />
 					<Stack.Screen name='dashboard_system' component={dashboard_system} />
 					<Stack.Screen name='reporting_system' component={reporting_system} />
+					<Stack.Screen name='view_params' component={view_params} options={{
+						title: '查看参数'
+					}} />
 				</Stack.Navigator>
 			</View>
 		</View >

@@ -1,14 +1,26 @@
 import { Cell, Row, Table, TableWrapper } from '@koimy/react-native-table-component';
+import { useNavigation } from '@react-navigation/native'
 import { Container } from 'native-base';
-import React, { useState } from 'react';
+import React from 'react';
 import { Image, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
-import ViewParams from './components/view-params'
 
 export default () => {
-	const [visible, set_visible] = useState(false)
+	const navigation = useNavigation();
 
 	const tableHead = ['设备编号', '设备名称', '设备图片', '设备说明', '所属工序', '有效状态', '审核状态', '创建时间']
 	const tableData = [
+		['gx001', '钻机-DEV1301', '图片', '4', '钻机-DEV1301', '钻机-DEV1301', '钻机-DEV1301', '钻机-DEV1301'],
+		['gx001', '钻机-DEV1301', '图片', '4', '钻机-DEV1301', '钻机-DEV1301', '钻机-DEV1301', '钻机-DEV1301'],
+		['gx001', '钻机-DEV1301', '图片', '4', '钻机-DEV1301', '钻机-DEV1301', '钻机-DEV1301', '钻机-DEV1301'],
+		['gx001', '钻机-DEV1301', '图片', '4', '钻机-DEV1301', '钻机-DEV1301', '钻机-DEV1301', '钻机-DEV1301'],
+		['gx001', '钻机-DEV1301', '图片', '4', '钻机-DEV1301', '钻机-DEV1301', '钻机-DEV1301', '钻机-DEV1301'],
+		['gx001', '钻机-DEV1301', '图片', '4', '钻机-DEV1301', '钻机-DEV1301', '钻机-DEV1301', '钻机-DEV1301'],
+		['gx001', '钻机-DEV1301', '图片', '4', '钻机-DEV1301', '钻机-DEV1301', '钻机-DEV1301', '钻机-DEV1301'],
+		['gx001', '钻机-DEV1301', '图片', '4', '钻机-DEV1301', '钻机-DEV1301', '钻机-DEV1301', '钻机-DEV1301'],
+		['gx001', '钻机-DEV1301', '图片', '4', '钻机-DEV1301', '钻机-DEV1301', '钻机-DEV1301', '钻机-DEV1301'],
+		['gx001', '钻机-DEV1301', '图片', '4', '钻机-DEV1301', '钻机-DEV1301', '钻机-DEV1301', '钻机-DEV1301'],
+		['gx001', '钻机-DEV1301', '图片', '4', '钻机-DEV1301', '钻机-DEV1301', '钻机-DEV1301', '钻机-DEV1301'],
+		['gx001', '钻机-DEV1301', '图片', '4', '钻机-DEV1301', '钻机-DEV1301', '钻机-DEV1301', '钻机-DEV1301'],
 		['gx001', '钻机-DEV1301', '图片', '4', '钻机-DEV1301', '钻机-DEV1301', '钻机-DEV1301', '钻机-DEV1301'],
 		['gx001', '钻机-DEV1301', '图片', '4', '钻机-DEV1301', '钻机-DEV1301', '钻机-DEV1301', '钻机-DEV1301'],
 		['gx001', '钻机-DEV1301', '图片', '4', '钻机-DEV1301', '钻机-DEV1301', '钻机-DEV1301', '钻机-DEV1301'],
@@ -16,13 +28,13 @@ export default () => {
 	]
 
 	function _alertIndex(data: number) {
-		set_visible(true)
+		navigation.navigate('view_params')
 	}
 
 	function element(data: string, index: number) {
 		return (
 			<TouchableOpacity onPress={() => _alertIndex(index)} style={{ alignItems: 'center' }}>
-				<Image style={{ width: '80%', height: 40 }} source={require('../../imgs/science5.png')} />
+				<Image style={{ width: '50%', height: 40 }} source={require('../../imgs/science5.png')} />
 			</TouchableOpacity>
 		);
 	}
@@ -35,8 +47,8 @@ export default () => {
 						<Row data={tableHead} style={styles.head} textStyle={styles.text} />
 						{
 							tableData.map((rowData, index) => (
-								<TouchableOpacity onPress={() => _alertIndex(index)} style={{ borderBottomWidth: 1, borderColor: '#c8e1ff' }}>
-									<TableWrapper key={index} style={styles.row}>
+								<TouchableOpacity key={index} onPress={() => _alertIndex(index)} style={{ borderBottomWidth: 1, borderColor: '#c8e1ff' }}>
+									<TableWrapper style={styles.row}>
 										{
 											rowData.map((cellData, cellIndex) => (
 												<Cell key={cellIndex} data={cellIndex === 2 ? element(cellData, index) : cellData} textStyle={styles.text} />
@@ -49,9 +61,6 @@ export default () => {
 						}
 					</Table>
 				</View>
-				<ViewParams visible={visible} id={''} onHide={() => {
-					set_visible(false)
-				}} />
 			</Container>
 		</ScrollView>
 	)

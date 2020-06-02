@@ -1,8 +1,8 @@
 import { Cell, Row, Table, TableWrapper } from '@koimy/react-native-table-component';
 import React, { useState } from 'react';
-import { Alert, Modal, ScrollView, StyleSheet, Text, TouchableHighlight, TouchableOpacity, View } from "react-native";
-import Fdicon from '../../atom/icon';
-import SetDistribution from './set-distribution'
+import { ScrollView, StyleSheet, Text, TouchableHighlight, TouchableOpacity, View } from "react-native";
+import Fdicon from '../atom/icon';
+import SetDistribution from './components/set-distribution'
 interface IProp {
 	visible: boolean;
 	id: string;
@@ -78,56 +78,41 @@ export default (prop: IProp) => {
 	}
 
 	return (
-		<Modal
-			animationType={"fade"}
-			transparent={true}
-			visible={prop.visible}
-			onRequestClose={() => prop.toHide()}
-			data-backdrop='static'
-			data-keyboard="true"
-		>
-			<TouchableOpacity style={styles.max} activeOpacity={1} onPress={() => {
-				prop.toHide()
-			}}>
-				<TouchableOpacity activeOpacity={1} style={styles.container} onPress={(e) => {
-					e.stopPropagation()
-				}}>
-					<View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
-						<TouchableHighlight
-							onPress={() => prop.toHide()}
-							style={{ width: 150, height: 40 }}
-							underlayColor='transparent'>
-							<Text style={{ fontSize: 25, color: '#c8e1ff', textAlign: 'right', lineHeight: 40 }}>关闭</Text>
-						</TouchableHighlight>
-					</View>
-					<Table>
-						<Row data={tableHead} style={styles.head} textStyle={styles.text} />
-						<ScrollView style={{ marginBottom: 52 }}>
-							{
-								tableData.map((rowData, index) => (
-									<TableWrapper key={index} style={styles.row}>
-										{
-											rowData.map((cellData, cellIndex) => (
-												<Cell key={cellIndex} data={(cellIndex === 6 || cellIndex === 7) ? element(cellData, index, cellIndex) : cellData} textStyle={styles.text} />
-											))
-										}
-									</TableWrapper>
-								))
-							}
-						</ScrollView>
-					</Table>
-				</TouchableOpacity>
-			</TouchableOpacity>
+		<>
+			<View>
+				<View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
+					<TouchableHighlight
+						onPress={() => prop.toHide()}
+						style={{ width: 150, height: 40 }}
+						underlayColor='transparent'>
+						<Text style={{ fontSize: 25, color: '#c8e1ff', textAlign: 'right', lineHeight: 40 }}>关闭</Text>
+					</TouchableHighlight>
+				</View>
+				<Table>
+					<Row data={tableHead} style={styles.head} textStyle={styles.text} />
+					<ScrollView style={{ marginBottom: 52 }}>
+						{
+							tableData.map((rowData, index) => (
+								<TableWrapper key={index} style={styles.row}>
+									{
+										rowData.map((cellData, cellIndex) => (
+											<Cell key={cellIndex} data={(cellIndex === 6 || cellIndex === 7) ? element(cellData, index, cellIndex) : cellData} textStyle={styles.text} />
+										))
+									}
+								</TableWrapper>
+							))
+						}
+					</ScrollView>
+				</Table>
+			</View>
 			<SetDistribution visible={visible} id={''} toHide={() => {
 				sets_visible(false)
 			}} />
-		</Modal >
+		</>
 	);
 }
 
 const styles = StyleSheet.create({
-	max: { backgroundColor: 'rgba(0,0,0,0.5)', flex: 1, flexDirection: 'row', alignItems: 'center' },
-	container: { backgroundColor: '#fff', width: '70%', marginLeft: '15%' },
 	head: { height: 60, backgroundColor: '#f1f8ff', textAlign: 'center' },
 	text: { margin: 6, textAlign: 'center' },
 	row: { height: 60, flexDirection: 'row', borderBottomWidth: 1, borderColor: '#c8e1ff' }
