@@ -1,7 +1,7 @@
 import { Cell, Row, Table, TableWrapper } from '@koimy/react-native-table-component';
 import React, { useState } from 'react';
 import { ScrollView, StyleSheet, Text, TouchableHighlight, TouchableOpacity, View } from "react-native";
-import Fdicon from '../atom/icon';
+import Fdicon, { Button } from '../atom/icon';
 import SetDistribution from './components/set-distribution'
 interface IProp {
 	visible: boolean;
@@ -55,8 +55,8 @@ export default (prop: IProp) => {
 		if (cellIndex === 6) {
 			return (
 				<TouchableOpacity onPress={() => alertIndex(index)} >
-					<View style={{ borderWidth: 1, borderColor: '#999', flexDirection: 'row', alignItems: 'center', height: 30, justifyContent: 'space-around' }}>
-						<Text style={{ lineHeight: 30 }}>下发值</Text>
+					<View style={{ borderWidth: 1, borderColor: '#999', flexDirection: 'row', alignItems: 'center', height: 40, justifyContent: 'space-between', paddingRight: 10, paddingLeft: 10, width: '70%', marginLeft: '15%' }}>
+						<Text style={{ lineHeight: 40 }}>下发值</Text>
 						<Fdicon name='xiangqing' size={20} color='#242c3a'></Fdicon>
 					</View>
 				</TouchableOpacity>
@@ -69,9 +69,9 @@ export default (prop: IProp) => {
 							<Text style={{ color: '#5194d6' }}>读取</Text>
 						</TouchableOpacity>
 						<TouchableOpacity>
-							<Text style={{ color: '#5194d6', paddingLeft: 5 }}>下发</Text>
+							<Text style={{ color: '#5194d6', paddingLeft: 10 }}>下发</Text>
 						</TouchableOpacity>
-					</View>
+					</View >
 				</TouchableOpacity >
 			);
 		}
@@ -79,18 +79,10 @@ export default (prop: IProp) => {
 
 	return (
 		<>
-			<View>
-				<View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
-					<TouchableHighlight
-						onPress={() => prop.toHide()}
-						style={{ width: 150, height: 40 }}
-						underlayColor='transparent'>
-						<Text style={{ fontSize: 25, color: '#c8e1ff', textAlign: 'right', lineHeight: 40 }}>关闭</Text>
-					</TouchableHighlight>
-				</View>
+			<View style={{ flex: 1, padding: 16, paddingTop: 30, backgroundColor: '#fff' }}>
 				<Table>
 					<Row data={tableHead} style={styles.head} textStyle={styles.text} />
-					<ScrollView style={{ marginBottom: 52 }}>
+					<ScrollView style={{ marginBottom: '2.8%' }}>
 						{
 							tableData.map((rowData, index) => (
 								<TableWrapper key={index} style={styles.row}>
@@ -115,5 +107,5 @@ export default (prop: IProp) => {
 const styles = StyleSheet.create({
 	head: { height: 60, backgroundColor: '#f1f8ff', textAlign: 'center' },
 	text: { margin: 6, textAlign: 'center' },
-	row: { height: 60, flexDirection: 'row', borderBottomWidth: 1, borderColor: '#c8e1ff' }
+	row: { height: 60, flexDirection: 'row', borderBottomWidth: 1, borderColor: '#c8e1ff', backgroundColor: '#fff' }
 });

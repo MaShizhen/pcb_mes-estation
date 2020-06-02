@@ -23,8 +23,8 @@ export default () => {
 		['gx001', '钻机-DEV1301', '图片', '4', '钻机-DEV1301', '钻机-DEV1301', '钻机-DEV1301', '钻机-DEV1301'],
 		['gx001', '钻机-DEV1301', '图片', '4', '钻机-DEV1301', '钻机-DEV1301', '钻机-DEV1301', '钻机-DEV1301'],
 		['gx001', '钻机-DEV1301', '图片', '4', '钻机-DEV1301', '钻机-DEV1301', '钻机-DEV1301', '钻机-DEV1301'],
-		['gx001', '钻机-DEV1301', '图片', '4', '钻机-DEV1301', '钻机-DEV1301', '钻机-DEV1301', '钻机-DEV1301'],
-		['gx001', '钻机-DEV1301', '图片', '4', '钻机-DEV1301', '钻机-DEV1301', '钻机-DEV1301', '钻机-DEV1301']
+		['gx002', '钻机-DEV1301', '图片', '4', '钻机-DEV1301', '钻机-DEV1301', '钻机-DEV1301', '钻机-DEV1301'],
+		['gx003', '钻机-DEV1301', '图片', '4', '钻机-DEV1301', '钻机-DEV1301', '钻机-DEV1301', '钻机-DEV1301']
 	]
 
 	function _alertIndex(data: number) {
@@ -40,11 +40,12 @@ export default () => {
 	}
 
 	return (
-		<ScrollView>
-			<Container>
-				<View style={styles.container}>
-					<Table >
-						<Row data={tableHead} style={styles.head} textStyle={styles.text} />
+
+		<Container>
+			<View style={styles.container}>
+				<Table >
+					<Row data={tableHead} style={styles.head} textStyle={styles.text} />
+					<ScrollView style={{ marginBottom: '2.8%' }}>
 						{
 							tableData.map((rowData, index) => (
 								<TouchableOpacity key={index} onPress={() => _alertIndex(index)} style={{ borderBottomWidth: 1, borderColor: '#c8e1ff' }}>
@@ -55,14 +56,13 @@ export default () => {
 											))
 										}
 									</TableWrapper>
-
 								</TouchableOpacity>
 							))
 						}
-					</Table>
-				</View>
-			</Container>
-		</ScrollView>
+					</ScrollView>
+				</Table>
+			</View>
+		</Container>
 	)
 }
 
