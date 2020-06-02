@@ -69,6 +69,6 @@ export default () => {
 const styles = StyleSheet.create({
 	container: { flex: 1, padding: 16, paddingTop: 30, backgroundColor: '#fff' },
 	head: { height: 60, backgroundColor: '#f1f8ff', textAlign: 'center' },
-	text: { margin: 6, textAlign: 'center' },
+	text: { margin: 6, textAlign: 'center', fontSize: 16, color: '#333' },
 	row: { height: 60, flexDirection: 'row' }
 });
