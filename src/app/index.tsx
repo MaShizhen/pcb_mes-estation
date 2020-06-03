@@ -16,7 +16,8 @@ export default function App() {
 	useEffect(() => {
 		(async () => {
 			const is_online = await ticket_login()
-			if (!is_online) {
+			if (is_online && is_online.code) {
+			} else {
 				navigation_container.current.navigate('login')
 			}
 		})()
