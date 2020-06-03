@@ -12,7 +12,7 @@ export default function App() {
 	const navigation_container = useRef<NavigationContainerRef>(null);
 
 	useEffect(() => {
-		const is_online = true
+		const is_online = false
 		if (!is_online) {
 			navigation_container.current.navigate('login')
 		}
