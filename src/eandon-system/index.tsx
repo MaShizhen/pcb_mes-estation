@@ -5,28 +5,100 @@ import { Image, Modal, Picker, ScrollView, Text, TouchableOpacity, View } from '
 export default () => {
 	return (
 		<ScrollView>
-			<View style={{ flexDirection: 'row', flex: 1, backgroundColor: '#fff', minHeight: 200 }}>
-				<View style={{ flex: 0.3, borderRightWidth: 0.5, borderColor: '#e2e1de' }}>
+			{/* <View style={{ flexDirection: 'row', flex: 1, backgroundColor: '#fff', minHeight: 200, paddingTop: 20 }}>
+				<View style={{ flex: 0.25, borderRightWidth: 0.5, borderColor: '#e2e1de' }}>
 					<View style={{
-						height: 45, backgroundColor: '#fff'
+						height: 45, backgroundColor: '#fff', marginBottom: 20
 					}}>
-						<Text style={{ lineHeight: 45, textAlign: 'center' }}>报警代码列表</Text>
+						<Text style={{ lineHeight: 45, textAlign: 'center', fontSize: 18 }}>报警代码列表</Text>
 					</View>
 					<View>
-						<View style={{ height: 45, borderWidth: 1, borderRadius: 10, borderColor: '#e2e1de', marginLeft: 10, marginRight: 10, marginTop: 10, marginBottom: 0, backgroundColor: '#fff' }}>
-							<Text style={{ lineHeight: 45, textAlign: 'center' }}>安灯报警代码</Text>
+						<View style={{ height: 45, borderWidth: 1, borderRadius: 10, borderColor: '#e2e1de', backgroundColor: '#fff', width: '80%', marginLeft: '10%' }}>
+							<Text style={{ lineHeight: 45, textAlign: 'center', fontSize: 16 }}>安灯报警代码</Text>
 						</View>
 					</View>
 				</View>
-				<View style={{ flex: 1, paddingLeft: 10, paddingRight: 10 }}>
-					<View style={{ height: 45, backgroundColor: '#fff' }}><Text style={{ lineHeight: 45, textAlign: 'center' }}>报警代码详情</Text></View>
+				<View style={{ flex: 0.75, paddingLeft: 10, paddingRight: 10 }}>
+					<View style={{ height: 45, backgroundColor: '#fff', marginBottom: 20 }}><Text style={{ lineHeight: 45, textAlign: 'center', fontSize: 18 }}>报警代码详情</Text></View>
 					<View style={{ flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center' }}>
-						<View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'space-around', borderRadius: 10, height: 120, width: '23%', backgroundColor: '#fff', marginRight: 10 }}>
+						<View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'space-around', height: 120, width: '25%' }}>
 							<View style={{ height: 70, width: 120 }}>
-								<Image source={require('../../imgs/science5.png')} style={{ width: '100%', height: 70 }} />
+								<Image source={require('../../imgs/science5.png')} style={{ borderRadius: 5, width: '100%', height: 70 }} />
 							</View>
-							<Text style={{ height: 30, lineHeight: 30, textAlign: 'center' }}>水泵是否正常</Text>
+							<Text style={{ height: 30, lineHeight: 30, textAlign: 'center', fontSize: 16 }}>水泵是否正常</Text>
 						</View>
+						<View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'space-around', height: 120, width: '25%' }}>
+							<View style={{ height: 70, width: 120 }}>
+								<Image source={require('../../imgs/science5.png')} style={{ borderRadius: 5, width: '100%', height: 70 }} />
+							</View>
+							<Text style={{ height: 30, lineHeight: 30, textAlign: 'center', fontSize: 16 }}>水泵是否正常</Text>
+						</View>
+						<View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'space-around', height: 120, width: '25%' }}>
+							<View style={{ height: 70, width: 120 }}>
+								<Image source={require('../../imgs/science5.png')} style={{ borderRadius: 5, width: '100%', height: 70 }} />
+							</View>
+							<Text style={{ height: 30, lineHeight: 30, textAlign: 'center', fontSize: 16 }}>水泵是否正常</Text>
+						</View>
+						<View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'space-around', height: 120, width: '25%' }}>
+							<View style={{ height: 70, width: 120 }}>
+								<Image source={require('../../imgs/science5.png')} style={{ borderRadius: 5, width: '100%', height: 70 }} />
+							</View>
+							<Text style={{ height: 30, lineHeight: 30, textAlign: 'center', fontSize: 16 }}>水泵是否正常</Text>
+						</View>
+					</View>
+				</View>
+			</View> */}
+			{/* 全展示效果 */}
+			<View style={{ flex: 1, paddingLeft: 10, paddingRight: 10, backgroundColor: '#fff', paddingTop: 20 }}>
+				<View style={{ height: 45, backgroundColor: '#fff', marginBottom: 20 }}><Text style={{ lineHeight: 45, textAlign: 'center', fontSize: 18 }}>报警代码详情</Text></View>
+				<View style={{ flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center' }}>
+					<View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'space-around', height: 120, width: '20%' }}>
+						<View style={{ height: 70, width: 120 }}>
+							<Image source={require('../../imgs/science5.png')} style={{ borderRadius: 5, width: '100%', height: 70 }} />
+						</View>
+						<Text style={{ height: 30, lineHeight: 30, textAlign: 'center', fontSize: 16 }}>水泵是否正常</Text>
+					</View>
+					<View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'space-around', height: 120, width: '20%' }}>
+						<View style={{ height: 70, width: 120 }}>
+							<Image source={require('../../imgs/science5.png')} style={{ borderRadius: 5, width: '100%', height: 70 }} />
+						</View>
+						<Text style={{ height: 30, lineHeight: 30, textAlign: 'center', fontSize: 16 }}>水泵是否正常</Text>
+					</View>
+					<View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'space-around', height: 120, width: '20%' }}>
+						<View style={{ height: 70, width: 120 }}>
+							<Image source={require('../../imgs/science5.png')} style={{ borderRadius: 5, width: '100%', height: 70 }} />
+						</View>
+						<Text style={{ height: 30, lineHeight: 30, textAlign: 'center', fontSize: 16 }}>水泵是否正常</Text>
+					</View>
+					<View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'space-around', height: 120, width: '20%' }}>
+						<View style={{ height: 70, width: 120 }}>
+							<Image source={require('../../imgs/science5.png')} style={{ borderRadius: 5, width: '100%', height: 70 }} />
+						</View>
+						<Text style={{ height: 30, lineHeight: 30, textAlign: 'center', fontSize: 16 }}>水泵是否正常</Text>
+					</View>
+					<View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'space-around', height: 120, width: '20%' }}>
+						<View style={{ height: 70, width: 120 }}>
+							<Image source={require('../../imgs/science5.png')} style={{ borderRadius: 5, width: '100%', height: 70 }} />
+						</View>
+						<Text style={{ height: 30, lineHeight: 30, textAlign: 'center', fontSize: 16 }}>水泵是否正常</Text>
+					</View>
+					<View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'space-around', height: 120, width: '20%' }}>
+						<View style={{ height: 70, width: 120 }}>
+							<Image source={require('../../imgs/science5.png')} style={{ borderRadius: 5, width: '100%', height: 70 }} />
+						</View>
+						<Text style={{ height: 30, lineHeight: 30, textAlign: 'center', fontSize: 16 }}>水泵是否正常</Text>
+					</View>
+					<View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'space-around', height: 120, width: '20%' }}>
+						<View style={{ height: 70, width: 120 }}>
+							<Image source={require('../../imgs/science5.png')} style={{ borderRadius: 5, width: '100%', height: 70 }} />
+						</View>
+						<Text style={{ height: 30, lineHeight: 30, textAlign: 'center', fontSize: 16 }}>水泵是否正常</Text>
+					</View>
+					<View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'space-around', height: 120, width: '20%' }}>
+						<View style={{ height: 70, width: 120 }}>
+							<Image source={require('../../imgs/science5.png')} style={{ borderRadius: 5, width: '100%', height: 70 }} />
+						</View>
+						<Text style={{ height: 30, lineHeight: 30, textAlign: 'center', fontSize: 16 }}>水泵是否正常</Text>
 					</View>
 				</View>
 			</View>
