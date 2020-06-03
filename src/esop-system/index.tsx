@@ -1,43 +1,64 @@
-import React from 'react';
-import { Alert, StyleSheet, View } from 'react-native';
+import React, { useEffect } from 'react';
+import { Button, StyleSheet, Text, View } from 'react-native';
 import Pdf from 'react-native-pdf';
-// import uselocal from '../atom/local'
+import uselocal from '../atom/use-local'
 
 export default () => {
+	const local = uselocal({
+		source: '',
+		end_time: 0
+	})
 
-	// const local = uselocal({
-	// 	title: '2222'
-	// })
+	useEffect(() => {
+		local.source = 'http://192.168.1.238/soft/node.pdf'
+		const end_time = new Date().getTime() + 2000
+		local.end_time = end_time
 
+		setTimeout(() => {
+			local.source = ''
+		}, end_time - new Date().getTime());
 
-	const source = { uri: 'http://192.168.1.238/soft/node.pdf', cache: false };
+	}, []);
 
 	return (
 		<View>
-			<Pdf
-				scale={1}
-				minScale={1.0}
-				maxScale={5.0}
-				horizontal={false}
-				source={source}
-				onLoadComplete={(numberOfPages, filePath) => {
-					Alert.alert(`number of pages: ${numberOfPages}`);
-				}}
-				onPageChanged={(page, numberOfPages) => {
-					Alert.alert(`current page: ${page}`);
-				}}
-				onError={(error) => {
-					Alert.alert(`Error: ${error}`);
+			<View>
+				<Text>版本：{JSON.stringify(local)}</Text>
+				<Button title='test' onPress={() => {
+					// console.log(local.source)
+				}}></Button>
+			</View>
+			{(() => {
+				if (local.source) {
+					return <Pdf
+						scale={2}
+						minScale={1.0}
+						maxScale={5.0}
+						horizontal={false}
+						source={{ uri: local.source }}
+						onLoadComplete={(numberOfPages, filePath) => {
+							// 加载完成回调
+							// Alert.alert(`number of pages: ${numberOfPages}`);
+						}}
+						onPageChanged={(page, numberOfPages) => {
+							// 翻页回调
+							// Alert.alert(`current page: ${page}`);
+						}}
+						onError={(error) => {
+							// Alert.alert(`Error: ${error}`);
+						}}
+						style={styles.pdf} />
+				} else {
+					return <Text>没有数据</Text>
+				}
+			})()}
 
-				}}
-				style={styles.pdf} />
 		</View>
 	);
 }
 
 const styles = StyleSheet.create({
 	pdf: {
-		flex: 1,
 		width: '100%',
 		height: '100%'
 	}

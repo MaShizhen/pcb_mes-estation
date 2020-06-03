@@ -17,3 +17,17 @@ export default function useLocal<T>(data: T) {
 	}
 	return data
 }
+
+// export default function useLocal<T>(data: T) {
+// 	const [local, setLocal] = useState(data);
+// 	return {
+// 		...local,
+// 		set: (key: string, value: unknown) => {
+// 			setLocal({
+// 				...local,
+// 				[key]: value
+// 			})
+// 			return local
+// 		}
+// 	}
+// }
