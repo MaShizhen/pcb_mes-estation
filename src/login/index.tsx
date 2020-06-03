@@ -1,6 +1,6 @@
-import { Button } from 'native-base'
 import React, { useEffect } from 'react';
 import { Image, ImageBackground, StyleSheet, Text, TextInput, View } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import Fdicon from '../atom/icon';
 import useStates from '../atom/use-states'
 
@@ -29,7 +29,7 @@ export default () => {
 							<Text style={{ fontSize: 18, color: '#fffdf5' }}>账号</Text>
 						</View>
 					</View>
-					<TextInput placeholder='请输入账号' secureTextEntry={true} underlineColorAndroid="transparent" style={styles.inputs} placeholderTextColor='#fffdf5' onChangeText={(text) => states.account = text}>
+					<TextInput placeholder='请输入账号' underlineColorAndroid="transparent" style={styles.inputs} placeholderTextColor='#fffdf5' onChangeText={(text) => states.account = text}>
 					</TextInput>
 				</View>
 				<View style={{ height: 70, flexDirection: 'row', borderBottomWidth: 1, borderBottomColor: '#fffdf5', alignItems: 'center', width: '30%' }}>
@@ -41,17 +41,11 @@ export default () => {
 					<TextInput placeholder='请输入密码' style={styles.inputs} placeholderTextColor='#fffdf5' secureTextEntry={true} underlineColorAndroid="transparent" onChangeText={(text) => states.pwd = text}>
 					</TextInput>
 				</View>
-				<View style={{ height: 70, width: '30%', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', backgroundColor: '#242c3a', marginTop: 50, opacity: 0.5, borderRadius: 35 }}>
-				</View>
-				<Button onPress={() => login()}>
-					<Text>
-						登录
-					</Text>
-				</Button>
-				<View style={{}}>
-					<View style={{ borderWidth: 1, borderColor: '#fffdf5' }}></View>
+				<TouchableOpacity onPress={() => login()} style={{ height: 70, width: 600, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(0,0,0,0.4)', marginTop: 50, borderRadius: 35 }}>
+					<Text style={{ color: '#FFF', fontSize: 18, alignItems: 'center' }}>登录</Text>
+				</TouchableOpacity>
+				<View style={{ marginTop: 20 }}>
 					<Text style={{ color: '#fffdf5' }}>切换登录方式</Text>
-					<View style={{ borderWidth: 1, borderColor: '#fffdf5' }}></View>
 				</View>
 				<View style={{ width: '30%', flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', marginTop: 40 }}>
 					<Fdicon name='qia1' size={70} color='#242c3a'></Fdicon>
