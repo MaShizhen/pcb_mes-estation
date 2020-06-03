@@ -36,6 +36,7 @@
 	"devDependencies": {
 		"@babel/core": "latest",
 		"@koimy/react-native-table-component": "latest",
+		"@react-native-community/async-storage": "^1.11.0",
 		"@react-native-community/masked-view": "latest",
 		"@react-native-community/netinfo": "latest",
 		"@react-native-community/picker": "^1.6.1",
@@ -62,6 +63,7 @@
 		"react": "latest",
 		"react-dom": "latest",
 		"react-native": "latest",
+		"react-native-device-info": "^5.6.1",
 		"react-native-gesture-handler": "latest",
 		"react-native-paper": "latest",
 		"react-native-pdf": "^6.1.2",
