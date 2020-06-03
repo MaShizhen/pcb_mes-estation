@@ -1,41 +1,43 @@
-import React, { useState } from 'react';
-import { Alert, Modal, Text, TouchableHighlight, View } from "react-native";
+import React from 'react';
+import { Alert, StyleSheet } from 'react-native';
+import Pdf from 'react-native-pdf';
+import uselocal from '../atom/local'
 
 export default () => {
-	const [modalVisible, setModalVisible] = useState(false);
+
+	const local = uselocal({
+		title: ''
+	})
+	local.title = 'wqew'
+
+
+	const source = { uri: 'http://192.168.1.238/soft/node.pdf', cache: false };
 
 	return (
-		<View style={{ marginTop: 22 }}>
-			<Modal
-				animationType="slide"
-				transparent={false}
-				visible={modalVisible}
-				onRequestClose={() => {
-					Alert.alert("Modal has been closed.");
-				}}
-			>
-				<View style={{ marginTop: 22 }}>
-					<View>
-						<Text>Hello World!</Text>
+		<Pdf
+			scale={1}
+			minScale={1.0}
+			maxScale={5.0}
+			horizontal={false}
+			source={source}
+			onLoadComplete={(numberOfPages, filePath) => {
+				Alert.alert(`number of pages: ${numberOfPages}`);
+			}}
+			onPageChanged={(page, numberOfPages) => {
+				Alert.alert(`current page: ${page}`);
+			}}
+			onError={(error) => {
+				Alert.alert(`Error: ${error}`);
 
-						<TouchableHighlight
-							onPress={() => {
-								setModalVisible(!modalVisible);
-							}}
-						>
-							<Text>Hide Modal</Text>
-						</TouchableHighlight>
-					</View>
-				</View>
-			</Modal>
-
-			<TouchableHighlight
-				onPress={() => {
-					setModalVisible(true);
-				}}
-			>
-				<Text>Show Modal</Text>
-			</TouchableHighlight>
-		</View>
+			}}
+			style={styles.pdf} />
 	);
 }
+
+const styles = StyleSheet.create({
+	pdf: {
+		flex: 1,
+		width: '100%',
+		height: '100%'
+	}
+});
