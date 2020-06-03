@@ -1,17 +1,25 @@
-import React, { useEffect } from 'react';
+import { useNavigation } from '@react-navigation/native'
+import React from 'react';
 import { Image, ImageBackground, StyleSheet, Text, TextInput, View } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Fdicon from '../atom/icon';
+import { login } from '../atom/server'
+import { set } from '../atom/storage';
 import useStates from '../atom/use-states'
 
 export default () => {
+	const nvigation = useNavigation()
+
 	const states = useStates({
 		account: '',
 		pwd: ''
 	})
 
-	function login() {
-		console.log(JSON.stringify(states))
+	async function tologin() {
+		const res = await login(states.account, states.pwd)
+
+		set('sessionid', res.sessionID)
+		nvigation.navigate('home')
 	}
 
 	return (
@@ -41,7 +49,7 @@ export default () => {
 					<TextInput placeholder='请输入密码' style={styles.inputs} placeholderTextColor='#fffdf5' secureTextEntry={true} underlineColorAndroid="transparent" onChangeText={(text) => states.pwd = text}>
 					</TextInput>
 				</View>
-				<TouchableOpacity onPress={() => login()} style={{ height: 70, width: 600, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(0,0,0,0.4)', marginTop: 50, borderRadius: 35 }}>
+				<TouchableOpacity onPress={() => tologin()} style={{ height: 70, width: 600, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(0,0,0,0.4)', marginTop: 50, borderRadius: 35 }}>
 					<Text style={{ color: '#FFF', fontSize: 18, alignItems: 'center' }}>登录</Text>
 				</TouchableOpacity>
 				<View style={{ marginTop: 20 }}>
