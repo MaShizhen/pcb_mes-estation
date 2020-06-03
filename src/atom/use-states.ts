@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-export default function useLocal<T>(data: T) {
+export default function use_states<T>(data: T) {
 	for (const key in data) {
 		// 判断是否实例自身拥有的属性
 		if (data.hasOwnProperty(key)) {

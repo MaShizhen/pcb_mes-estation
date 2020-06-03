@@ -1,8 +1,19 @@
-import React from 'react';
-import { Image, ImageBackground, StyleSheet, Text, TextInput, View, } from 'react-native';
+import { Button } from 'native-base'
+import React, { useEffect } from 'react';
+import { Image, ImageBackground, StyleSheet, Text, TextInput, View } from 'react-native';
 import Fdicon from '../atom/icon';
+import useStates from '../atom/use-states'
 
 export default () => {
+	const states = useStates({
+		account: '',
+		pwd: ''
+	})
+
+	function login() {
+		console.log(JSON.stringify(states))
+	}
+
 	return (
 		<ImageBackground source={require('../../imgs/science5.png')} style={{ width: '100%', height: '100%' }} >
 			<View style={styles.header}>
@@ -15,10 +26,10 @@ export default () => {
 				<View style={{ height: 70, flexDirection: 'row', borderBottomWidth: 1, borderBottomColor: '#fffdf5', alignItems: 'center', width: '30%' }}>
 					<View style={{ height: 70, flexDirection: 'row', borderBottomWidth: 1, borderBottomColor: '#fffdf5', alignItems: 'center', opacity: 1 }}>
 						<View style={{ flexDirection: 'row', width: 60, borderRightWidth: 1, borderRightColor: '#fffdf5', justifyContent: 'center' }}>
-							< Text style={{ fontSize: 18, color: '#fffdf5' }}>账号</Text>
+							<Text style={{ fontSize: 18, color: '#fffdf5' }}>账号</Text>
 						</View>
 					</View>
-					<TextInput placeholder='请输入账号' secureTextEntry={true} underlineColorAndroid="transparent" style={styles.inputs} placeholderTextColor='#fffdf5'>
+					<TextInput placeholder='请输入账号' secureTextEntry={true} underlineColorAndroid="transparent" style={styles.inputs} placeholderTextColor='#fffdf5' onChangeText={(text) => states.account = text}>
 					</TextInput>
 				</View>
 				<View style={{ height: 70, flexDirection: 'row', borderBottomWidth: 1, borderBottomColor: '#fffdf5', alignItems: 'center', width: '30%' }}>
@@ -27,12 +38,16 @@ export default () => {
 							< Text style={{ fontSize: 18, color: '#fffdf5' }}>密码</Text>
 						</View>
 					</View>
-					<TextInput placeholder='请输入密码' style={styles.inputs} placeholderTextColor='#fffdf5' secureTextEntry={true} underlineColorAndroid="transparent">
+					<TextInput placeholder='请输入密码' style={styles.inputs} placeholderTextColor='#fffdf5' secureTextEntry={true} underlineColorAndroid="transparent" onChangeText={(text) => states.pwd = text}>
 					</TextInput>
 				</View>
 				<View style={{ height: 70, width: '30%', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', backgroundColor: '#242c3a', marginTop: 50, opacity: 0.5, borderRadius: 35 }}>
 				</View>
-				<Text style={{ color: '#FFF', textAlign: 'center', fontSize: 18, position: 'relative', top: -45 }}>登录</Text>
+				<Button onPress={() => login()}>
+					<Text>
+						登录
+					</Text>
+				</Button>
 				<View style={{}}>
 					<View style={{ borderWidth: 1, borderColor: '#fffdf5' }}></View>
 					<Text style={{ color: '#fffdf5' }}>切换登录方式</Text>
