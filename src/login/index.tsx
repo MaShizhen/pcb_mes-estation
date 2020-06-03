@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, Text, View, StyleSheet, TextInput, ImageBackground, } from 'react-native';
+import { Image, ImageBackground, StyleSheet, Text, TextInput, View, } from 'react-native';
 import Fdicon from '../atom/icon';
 
 export default () => {
