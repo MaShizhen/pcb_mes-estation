@@ -19,6 +19,7 @@ export default () => {
 		const res = await login(states.account, states.pwd)
 
 		set('sessionid', res.sessionID)
+		set('ticket', res.remember_me_ticket)
 		nvigation.navigate('home')
 	}
 

@@ -23,7 +23,7 @@ export function service(message_type: string, condition: unknown) {
  */
 export function login(usercode: string, userpw: string) {
 	const fid = uniqueid()
-	return request<{ sessionID: string }>(`/login`, JSON.stringify({
+	return request<{ sessionID: string, remember_me_ticket: string }>(`/login`, JSON.stringify({
 		usercode,
 		userpw,
 		fid
