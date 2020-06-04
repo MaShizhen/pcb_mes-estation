@@ -65,6 +65,15 @@ dataservice.mescomm.useresoplist
 | code | int  | 服务返回码，0：代表失败，1：代表成功 | 
 | msg | String  | 服务返回消息 | 
 | data | JSONArray  | 服务返回数据 | 
-| param_mes_id | String  | 参数mes_id | 
-| group_mes_id | String  | 设备组mes_id | 
-
+| esop_code | String  | ESOP代码 | 
+| esop_name | String  | ESOP名称 | 
+| file_name | String  | 文件名称 | 
+| file_version | String  | 文件版本 | 
+| effective_time | long  | 生效时间 | 
+| recovery_time | long  | 回收时间 | 
+| recovery_staff | String  | 回收人 | 
+| business_status | int  | 业务状态 | 
+| mes_valid_status | int  | 有效状态 | 
+| mes_audit_status | int  | 审核状态 | 
+| mes_create_date | long  | 创建时间 | 
+| mes_id | String  | 唯一mes_id | 
