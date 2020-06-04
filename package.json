@@ -4,7 +4,7 @@
 	"private": true,
 	"scripts": {
 		"test": "tsc -w & npm run start",
-		"android": "tsc && react-native run-android",
+		"android": "react-native run-android",
 		"ios": "tsc && tsc -w",
 		"start": "react-native start",
 		"jest": "jest",

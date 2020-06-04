@@ -5,11 +5,11 @@ import { get } from './storage'
 
 /**
  * service 通用服务
- * @param {*} message_type
- * @param {[key:string]:unknown} condition
+ * @param {*} message_type 服务名称
+ * @param {[key:string]:unknown} condition 条件
  */
-export function service(message_type: string, condition: unknown) {
-	return request(`/service?${message_type}`, JSON.stringify({
+export function service<T>(message_type: string, condition: unknown) {
+	return request<T>(`/service?${message_type}`, JSON.stringify({
 		message_type,
 		condition,
 		sessionid: get('sessionid')
