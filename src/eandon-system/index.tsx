@@ -18,15 +18,12 @@ export default () => {
 		(async () => {
 			const userboard_res = await userboard('74c08b13-aa1e-48fh-a9bc-60257665afa7')
 			states.userboard = userboard_res.data
-
 			const userboardright_res = await userboardright('74c08b13-aa1e-48fh-a9bc-60257665afa7', '')
-			console.log(userboardright_res)
 			states.userboardright = userboardright_res.data.list
 		})()
 	}, []);
 
 	useFocusEffect(() => {
-		console.log('2222222222222222222222')
 	})
 
 	return (
