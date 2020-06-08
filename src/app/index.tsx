@@ -6,7 +6,7 @@ import { ticket_login } from '../atom/server'
 // 引入页面
 import home from '../home'
 import login from '../login'
-import nfc from '../nfc'
+// import nfc from '../nfc'
 
 // tslint:disable-next-line: variable-name
 const Stack = createStackNavigator();
@@ -15,13 +15,13 @@ export default function App() {
 	const navigation_container = useRef<NavigationContainerRef>(null);
 
 	useEffect(() => {
-		// (async () => {
-		// 	const is_online = await ticket_login()
-		// 	if (is_online && is_online.code) {
-		// 	} else {
-		// 		navigation_container.current.navigate('login')
-		// 	}
-		// })()
+		(async () => {
+			const is_online = await ticket_login()
+			if (is_online && is_online.code) {
+			} else {
+				navigation_container.current.navigate('login')
+			}
+		})()
 	}, []);
 
 	return (
@@ -34,7 +34,7 @@ export default function App() {
 			}}>
 				<Stack.Screen name='home' component={home} />
 				<Stack.Screen name='login' component={login} />
-				<Stack.Screen name='nfc' component={nfc} />
+				{/* <Stack.Screen name='nfc' component={nfc} /> */}
 			</Stack.Navigator>
 		</NavigationContainer>
 	);
