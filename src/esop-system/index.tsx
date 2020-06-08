@@ -9,10 +9,7 @@ export default () => {
 		end_time: 0
 	})
 
-	let test = '123'
-
 	useEffect(() => {
-		console.log('1111111111111')
 		local.source = 'http://192.168.1.238/soft/node.pdf'
 		const end_time = new Date().getTime() + 2000
 		local.end_time = end_time
@@ -23,46 +20,37 @@ export default () => {
 
 	}, []);
 
-	useEffect(() => {
-		console.log('22222222222')
-	}, [test]);
-
 	return (
 		<View>
 			<View>
-				<Text>版本：{JSON.stringify(local) + test}</Text>
+				<Text>版本：{JSON.stringify(local)}</Text>
 				<Button title='修改 source' onPress={() => {
 					local.source = '13245'
 				}}></Button>
 				<Button title='修改 end_time' onPress={() => {
 					local.end_time = 54563561
 				}}></Button>
-				<Button title='修改 test' onPress={() => {
-					test = '4544596854564'
-				}}></Button>
 			</View>
 			{(() => {
 				if (local.source) {
-					return <Text>没有数据</Text>
-
-					// < Pdf
-					// scale={2}
-					// minScale={1.0}
-					// maxScale={5.0}
-					// horizontal={false}
-					// source={{ uri: local.source }}
-					// onLoadComplete={(numberOfPages, filePath) => {
-					// 	// 加载完成回调
-					// 	// Alert.alert(`number of pages: ${numberOfPages}`);
-					// }}
-					// onPageChanged={(page, numberOfPages) => {
-					// 	// 翻页回调
-					// 	// Alert.alert(`current page: ${page}`);
-					// }}
-					// onError={(error) => {
-					// 	// Alert.alert(`Error: ${error}`);
-					// }}
-					// style={styles.pdf} />
+					return <Pdf
+						scale={2}
+						minScale={1.0}
+						maxScale={5.0}
+						horizontal={false}
+						source={{ uri: local.source }}
+						onLoadComplete={(numberOfPages, filePath) => {
+							// 加载完成回调
+							// Alert.alert(`number of pages: ${numberOfPages}`);
+						}}
+						onPageChanged={(page, numberOfPages) => {
+							// 翻页回调
+							// Alert.alert(`current page: ${page}`);
+						}}
+						onError={(error) => {
+							// Alert.alert(`Error: ${error}`);
+						}}
+						style={styles.pdf} />
 				} else {
 					return <Text>没有数据</Text>
 				}
