@@ -5,12 +5,11 @@ import React, { useEffect } from 'react';
 import { Image, Picker, SectionList, Text, TouchableOpacity, View } from 'react-native'
 import Icon from '../atom/icon'
 import Fdicon from '../atom/icon';
+import { get } from '../atom/storage'
+import useStates from '../atom/use-states';
 import { equipmentlist } from './api';
 
-
 // 引入页面
-import { Item } from 'native-base';
-import useStates from '../atom/use-states';
 import dashboard_system from '../dashboard-system'
 import data_collection from '../data-collection'
 import eandon_system from '../eandon-system'
@@ -33,8 +32,9 @@ export default () => {
 	// 初始化查询报警代码列表
 	useEffect(() => {
 		(async () => {
-			const equipmentlist_res = await equipmentlist('10009', '')
-			console.log('2222222222222222', equipmentlist_res)
+			const mes_staff_code = await get<string>('mes_staff_code')
+			const mes_staff_name = await get<string>('mes_staff_name')
+			const equipmentlist_res = await equipmentlist(mes_staff_code, mes_staff_name)
 			states.equipmentlist = equipmentlist_res.data.sub
 		})()
 	}, []);
