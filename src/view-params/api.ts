@@ -21,26 +21,21 @@ export function collectioninfo(mes_devicesub_deviceid: string) {
 
 /**
  * 当前值查询 读取按钮
- * @param mes_process_mesid 工序mes_id
+ * @param requestid 随机数
+ * @param commdeviceid 通讯层设备ID
+ * @param commparamid 通讯层参数ID
  */
-// export function eboxdataread(mes_devicesub_deviceid: string) {
-// 	return service<ICollectionInfoRes>('dataservice.eboxdataread', {
-// 		// requestid,
-// 		// productid,
-// 		// systemid,
-// 		// criteria: {
-// 		// 	mes_devicesub_deviceid
-// 		// }
-
-
-// 		"productid": "pcb_mes",// 必传
-// 		"systemid": "10121",// 必传
-// 		"requestid": "bb9b6a0a-0b1f-4d35-b895-93add919f9df”,//newGUID
-// 		"timestamp": 389988233,// UNIX时间戳(含毫秒INT64类型)
-// 		"commdeviceid": "001",// 通讯层设备ID
-// 		“paramlist”: [
-// 			{
-// 				commparamid":"001 - a"//通讯层参数ID
-// 									 commparamid" : "001 - b"          //通讯层参数ID
-// 	})
-// }
+export function eboxdataread(requestid: string, commdeviceid: string, commparamid: string) {
+	return service<ICollectionInfoRes>('dataservice.eboxdataread', {
+		productid,
+		systemid,
+		requestid,
+		timestamp: new Date().getTime(),
+		devicelist: [{
+			commdeviceid,
+			paramlist: [{
+				commparamid
+			}]
+		}]
+	})
+}

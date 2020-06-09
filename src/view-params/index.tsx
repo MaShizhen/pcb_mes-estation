@@ -54,6 +54,10 @@ export default (prop: IProp) => {
 		states.visible = true
 	}
 
+	function read(data: string) {
+
+	}
+
 	function element(data: string, index: number, cellIndex: number) {
 		if (cellIndex === 6) {
 			return (
@@ -68,7 +72,7 @@ export default (prop: IProp) => {
 			return (
 				<TouchableOpacity >
 					<View style={{ flexDirection: 'row', alignItems: 'center', height: 45, justifyContent: 'space-around' }}>
-						<Button onPress={() => alertIndex(index)} info>
+						<Button onPress={read(data)} info>
 							<Text style={{ padding: 25, color: '#fff', fontSize: 16 }}>读 取</Text>
 						</Button>
 					</View >
