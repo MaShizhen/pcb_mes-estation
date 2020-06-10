@@ -12,8 +12,8 @@ export default () => {
 	const nvigation = useNavigation()
 
 	const states = useStates({
-		account: '',
-		pwd: ''
+		account: 'user01',
+		pwd: '111111'
 	})
 
 	async function tologin() {

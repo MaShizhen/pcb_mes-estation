@@ -1,14 +1,13 @@
 // import { Picker } from '@react-native-community/picker'
 import { useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Image, Picker, SectionList, Text, TouchableOpacity, View } from 'react-native'
 import { mqtt } from '../atom/config'
 import Icon from '../atom/icon'
 import Fdicon from '../atom/icon';
 import { config } from '../atom/mqtt'
 import { get } from '../atom/storage'
-import useStates from '../atom/use-states';
 import { equipmentlist } from './api';
 
 // 引入页面
@@ -26,7 +25,7 @@ const Stack = createStackNavigator();
 
 export default () => {
 	const navigation = useNavigation();
-	const states = useStates({
+	const [states, set_states] = useState({
 		equipmentlist: [] as IEquipmentList[],
 		mes_process_code: '', // 设备名称
 		mes_process_name: '', // 工序mes_id
@@ -42,12 +41,13 @@ export default () => {
 			const mes_staff_code = await get<string>('mes_staff_code')
 			const mes_staff_name = await get<string>('mes_staff_name')
 			const equipmentlist_res = await equipmentlist(mes_staff_code, mes_staff_name)
-			states.equipmentlist = equipmentlist_res.data.sub
-			states.mes_process_name = equipmentlist_res.data.mes_process_name
-			states.mes_staff_code = equipmentlist_res.data.mes_staff_code
-			states.mes_staff_name = equipmentlist_res.data.mes_staff_name
-
-
+			set_states({
+				...states,
+				equipmentlist: equipmentlist_res.data.sub,
+				mes_process_name: equipmentlist_res.data.mes_process_name,
+				mes_staff_code: equipmentlist_res.data.mes_staff_code,
+				mes_staff_name: equipmentlist_res.data.mes_staff_name
+			})
 			config(mqtt)
 		})()
 
@@ -126,7 +126,10 @@ export default () => {
 						return (
 							<TouchableOpacity style={{ width: 120, paddingTop: 20, paddingBottom: 20 }} onPress={
 								() => {
-									states.focused_index = index
+									set_states({
+										...states,
+										focused_index: index
+									})
 									navigation.navigate(item.path)
 								}}>
 								<View style={{ alignItems: 'center', justifyContent: 'center' }}>

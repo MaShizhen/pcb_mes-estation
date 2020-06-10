@@ -1,13 +1,12 @@
 import { Cell, Row, Table, TableWrapper } from '@koimy/react-native-table-component';
 import { Button } from 'native-base';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import uuid from 'uuid'
 import { mqtt } from '../atom/config'
 import { format } from '../atom/dt'
 import Fdicon from '../atom/icon';
 import { listen } from '../atom/mqtt'
-import useStates from '../atom/use-states';
 import { collectioninfo, eboxdataread } from './api';
 import SetDistribution from './components/set-distribution';
 import { IMqttRespose } from './interface'
@@ -25,7 +24,7 @@ interface IProp {
 
 export default (prop: IProp) => {
 
-	const states = useStates({
+	const [states, set_states] = useState({
 		collectioninfo: [] as unknown[][],
 		visible: false as boolean
 	})
@@ -34,18 +33,21 @@ export default (prop: IProp) => {
 	useEffect(() => {
 		(async () => {
 			const collectioninfo_res = await collectioninfo(prop.route.params.data[7])
-			states.collectioninfo = collectioninfo_res.data.list.map((item) => {
-				return [
-					item.mes_devicesub_bparamcode,
-					item.mes_devicesub_bparamname,
-					item.mes_devicesub_bparamdesc,
-					item.mes_paramgroups_activity,
-					format(item.mes_create_date, 'YYYY-MM-DD'),
-					'',
-					item.mes_devicesub_mdetailid,
-					[item.mes_devicesub_deviceid, item.mes_devicesub_cparamid, item.mes_paramgroups_type.toString()]
-				];
-			});
+			set_states({
+				...states,
+				collectioninfo: collectioninfo_res.data.list.map((item) => {
+					return [
+						item.mes_devicesub_bparamcode,
+						item.mes_devicesub_bparamname,
+						item.mes_devicesub_bparamdesc,
+						item.mes_paramgroups_activity,
+						format(item.mes_create_date, 'YYYY-MM-DD'),
+						'',
+						item.mes_devicesub_mdetailid,
+						[item.mes_devicesub_deviceid, item.mes_devicesub_cparamid, item.mes_paramgroups_type.toString()]
+					];
+				})
+			})
 		})()
 	}, []);
 
@@ -67,7 +69,12 @@ export default (prop: IProp) => {
 
 		listen(mqtt, '/push/' + request).then((res: IMqttRespose) => {
 			console.log('222222222222222222222222', res.msg.datavalue[0].readvalue);
-			states.collectioninfo[index][6] = res.msg.datavalue[0].readvalue
+			const _collectioninfo = states.collectioninfo
+			_collectioninfo[index][6] = res.msg.datavalue[0].readvalue
+			set_states({
+				...states,
+				collectioninfo: _collectioninfo
+			})
 		})
 
 		eboxdataread(request, mes_devicesub_deviceid, mes_devicesub_cparamid).then(() => {

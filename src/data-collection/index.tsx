@@ -2,16 +2,15 @@ import { Cell, Row, Table, TableWrapper } from '@koimy/react-native-table-compon
 import { useNavigation } from '@react-navigation/native';
 import { useFocusEffect } from '@react-navigation/native';
 import { Container } from 'native-base';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Image, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { format } from '../atom/dt';
-import useStates from '../atom/use-states';
 import { collectionlist } from './api';
 // import { ICollectionlist } from './interface';
 
 export default () => {
 	const navigation = useNavigation();
-	const states = useStates({
+	const [states, set_states] = useState({
 		collectionlist: [] as string[][]
 	})
 
@@ -19,19 +18,22 @@ export default () => {
 	useEffect(() => {
 		(async () => {
 			const collectionlist_res = await collectionlist('74c08b13-aa1e-48fh-a9bc-60257665afa7', '')
-			states.collectionlist = collectionlist_res.data.list.map((item) => {
-				console.log(item.mes_create_date)
-				return [
-					item.mes_device_code,
-					item.mes_device_name,
-					item.mes_device_logo,
-					item.mes_device_desc,
-					item.mes_valid_status.toString(),
-					item.mes_audit_status,
-					format(item.mes_create_date, 'YYYY-MM-DD'),
-					item.mes_id
-				];
-			});
+			set_states({
+				...states,
+				collectionlist: collectionlist_res.data.list.map((item) => {
+					console.log(item.mes_create_date)
+					return [
+						item.mes_device_code,
+						item.mes_device_name,
+						item.mes_device_logo,
+						item.mes_device_desc,
+						item.mes_valid_status.toString(),
+						item.mes_audit_status,
+						format(item.mes_create_date, 'YYYY-MM-DD'),
+						item.mes_id
+					];
+				})
+			})
 		})()
 	}, []);
 
