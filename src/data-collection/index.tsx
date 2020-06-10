@@ -28,7 +28,8 @@ export default () => {
 					item.mes_device_desc,
 					item.mes_valid_status.toString(),
 					item.mes_audit_status,
-					format(item.mes_create_date, 'YYYY-MM-DD')
+					format(item.mes_create_date, 'YYYY-MM-DD'),
+					item.mes_id
 				];
 			});
 		})()
@@ -39,8 +40,11 @@ export default () => {
 
 	const tableHead = ['设备编号', '设备名称', '设备图片', '设备说明', '有效状态', '审核状态', '创建时间']
 
-	function _alertIndex(data: number) {
-		navigation.navigate('view_params')
+	function _alertIndex(index: number) {
+		const data = states.collectionlist[index]
+		navigation.navigate('view_params', {
+			data
+		})
 	}
 
 	function element(data: string | number, index: number) {

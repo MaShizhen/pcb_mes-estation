@@ -44,6 +44,10 @@ export interface ICollectionInfo {
 	 *  业务类型
 	 */
 	mes_paramgroups_activity: string;
+	/**
+	 * 通讯层参数ID
+	 */
+	mes_devicesub_cparamid: string;
 }
 
 
@@ -51,5 +55,14 @@ export interface ICollectionInfoRes extends IJavaRes {
 	data: {
 		list: ICollectionInfo[],
 		totalCount: number
+	}
+}
+
+export interface IMqttRespose {
+	msg: {
+		datavalue: {
+			readvalue?: string;
+			writevalue?: string;
+		}[]
 	}
 }

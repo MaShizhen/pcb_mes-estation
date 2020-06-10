@@ -10,6 +10,7 @@ export default function use_states<T>(data: T) {
 					return value
 				},
 				set(v) {
+					console.log('----------------------------------', v)
 					setValue(v)
 				}
 			})

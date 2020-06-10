@@ -52,6 +52,7 @@
 		"@types/react": "latest",
 		"@types/react-native": "latest",
 		"@types/react-native-vector-icons": "^6.4.5",
+		"@types/uuid": "3.4.4",
 		"@typescript-eslint/eslint-plugin": "latest",
 		"@typescript-eslint/parser": "latest",
 		"ava": "latest",
@@ -78,7 +79,8 @@
 		"react-native-vector-icons": "latest",
 		"rn-fetch-blob": "^0.12.0",
 		"tslint": "latest",
-		"typescript": "next"
+		"typescript": "next",
+		"uuid": "3.3.2"
 	},
 	"jest": {
 		"preset": "react-native",

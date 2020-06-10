@@ -3,8 +3,10 @@ import { useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import React, { useEffect } from 'react';
 import { Image, Picker, SectionList, Text, TouchableOpacity, View } from 'react-native'
+import { mqtt } from '../atom/config'
 import Icon from '../atom/icon'
 import Fdicon from '../atom/icon';
+import { config } from '../atom/mqtt'
 import { get } from '../atom/storage'
 import useStates from '../atom/use-states';
 import { equipmentlist } from './api';
@@ -44,7 +46,11 @@ export default () => {
 			states.mes_process_name = equipmentlist_res.data.mes_process_name
 			states.mes_staff_code = equipmentlist_res.data.mes_staff_code
 			states.mes_staff_name = equipmentlist_res.data.mes_staff_name
+
+
+			config(mqtt)
 		})()
+
 	}, []);
 
 	const menus = [
@@ -162,8 +168,8 @@ export default () => {
 						<Picker
 							style={{ height: 35, width: 190 }} >
 							{
-								states.equipmentlist.map((item) => {
-									return <Picker.Item label={item.mes_device_name} value={item.mes_device_code} />
+								states.equipmentlist.map((item, index) => {
+									return <Picker.Item label={item.mes_device_name} key={index} value={item.mes_device_code} />
 								})
 							}
 						</Picker>

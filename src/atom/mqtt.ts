@@ -1,6 +1,6 @@
 import { connect, MqttClient } from '@taoqf/react-native-mqtt';
 
-const M = new Map();
+let client = null as MqttClient;
 
 /**
  * mqtt初始化
@@ -8,17 +8,18 @@ const M = new Map();
  * @param uri 推送服务地址
  * @param err 错误事件
  */
-async function config(uri: string) {
-	if (M.get(uri)) {
-		return M.get(uri)
+export async function config(uri: string): Promise<MqttClient> {
+	if (client) {
+		return client
 	} else {
 		return new Promise((resolve, reject) => {
-			const client = connect(uri);
-			client.on('connect', () => {
-				M.set(uri, client)
-				resolve(client);
+			const c = connect(uri);
+			c.on('connect', () => {
+				console.log('mqtt connect')
+				client = c
+				resolve(c);
 			});
-			client.on('error', (res) => {
+			c.on('error', (res) => {
 				reject(false);
 			});
 		});
@@ -32,8 +33,8 @@ async function config(uri: string) {
  * @param msg 消息
  */
 export async function push(uri: string, topic: string, msg: string) {
-	const client = await config(uri)
-	return client.publish(topic, msg);
+	const c = await config(uri)
+	return c.publish(topic, msg);
 }
 
 /**
@@ -44,8 +45,10 @@ export async function push(uri: string, topic: string, msg: string) {
  */
 export async function listen(uri: string, topic: string) {
 	return new Promise(async (resolve, reject) => {
-		const client = await config(uri) as MqttClient;
-		client.on('message', (res_topic, payload) => {
+		const c = await config(uri);
+		c.on('message', (res_topic, payload) => {
+			console.log('11111111111111111111', res_topic)
+
 			if (res_topic === topic) {
 				const buffer = payload.toString();
 				try {
@@ -55,7 +58,10 @@ export async function listen(uri: string, topic: string) {
 				}
 			}
 		});
-		client.subscribe(topic, (err) => {
+		c.subscribe(topic, (err) => {
+			console.log('eeeeeeeeeeeeeeee', err)
+
+
 			if (err) {
 				reject(err)
 			}
