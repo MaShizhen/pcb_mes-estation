@@ -1,31 +1,39 @@
-// import { ICollectionInfo } from './interface';
 import { Cell, Row, Table, TableWrapper } from '@koimy/react-native-table-component';
-import { useFocusEffect } from '@react-navigation/native';
 import { Button } from 'native-base';
 import React, { useEffect } from 'react';
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import uuid from 'uuid'
+import { mqtt } from '../atom/config'
 import { format } from '../atom/dt'
 import Fdicon from '../atom/icon';
+import { listen } from '../atom/mqtt'
 import useStates from '../atom/use-states';
-import { collectioninfo } from './api';
+import { collectioninfo, eboxdataread } from './api';
 import SetDistribution from './components/set-distribution';
+import { IMqttRespose } from './interface'
 
 interface IProp {
 	visible: boolean;
 	id: string;
-	toHide: () => void
+	toHide: () => void,
+	route: {
+		params: {
+			data: string[]
+		}
+	}
 }
 
 export default (prop: IProp) => {
+
 	const states = useStates({
-		collectioninfo: [] as string[][],
+		collectioninfo: [] as unknown[][],
 		visible: false as boolean
 	})
 
 	// 初始化查询报警代码列表
 	useEffect(() => {
 		(async () => {
-			const collectioninfo_res = await collectioninfo('DEV020101')
+			const collectioninfo_res = await collectioninfo(prop.route.params.data[7])
 			states.collectioninfo = collectioninfo_res.data.list.map((item) => {
 				return [
 					item.mes_devicesub_bparamcode,
@@ -35,18 +43,14 @@ export default (prop: IProp) => {
 					format(item.mes_create_date, 'YYYY-MM-DD'),
 					'',
 					item.mes_devicesub_mdetailid,
-					item.mes_paramgroups_type.toString()
-
-					// item.mes_devicesub_deviceid
-					// item.mes_paramgroups_unitname
-
+					[item.mes_devicesub_deviceid, item.mes_devicesub_cparamid, item.mes_paramgroups_type.toString()]
 				];
 			});
 		})()
 	}, []);
 
-	useFocusEffect(() => {
-	})
+	// useFocusEffect(() => {
+	// })
 
 	const tableHead = ['业务级参数代码', '业务级参数名称', '业务级参数说明', '业务级参数类型', '创建时间', '当前值', '下发值', '操作'];
 
@@ -54,11 +58,23 @@ export default (prop: IProp) => {
 		states.visible = true
 	}
 
-	function read(data: string) {
+	function read(index: number) {
+		const data = states.collectioninfo[index]
+		const arr = data[7]
+		const mes_devicesub_deviceid = arr[0] as string
+		const mes_devicesub_cparamid = arr[1] as string
+		const request = uuid();
 
+		listen(mqtt, '/push/' + request).then((res: IMqttRespose) => {
+			console.log('222222222222222222222222', res.msg.datavalue[0].readvalue);
+			states.collectioninfo[index][6] = res.msg.datavalue[0].readvalue
+		})
+
+		eboxdataread(request, mes_devicesub_deviceid, mes_devicesub_cparamid).then(() => {
+		})
 	}
 
-	function element(data: string, index: number, cellIndex: number) {
+	function element(index: number, cellIndex: number) {
 		if (cellIndex === 6) {
 			return (
 				<TouchableOpacity onPress={() => alertIndex(index)} >
@@ -72,7 +88,7 @@ export default (prop: IProp) => {
 			return (
 				<TouchableOpacity >
 					<View style={{ flexDirection: 'row', alignItems: 'center', height: 45, justifyContent: 'space-around' }}>
-						<Button onPress={read(data)} info>
+						<Button onPress={() => read(index)} info>
 							<Text style={{ padding: 25, color: '#fff', fontSize: 16 }}>读 取</Text>
 						</Button>
 					</View >
@@ -91,8 +107,8 @@ export default (prop: IProp) => {
 						states.collectioninfo.map((rowData, index) => (
 							<TableWrapper key={index} style={styles.row}>
 								{
-									rowData.map((cellData, cellIndex) => (
-										<Cell key={cellIndex} data={(cellIndex === 6 || cellIndex === 7) ? element(cellData, index, cellIndex) : cellData} textStyle={styles.text} />
+									rowData.map((cellData: string, cellIndex) => (
+										<Cell key={cellIndex} data={(cellIndex === 6 || cellIndex === 7) ? element(index, cellIndex) : cellData} textStyle={styles.text} />
 									))
 								}
 							</TableWrapper>

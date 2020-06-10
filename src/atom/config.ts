@@ -12,3 +12,4 @@ export const get_file = `${file_server}/getfile?productid=${productid}&id=`; // 
 // 本地&打包 通用
 export const ticket_login = 'ticket-login';
 export const login = `customs-login`;
+export const mqtt = 'mqtt://dev.koimy.com:1080/ws';

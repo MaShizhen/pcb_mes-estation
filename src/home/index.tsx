@@ -3,8 +3,10 @@ import { useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import React, { useEffect } from 'react';
 import { Image, Picker, SectionList, Text, TouchableOpacity, View } from 'react-native'
+import { mqtt } from '../atom/config'
 import Icon from '../atom/icon'
 import Fdicon from '../atom/icon';
+import { config } from '../atom/mqtt'
 import { get } from '../atom/storage'
 import useStates from '../atom/use-states';
 import { equipmentlist } from './api';
@@ -26,6 +28,11 @@ export default () => {
 	const navigation = useNavigation();
 	const states = useStates({
 		equipmentlist: [] as IEquipmentList[],
+		mes_process_code: '', // 设备名称
+		mes_process_name: '', // 工序mes_id
+		mes_id: '', // 员工名称
+		mes_staff_name: '',
+		mes_staff_code: '',
 		focused_index: 0 as number
 	})
 
@@ -36,7 +43,14 @@ export default () => {
 			const mes_staff_name = await get<string>('mes_staff_name')
 			const equipmentlist_res = await equipmentlist(mes_staff_code, mes_staff_name)
 			states.equipmentlist = equipmentlist_res.data.sub
+			states.mes_process_name = equipmentlist_res.data.mes_process_name
+			states.mes_staff_code = equipmentlist_res.data.mes_staff_code
+			states.mes_staff_name = equipmentlist_res.data.mes_staff_name
+
+
+			config(mqtt)
 		})()
+
 	}, []);
 
 	const menus = [
@@ -139,24 +153,23 @@ export default () => {
 					</View>
 					<View style={{ flexDirection: 'row', alignItems: 'center' }}>
 						<Text style={{ height: 35, lineHeight: 35, textAlign: 'right', width: 100 }}>工序代码名称:</Text>
-						<Text style={{ height: 35, lineHeight: 35 }}>测试终端代码名称</Text>
+						<Text style={{ height: 35, lineHeight: 35 }}>{states.mes_process_name}</Text>
 					</View>
 					<View style={{ flexDirection: 'row', alignItems: 'center' }}>
 						<Text style={{ height: 35, lineHeight: 35, textAlign: 'right', width: 100 }}>员工编号:</Text>
-						<Text style={{ height: 35, lineHeight: 35 }}>测试终端代码名称</Text>
+						<Text style={{ height: 35, lineHeight: 35 }}>{states.mes_staff_code}</Text>
 					</View>
 					<View style={{ flexDirection: 'row', alignItems: 'center' }}>
 						<Text style={{ height: 35, lineHeight: 35, textAlign: 'right', width: 100 }}>员工名称:</Text>
-						<Text style={{ height: 35, lineHeight: 35 }}>测试终端代码名称</Text>
+						<Text style={{ height: 35, lineHeight: 35 }}>{states.mes_staff_name}</Text>
 					</View>
 					<View style={{ flexDirection: 'row', alignItems: 'center' }}>
 						<Text style={{ height: 35, lineHeight: 35, textAlign: 'right', width: 100 }}>所属设备:</Text>
 						<Picker
-							style={{ height: 35, width: 100 }} >
+							style={{ height: 35, width: 190 }} >
 							{
-								states.equipmentlist.map((item) => {
-									console.log('111111111111111111', item)
-									return <Picker.Item label={item.mes_device_name} value={item.mes_device_code} />
+								states.equipmentlist.map((item, index) => {
+									return <Picker.Item label={item.mes_device_name} key={index} value={item.mes_device_code} />
 								})
 							}
 						</Picker>

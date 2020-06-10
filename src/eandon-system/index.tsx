@@ -37,9 +37,9 @@ export default () => {
 					</View>
 					{(() => {
 						if (states.userboard.length > 0) {
-							return states.userboard.map((item) => {
+							return states.userboard.map((item, index) => {
 								return (
-									<View key={item.mes_alarm_no} style={{ height: 45, borderWidth: 1, borderRadius: 10, borderColor: '#e2e1de', backgroundColor: '#fff', width: '80%', marginLeft: '10%', marginBottom: 15 }}>
+									<View key={index} style={{ height: 45, borderWidth: 1, borderRadius: 10, borderColor: '#e2e1de', backgroundColor: '#fff', width: '80%', marginLeft: '10%', marginBottom: 15 }}>
 										<Text style={{ lineHeight: 45, textAlign: 'center', fontSize: 16 }}>{item.mes_alarm_name}</Text>
 									</View>
 								)
@@ -50,15 +50,11 @@ export default () => {
 				<View style={{ flex: 0.75, paddingLeft: 10, paddingRight: 10 }}>
 					<View style={{ height: 45, backgroundColor: '#fff', marginBottom: 20 }}><Text style={{ lineHeight: 45, textAlign: 'center', fontSize: 18 }}>报警代码详情</Text></View>
 					<View style={{ flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center' }}>
-						{/* <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'space-around', height: 120, width: '25%' }}>
-							<Image source={require('../../imgs/science5.png')} style={{ borderRadius: 5, height: 70, width: 120 }} />
-							<Text style={{ height: 30, lineHeight: 30, textAlign: 'center', fontSize: 16 }}>水泵是否正常</Text>
-						</View> */}
 						{(() => {
 							if (states.userboardright.length > 0) {
-								return states.userboardright.map((item) => {
+								return states.userboardright.map((item, index) => {
 									return (
-										<View key={item.mes_alarm_no} style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'space-around', height: 120, width: '25%' }}>
+										<View key={index} style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'space-around', height: 120, width: '25%' }}>
 											<Image source={{ uri: get_file + item.mes_alarm_picture }} style={{ borderRadius: 5, width: 120, height: 70, backgroundColor: 'rgba(0,0,0,0.2)' }} />
 											<Text style={{ height: 30, lineHeight: 30, textAlign: 'center', fontSize: 16 }}>{item.mes_alarm_name}</Text>
 										</View>

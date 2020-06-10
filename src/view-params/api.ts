@@ -7,6 +7,7 @@ import { ICollectionInfoRes } from './interface'
  * @param mes_process_mesid 工序mes_id
  */
 export function collectioninfo(mes_devicesub_deviceid: string) {
+	console.log('----------------------', mes_devicesub_deviceid)
 	return service<ICollectionInfoRes>('dataservice.mescomm.collectioninfo', {
 		spaceid,
 		productid,
