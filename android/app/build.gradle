@@ -142,6 +142,8 @@ android {
 		ndk {
             abiFilters "armeabi-v7a","x86"
    		}
+
+		multiDexEnabled true
     }
     splits {
         abi {
@@ -197,6 +199,8 @@ android {
 }
 
 dependencies {
+	implementation 'com.android.support:multidex:1.0.3'
+
     implementation fileTree(dir: "libs", include: ["*.jar"])
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules

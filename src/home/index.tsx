@@ -1,10 +1,13 @@
 // import { Picker } from '@react-native-community/picker'
 import { useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import { Image, Picker, SectionList, Text, TouchableOpacity, View } from 'react-native'
 import Icon from '../atom/icon'
 import Fdicon from '../atom/icon';
+import { get } from '../atom/storage'
+import useStates from '../atom/use-states';
+import { equipmentlist } from './api';
 
 // 引入页面
 import dashboard_system from '../dashboard-system'
@@ -14,13 +17,35 @@ import esop_system from '../esop-system'
 import quality_management from '../quality-management'
 import reporting_system from '../reporting-system'
 import view_params from '../view-params'
+import { IEquipmentList } from './interface'
 
 // tslint:disable-next-line: variable-name
 const Stack = createStackNavigator();
 
 export default () => {
 	const navigation = useNavigation();
-	const [focused_index, setFocused_index] = useState(0);
+	const states = useStates({
+		equipmentlist: [] as IEquipmentList[],
+		mes_process_code: '', // 设备名称
+		mes_process_name: '', // 工序mes_id
+		mes_id: '', // 员工名称
+		mes_staff_name: '',
+		mes_staff_code: '',
+		focused_index: 0 as number
+	})
+
+	// 初始化查询报警代码列表
+	useEffect(() => {
+		(async () => {
+			const mes_staff_code = await get<string>('mes_staff_code')
+			const mes_staff_name = await get<string>('mes_staff_name')
+			const equipmentlist_res = await equipmentlist(mes_staff_code, mes_staff_name)
+			states.equipmentlist = equipmentlist_res.data.sub
+			states.mes_process_name = equipmentlist_res.data.mes_process_name
+			states.mes_staff_code = equipmentlist_res.data.mes_staff_code
+			states.mes_staff_name = equipmentlist_res.data.mes_staff_name
+		})()
+	}, []);
 
 	const menus = [
 		{
@@ -95,12 +120,12 @@ export default () => {
 						return (
 							<TouchableOpacity style={{ width: 120, paddingTop: 20, paddingBottom: 20 }} onPress={
 								() => {
-									setFocused_index(index)
+									states.focused_index = index
 									navigation.navigate(item.path)
 								}}>
 								<View style={{ alignItems: 'center', justifyContent: 'center' }}>
 									<Icon style={{ alignContent: 'center' }} name={(() => {
-										if (index === focused_index) {
+										if (index === states.focused_index) {
 											return item.icon_focused
 										} else {
 											return item.icon
@@ -122,22 +147,25 @@ export default () => {
 					</View>
 					<View style={{ flexDirection: 'row', alignItems: 'center' }}>
 						<Text style={{ height: 35, lineHeight: 35, textAlign: 'right', width: 100 }}>工序代码名称:</Text>
-						<Text style={{ height: 35, lineHeight: 35 }}>测试终端代码名称</Text>
+						<Text style={{ height: 35, lineHeight: 35 }}>{states.mes_process_name}</Text>
 					</View>
 					<View style={{ flexDirection: 'row', alignItems: 'center' }}>
 						<Text style={{ height: 35, lineHeight: 35, textAlign: 'right', width: 100 }}>员工编号:</Text>
-						<Text style={{ height: 35, lineHeight: 35 }}>测试终端代码名称</Text>
+						<Text style={{ height: 35, lineHeight: 35 }}>{states.mes_staff_code}</Text>
 					</View>
 					<View style={{ flexDirection: 'row', alignItems: 'center' }}>
 						<Text style={{ height: 35, lineHeight: 35, textAlign: 'right', width: 100 }}>员工名称:</Text>
-						<Text style={{ height: 35, lineHeight: 35 }}>测试终端代码名称</Text>
+						<Text style={{ height: 35, lineHeight: 35 }}>{states.mes_staff_name}</Text>
 					</View>
 					<View style={{ flexDirection: 'row', alignItems: 'center' }}>
 						<Text style={{ height: 35, lineHeight: 35, textAlign: 'right', width: 100 }}>所属设备:</Text>
 						<Picker
-							style={{ height: 35, width: 100 }} >
-							<Picker.Item label="java" value="java" />
-							<Picker.Item label="JavaScript" value="js" />
+							style={{ height: 35, width: 190 }} >
+							{
+								states.equipmentlist.map((item) => {
+									return <Picker.Item label={item.mes_device_name} value={item.mes_device_code} />
+								})
+							}
 						</Picker>
 					</View>
 					<View style={{ flexDirection: 'row', alignItems: 'center' }}>
