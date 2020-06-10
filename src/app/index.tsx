@@ -26,7 +26,7 @@ export default function App() {
 
 	return (
 		<NavigationContainer ref={navigation_container}>
-			<Stack.Navigator initialRouteName='nfc' screenOptions={{
+			<Stack.Navigator initialRouteName='home' screenOptions={{
 				headerStyle: {
 					height: 0
 				},
