@@ -1,30 +1,53 @@
 // import { Picker } from '@react-native-community/picker'
 import { useFocusEffect } from '@react-navigation/native'
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Image, Modal, Picker, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { get_file } from '../atom/config'
-import useStates from '../atom/use-states'
+import Fdicon from '../atom/icon';
+import { get } from '../atom/storage'
 import { userboard, userboardright } from './api'
+import SetDistribution from './components/set-distribution';
 import { IUserboard, IUserboardRight } from './interface'
 
-export default () => {
-	const states = useStates({
-		userboard: [] as IUserboard[],
-		userboardright: [] as IUserboardRight[]
-	})
 
+interface IProp {
+	visible: boolean;
+	id: string;
+	toHide: () => void,
+	route: {
+		params: {
+			data: string[]
+		}
+	}
+}
+
+export default (prop: IProp) => {
+	const [states, set_states] = useState({
+		userboard: [] as IUserboard[],
+		userboardright: [] as IUserboardRight[],
+		visible: false as boolean
+	})
 	// 初始化查询报警代码列表
 	useEffect(() => {
 		(async () => {
-			const userboard_res = await userboard('74c08b13-aa1e-48fh-a9bc-60257665afa7')
-			states.userboard = userboard_res.data
-			const userboardright_res = await userboardright('74c08b13-aa1e-48fh-a9bc-60257665afa7', '')
-			states.userboardright = userboardright_res.data.list
+			const mes_id = await get<string>('mes_id')
+			const userboard_res = await userboard(mes_id)
+			const userboardright_res = await userboardright('mes_id', 'mes_ids')
+			console.log('userboard_res', userboard_res, 'userboardright_res', userboardright_res);
+
+			set_states({
+				...states,
+				userboard: userboard_res.data,
+				userboardright: userboardright_res.data.list
+			})
+
 		})()
 	}, []);
 
-	useFocusEffect(() => {
-	})
+	function alertIndex(data: number) {
+		states.visible = true
+	}
+
 
 	return (
 		<ScrollView>
@@ -39,9 +62,11 @@ export default () => {
 						if (states.userboard.length > 0) {
 							return states.userboard.map((item, index) => {
 								return (
-									<View key={index} style={{ height: 45, borderWidth: 1, borderRadius: 10, borderColor: '#e2e1de', backgroundColor: '#fff', width: '80%', marginLeft: '10%', marginBottom: 15 }}>
-										<Text style={{ lineHeight: 45, textAlign: 'center', fontSize: 16 }}>{item.mes_alarm_name}</Text>
-									</View>
+									<TouchableOpacity onPress={() => alertIndex(index)} >
+										<View key={index} style={{ height: 45, borderWidth: 1, borderRadius: 10, borderColor: '#e2e1de', backgroundColor: '#fff', width: '80%', marginLeft: '10%', marginBottom: 15 }}>
+											<Text style={{ lineHeight: 45, textAlign: 'center', fontSize: 16 }}>{item.mes_alarm_name}</Text>
+										</View>
+									</TouchableOpacity>
 								)
 							})
 						}
@@ -64,6 +89,9 @@ export default () => {
 						})()}
 					</View>
 				</View>
+				<SetDistribution visible={states.visible} id={''} toHide={() => {
+					states.visible = false
+				}} />
 			</View>
 			{/* 全展示效果 */}
 			{/* <View style={{ flex: 1, paddingLeft: 10, paddingRight: 10, backgroundColor: '#fff', paddingTop: 20 }}>
@@ -127,6 +155,10 @@ export default () => {
 							<TouchableOpacity style={{ backgroundColor: 'rgba(0,0,0,0.3)', top: 0, bottom: 0, left: 0, right: 0, position: 'absolute' }} activeOpacity={1}>
 								<View style={{ backgroundColor: 'rgba(0,0,0,.3)', top: 0, bottom: 0, left: 0, right: 0, position: 'absolute', justifyContent: 'center' }}>
 									<View style={{ margin: 50, backgroundColor: '#fff', borderRadius: 5 }}>
+										<View style={{ flexDirection: 'row', alignItems: "center", justifyContent: 'space-between', paddingLeft: 10, paddingRight: 10, borderBottomWidth: 1, borderBottomColor: '#999' }}>
+											<Text style={{ fontSize: 16, color: '#333333', textAlign: 'center', lineHeight: 35 }}>提交安灯报警</Text>
+											<Fdicon name='guanbi' size={16} color='#333'></Fdicon>
+										</View>
 										<View style={{ flexDirection: 'row', alignItems: "center", justifyContent: 'center' }}>
 											<Text style={{ fontSize: 16, color: '#333333', textAlign: 'center', lineHeight: 80 }}>可用设备代码：</Text>
 											<Picker

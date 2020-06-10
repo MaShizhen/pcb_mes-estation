@@ -7,7 +7,7 @@ import { mqtt } from '../atom/config'
 import Icon from '../atom/icon'
 import Fdicon from '../atom/icon';
 import { config } from '../atom/mqtt'
-import { get } from '../atom/storage'
+import { get, set } from '../atom/storage'
 import { equipmentlist } from './api';
 
 // 引入页面
@@ -27,8 +27,9 @@ export default () => {
 	const navigation = useNavigation();
 	const [states, set_states] = useState({
 		equipmentlist: [] as IEquipmentList[],
-		mes_process_code: '', // 设备名称
-		mes_process_name: '', // 工序mes_id
+		mes_process_code: '', // 工序编号
+		mes_process_name: '', // 工序名称
+		mes_device_code: '',// 设备mes_id
 		mes_id: '', // 员工名称
 		mes_staff_name: '',
 		mes_staff_code: '',
@@ -41,6 +42,8 @@ export default () => {
 			const mes_staff_code = await get<string>('mes_staff_code')
 			const mes_staff_name = await get<string>('mes_staff_name')
 			const equipmentlist_res = await equipmentlist(mes_staff_code, mes_staff_name)
+			await set('mes_id', equipmentlist_res.data.mes_id)
+			await set('mes_ids', equipmentlist_res.data.sub[0].mes_id)
 			set_states({
 				...states,
 				equipmentlist: equipmentlist_res.data.sub,
