@@ -1,14 +1,54 @@
+import { useFocusEffect } from '@react-navigation/native';
 import { Button } from 'native-base';
-import React from 'react';
+import React, { useState } from 'react';
 import { Alert, Modal, StyleSheet, Text, TextInput, TouchableHighlight, TouchableOpacity, View } from "react-native";
+import uuid from 'uuid'
+import { mqtt } from '../../atom/config';
 import Fdicon from '../../atom/icon';
+import { listen } from '../../atom/mqtt';
+import toast from '../../atom/toast'
+import { eboxdatawrite } from '../api';
+import { IMqttRespose } from '../interface'
+
 interface IProp {
 	visible: boolean;
-	id: string;
-	toHide: () => void
+	row: {
+		params: string[],
+		arr: (string | string[])[],
+		select_index: number,
+		mes_id: string;
+	};
+	toHide: (select_index: number, writevalue: string) => void
 }
 
 export default (prop: IProp) => {
+	const [value, onChangeText] = useState('');
+
+
+	useFocusEffect(() => {
+		onChangeText('')
+	})
+
+
+	function issue() {
+		if (!value) {
+			toast('请输入修改值', 1000, 'top', '#ffffff', '#ff7575');
+		} else {
+			const arr = prop.row.arr[7]
+			const mes_devicesub_deviceid = arr[0] as string
+			const mes_devicesub_cparamid = arr[1] as string
+			const request = uuid();
+
+			listen(mqtt, '/push/' + request).then((res: IMqttRespose) => {
+				toast('下发成功', 1000, 'top', '#ffffff', '#ff7575');
+				prop.toHide(prop.row.select_index, res.msg.datavalue[0].writevalue)
+			})
+
+			eboxdatawrite(request, mes_devicesub_deviceid, mes_devicesub_cparamid, value).then(() => {
+			})
+		}
+	}
+
 	return (
 		<Modal
 			animationType={"fade"}
@@ -19,51 +59,53 @@ export default (prop: IProp) => {
 			}}
 		>
 			<TouchableOpacity style={{ backgroundColor: 'rgba(0,0,0,0.5)', flex: 1, flexDirection: 'row', alignItems: 'center' }} onPress={() => {
-				prop.toHide()
+				prop.toHide(-1, '')
 			}}>
-				<View style={{ backgroundColor: '#fff', width: '30%', marginLeft: '35%', borderRadius: 5 }}>
+				<TouchableOpacity
+					activeOpacity={1}
+					style={{ backgroundColor: '#fff', width: '30%', marginLeft: '35%', borderRadius: 5 }}>
 					<View style={{ flexDirection: 'row', alignItems: 'center', height: 50, borderBottomWidth: 1, justifyContent: 'space-between', paddingLeft: 15, paddingRight: 15, borderBottomColor: '#999' }}>
 						<Text style={{ fontSize: 18, color: '#333' }}>设定下发值</Text>
 						<TouchableHighlight
 							style={{ padding: 13 }}
-							onPress={() => prop.toHide()}
+							onPress={() => prop.toHide(-1, '')}
 							underlayColor='transparent'>
 							<Fdicon name='guanbi' size={20} color='#333'></Fdicon>
 						</TouchableHighlight>
 					</View>
 					<View style={styles.out}>
 						<Text style={styles.text}>设备代码:</Text>
-						<Text style={styles.mintext}>gx001</Text>
+						<Text style={styles.mintext}>{prop.row ? prop.row.params[0] : ''}</Text>
 					</View>
 					<View style={styles.out}>
 						<Text style={styles.text}>设备名称:</Text>
-						<Text style={styles.mintext}>gx001</Text>
+						<Text style={styles.mintext}>{prop.row ? prop.row.params[1] : ''}</Text>
 					</View>
 					<View style={styles.out}>
 						<Text style={styles.text}>业务级参数代码:</Text>
-						<Text style={styles.mintext}>gx001</Text>
+						<Text style={styles.mintext}>{(prop.row && prop.row.arr) ? prop.row.arr[0] : ''}</Text>
 					</View>
 					<View style={styles.out}>
 						<Text style={styles.text}>业务级参数名称:</Text>
-						<Text style={styles.mintext}>gx001</Text>
+						<Text style={styles.mintext}>{(prop.row && prop.row.arr) ? prop.row.arr[1] : ''}</Text>
 					</View>
 					<View style={styles.out}>
 						<Text style={styles.text}>当前值:</Text>
-						<Text style={styles.mintext}>gx001</Text>
+						<Text style={styles.mintext}>{(prop.row && prop.row.arr) ? prop.row.arr[5] : ''}</Text>
 					</View>
 					<View style={styles.out}>
 						<Text style={styles.text}>修改值:</Text>
-						<TextInput style={styles.input}></TextInput>
+						<TextInput onChangeText={text => onChangeText(text)} value={value} style={styles.input}></TextInput>
 					</View>
 					{/* <View style={{ height: 35, width: 100, backgroundColor: '#c8e1ff', position: 'relative', left: 180, top: 10, marginBottom: 10 }}>
 						<Text style={{ lineHeight: 35, textAlign: 'center' }}>下发</Text>
 					</View> */}
 					<View style={{ flexDirection: 'row', justifyContent: 'flex-end', marginBottom: 40, marginRight: 40 }}>
-						<Button block info style={{ width: 150 }}>
+						<Button onPress={() => issue()} block info style={{ width: 150 }}>
 							<Text style={{ color: '#fff', fontSize: 16 }}>下 发</Text>
 						</Button>
 					</View>
-				</View>
+				</TouchableOpacity>
 			</TouchableOpacity>
 		</Modal >
 

@@ -17,7 +17,10 @@ interface IProp {
 	toHide: () => void,
 	route: {
 		params: {
-			data: string[]
+			data: {
+				arr: string[];
+				mes_id: string;
+			}
 		}
 	}
 }
@@ -25,14 +28,14 @@ interface IProp {
 export default (prop: IProp) => {
 
 	const [states, set_states] = useState({
-		collectioninfo: [] as unknown[][],
-		visible: false as boolean
+		collectioninfo: [] as (string | string[])[][],
+		visible: false as boolean,
+		select_index: null as number
 	})
-
 	// 初始化查询报警代码列表
 	useEffect(() => {
 		(async () => {
-			const collectioninfo_res = await collectioninfo(prop.route.params.data[7])
+			const collectioninfo_res = await collectioninfo(prop.route.params.data.mes_id)
 			set_states({
 				...states,
 				collectioninfo: collectioninfo_res.data.list.map((item) => {
@@ -43,7 +46,7 @@ export default (prop: IProp) => {
 						item.mes_paramgroups_activity,
 						format(item.mes_create_date, 'YYYY-MM-DD'),
 						'',
-						item.mes_devicesub_mdetailid,
+						'',
 						[item.mes_devicesub_deviceid, item.mes_devicesub_cparamid, item.mes_paramgroups_type.toString()]
 					];
 				})
@@ -51,13 +54,14 @@ export default (prop: IProp) => {
 		})()
 	}, []);
 
-	// useFocusEffect(() => {
-	// })
-
 	const tableHead = ['业务级参数代码', '业务级参数名称', '业务级参数说明', '业务级参数类型', '创建时间', '当前值', '下发值', '操作'];
 
-	function alertIndex(data: number) {
-		states.visible = true
+	function alertIndex(index: number) {
+		set_states({
+			...states,
+			select_index: index,
+			visible: true
+		})
 	}
 
 	function read(index: number) {
@@ -68,9 +72,8 @@ export default (prop: IProp) => {
 		const request = uuid();
 
 		listen(mqtt, '/push/' + request).then((res: IMqttRespose) => {
-			console.log('222222222222222222222222', res.msg.datavalue[0].readvalue);
 			const _collectioninfo = states.collectioninfo
-			_collectioninfo[index][6] = res.msg.datavalue[0].readvalue
+			_collectioninfo[index][5] = res.msg.datavalue[0].readvalue
 			set_states({
 				...states,
 				collectioninfo: _collectioninfo
@@ -81,12 +84,12 @@ export default (prop: IProp) => {
 		})
 	}
 
-	function element(index: number, cellIndex: number) {
+	function element(index: number, cellIndex: number, cellData: string) {
 		if (cellIndex === 6) {
 			return (
 				<TouchableOpacity onPress={() => alertIndex(index)} >
 					<View style={{ borderWidth: 1, borderColor: '#999', flexDirection: 'row', alignItems: 'center', height: 40, justifyContent: 'space-between', paddingRight: 10, paddingLeft: 10, width: '70%', marginLeft: '15%' }}>
-						<Text style={{ lineHeight: 40, fontSize: 16, color: '#333' }}></Text>
+						<Text style={{ lineHeight: 40, fontSize: 16, color: '#333' }}>{cellData}</Text>
 						<Fdicon name='xiangqing' size={22} color='#242c3a'></Fdicon>
 					</View>
 				</TouchableOpacity>
@@ -115,7 +118,7 @@ export default (prop: IProp) => {
 							<TableWrapper key={index} style={styles.row}>
 								{
 									rowData.map((cellData: string, cellIndex) => (
-										<Cell key={cellIndex} data={(cellIndex === 6 || cellIndex === 7) ? element(index, cellIndex) : cellData} textStyle={styles.text} />
+										<Cell key={cellIndex} data={(cellIndex === 6 || cellIndex === 7) ? element(index, cellIndex, cellData) : cellData} textStyle={styles.text} />
 									))
 								}
 							</TableWrapper>
@@ -123,8 +126,26 @@ export default (prop: IProp) => {
 					}
 				</ScrollView>
 			</Table>
-			<SetDistribution visible={states.visible} id={''} toHide={() => {
-				states.visible = false
+			<SetDistribution visible={states.visible} row={{
+				params: prop.route.params.data.arr,
+				mes_id: prop.route.params.data.mes_id,
+				arr: states.collectioninfo[states.select_index],
+				select_index: states.select_index
+			}} toHide={(select_index: number, writevalue: string) => {
+				if (select_index !== -1) {
+					const _collectioninfo = states.collectioninfo
+					_collectioninfo[select_index][6] = writevalue
+					set_states({
+						...states,
+						collectioninfo: _collectioninfo,
+						visible: false
+					})
+				} else {
+					set_states({
+						...states,
+						visible: false
+					})
+				}
 			}} />
 		</View>
 

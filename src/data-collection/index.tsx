@@ -6,12 +6,14 @@ import React, { useEffect, useState } from 'react';
 import { Image, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { format } from '../atom/dt';
 import { collectionlist } from './api';
-// import { ICollectionlist } from './interface';
 
 export default () => {
 	const navigation = useNavigation();
 	const [states, set_states] = useState({
-		collectionlist: [] as string[][]
+		collectionlist: [] as {
+			arr: string[]
+			mes_id: string
+		}[]
 	})
 
 	// 初始化查询报警代码列表
@@ -21,17 +23,18 @@ export default () => {
 			set_states({
 				...states,
 				collectionlist: collectionlist_res.data.list.map((item) => {
-					console.log(item.mes_create_date)
-					return [
-						item.mes_device_code,
-						item.mes_device_name,
-						item.mes_device_logo,
-						item.mes_device_desc,
-						item.mes_valid_status.toString(),
-						item.mes_audit_status,
-						format(item.mes_create_date, 'YYYY-MM-DD'),
-						item.mes_id
-					];
+					return {
+						arr: [
+							item.mes_device_code,
+							item.mes_device_name,
+							item.mes_device_logo,
+							item.mes_device_desc,
+							item.mes_valid_status.toString(),
+							item.mes_audit_status,
+							format(item.mes_create_date, 'YYYY-MM-DD')
+						],
+						mes_id: item.mes_id
+					}
 				})
 			})
 		})()
@@ -69,7 +72,7 @@ export default () => {
 								<TouchableOpacity key={index} onPress={() => _alertIndex(index)} style={{ borderBottomWidth: 1, borderColor: '#c8e1ff' }}>
 									<TableWrapper style={styles.row}>
 										{
-											rowData.map((cellData, cellIndex) => (
+											rowData.arr.map((cellData, cellIndex) => (
 												<Cell key={cellIndex} data={cellIndex === 2 ? element(cellData, index) : cellData} textStyle={styles.text} />
 											))
 										}
