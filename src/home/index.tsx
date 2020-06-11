@@ -9,6 +9,7 @@ import Fdicon from '../atom/icon';
 import { config } from '../atom/mqtt'
 import { get, set } from '../atom/storage'
 import { equipmentlist } from './api';
+import SetDistribution from './components/set-distribution';
 
 // 引入页面
 import dashboard_system from '../dashboard-system'
@@ -23,7 +24,14 @@ import { IEquipmentList } from './interface'
 // tslint:disable-next-line: variable-name
 const Stack = createStackNavigator();
 
-export default () => {
+
+interface IProp {
+	visible: boolean;
+	id: string;
+	toHide: () => void,
+}
+
+export default (prop: IProp) => {
 	const navigation = useNavigation();
 	const [states, set_states] = useState({
 		equipmentlist: [] as IEquipmentList[],
@@ -33,10 +41,11 @@ export default () => {
 		mes_id: '', // 员工名称
 		mes_staff_name: '',
 		mes_staff_code: '',
-		focused_index: 0 as number
+		focused_index: 0 as number,
+		visible: false as boolean
 	})
 
-	// 初始化查询报警代码列表
+	// 初始化查询头部
 	useEffect(() => {
 		(async () => {
 			const mes_staff_code = await get<string>('mes_staff_code')
@@ -55,6 +64,14 @@ export default () => {
 		})()
 
 	}, []);
+
+
+	function alertClick() {
+		set_states({
+			...states,
+			visible: true
+		})
+	}
 
 	const menus = [
 		{
@@ -118,7 +135,7 @@ export default () => {
 						return item.path
 					}}
 					renderSectionHeader={({ section: { title } }) => (
-						<TouchableOpacity style={{ height: 80, alignItems: 'center', justifyContent: 'flex-end' }}>
+						<TouchableOpacity style={{ height: 80, alignItems: 'center', justifyContent: 'flex-end' }} onPress={() => alertClick()}>
 							{/* 头像 */}
 							<View style={{ alignItems: 'center' }}>
 								<Image source={require('../../imgs/science5.png')} style={{ width: 60, height: 60, borderRadius: 30 }} />
@@ -201,6 +218,12 @@ export default () => {
 					}} />
 				</Stack.Navigator>
 			</View>
+			<SetDistribution visible={states.visible} toHide={() => {
+				set_states({
+					...states,
+					visible: false
+				})
+			}} />
 		</View >
 	);
 }

@@ -82,9 +82,11 @@ export default (prop: IProp) => {
 							<Text style={{ fontSize: 16, color: '#fff', textAlign: 'center', lineHeight: 50 }}>提交</Text>
 						</TouchableOpacity>
 					</View>
+
 				</TouchableOpacity>
 			</TouchableOpacity>
 		</Modal >
+
 	);
 }
 

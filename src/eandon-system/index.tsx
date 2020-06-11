@@ -1,4 +1,3 @@
-// import { Picker } from '@react-native-community/picker'
 import { useFocusEffect } from '@react-navigation/native'
 import React, { useEffect, useState } from 'react';
 import { Image, Modal, Picker, ScrollView, Text, TouchableOpacity, View } from 'react-native';
@@ -33,8 +32,7 @@ export default (prop: IProp) => {
 			const mes_id = await get<string>('mes_id')
 			const userboard_res = await userboard(mes_id)
 			const userboardright_res = await userboardright('mes_id', 'mes_ids')
-			console.log('userboard_res', userboard_res, 'userboardright_res', userboardright_res);
-
+			console.log('userboard_res', userboard_res, 'userboardright_res', userboardright_res)
 			set_states({
 				...states,
 				userboard: userboard_res.data,
@@ -44,8 +42,11 @@ export default (prop: IProp) => {
 		})()
 	}, []);
 
-	function alertIndex(data: number) {
-		states.visible = true
+	function alertIndex(index: number) {
+		set_states({
+			...states,
+			visible: true
+		})
 	}
 
 
@@ -90,7 +91,10 @@ export default (prop: IProp) => {
 					</View>
 				</View>
 				<SetDistribution visible={states.visible} id={''} toHide={() => {
-					states.visible = false
+					set_states({
+						...states,
+						visible: false
+					})
 				}} />
 			</View>
 			{/* 全展示效果 */}
@@ -148,7 +152,7 @@ export default (prop: IProp) => {
 				</View>
 			</View> */}
 			{/* 筛选 start */}
-			{(() => {
+			{/* {(() => {
 				if (0) {
 					return (
 						<Modal transparent={true}>
@@ -181,7 +185,7 @@ export default (prop: IProp) => {
 						</Modal>
 					);
 				}
-			})()}
+			})()} */}
 			{/* 筛选 end */}
 		</ScrollView>
 
