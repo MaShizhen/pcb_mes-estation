@@ -5,6 +5,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import Fdicon from '../atom/icon';
 import { login } from '../atom/server'
 import { set } from '../atom/storage';
+import toast from '../atom/toast'
 import useStates from '../atom/use-states'
 import { getuserroleinfo } from './api'
 
@@ -17,14 +18,21 @@ export default () => {
 	})
 
 	async function tologin() {
-		const res = await login(states.account, states.pwd)
-		set('sessionid', res.sessionID)
-		set('usercode', res.usercode)
-		set('ticket', res.remember_me_ticket)
-		const userinfo = await getuserroleinfo(res.usercode)
-		set('mes_staff_code', userinfo.user.pub_user_connect[0].pk_val)
-		set('mes_staff_name', userinfo.user.pub_user_connect[0].search_field_val)
-		nvigation.navigate('home')
+		try {
+			const res = await login(states.account, states.pwd)
+			set('sessionid', res.sessionID)
+			set('usercode', res.usercode)
+			set('ticket', res.remember_me_ticket)
+			const userinfo = await getuserroleinfo(res.usercode)
+			set('mes_staff_code', userinfo.user.pub_user_connect[0].pk_val)
+			set('mes_staff_name', userinfo.user.pub_user_connect[0].search_field_val)
+			nvigation.navigate('home')
+
+		} catch (error) {
+			toast(error.message, 1000
+				, 'top', '#fff', 'rgba(0,0,0,0.4)');
+		}
+		3
 	}
 
 	return (

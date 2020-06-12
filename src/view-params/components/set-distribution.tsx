@@ -32,7 +32,7 @@ export default (prop: IProp) => {
 
 	function issue() {
 		if (!value) {
-			toast('请输入修改值', 1000, 'top', '#ffffff', '#ff7575');
+			toast('请输入修改值', 1000, 'top', '#ffffff', 'rgba(0,0,0,0.4)');
 		} else {
 			const arr = prop.row.arr[7]
 			const mes_devicesub_deviceid = arr[0] as string
@@ -40,7 +40,7 @@ export default (prop: IProp) => {
 			const request = uuid();
 
 			listen(mqtt, '/push/' + request).then((res: IMqttRespose) => {
-				toast('下发成功', 1000, 'top', '#ffffff', '#ff7575');
+				toast('下发成功', 1000, 'top', '#ffffff', 'rgba(0,0,0,0.4)');
 				prop.toHide(prop.row.select_index, res.msg.datavalue[0].writevalue)
 			})
 
@@ -75,11 +75,11 @@ export default (prop: IProp) => {
 					</View>
 					<View style={styles.out}>
 						<Text style={styles.text}>设备代码:</Text>
-						<Text style={styles.mintext}>{prop.row ? prop.row.params[0] : ''}</Text>
+						<Text style={styles.mintext}>111111111111111111111{prop.row ? prop.row.params[0] : ''}</Text>
 					</View>
 					<View style={styles.out}>
 						<Text style={styles.text}>设备名称:</Text>
-						<Text style={styles.mintext}>{prop.row ? prop.row.params[1] : ''}</Text>
+						<Text style={styles.mintext}>222222222222{prop.row ? prop.row.params[1] : ''}</Text>
 					</View>
 					<View style={styles.out}>
 						<Text style={styles.text}>业务级参数代码:</Text>
@@ -119,6 +119,6 @@ const styles = StyleSheet.create({
 	text: { width: 150, textAlign: 'right', lineHeight: 45, fontSize: 16, color: '#333' },
 	row: { height: 60, flexDirection: 'row', borderBottomWidth: 1, borderColor: '#c8e1ff' },
 	out: { flexDirection: 'row', alignItems: 'center', height: 45 },
-	mintext: { width: 150, paddingLeft: 5, fontSize: 16, color: '#333' },
-	input: { borderColor: '#999', borderWidth: 1, width: 150, lineHeight: 45, padding: 0, marginLeft: 5 }
+	mintext: { paddingLeft: 5, fontSize: 16, color: '#333', flex: 0.8 },
+	input: { borderColor: '#999', borderWidth: 1, width: 200, marginLeft: 5 }
 });

@@ -1,12 +1,7 @@
-import { useFocusEffect } from '@react-navigation/native';
-import { Button } from 'native-base';
+import { useNavigation } from '@react-navigation/native'
 import React, { useState } from 'react';
-import { Alert, Modal, StyleSheet, Text, TextInput, TouchableHighlight, TouchableOpacity, View } from "react-native";
-import uuid from 'uuid'
-import { mqtt } from '../../atom/config';
+import { Alert, Modal, Text, TouchableHighlight, TouchableOpacity, View } from "react-native";
 import Fdicon from '../../atom/icon';
-import { listen } from '../../atom/mqtt';
-import toast from '../../atom/toast'
 
 interface IProp {
 	visible: boolean;
@@ -14,7 +9,13 @@ interface IProp {
 }
 
 export default (prop: IProp) => {
+	const nvigation = useNavigation();
 	const [value, onChangeText] = useState('');
+
+	async function toExit() {
+		nvigation.navigate('login')
+		prop.toHide()
+	}
 
 	return (
 		<Modal
@@ -48,7 +49,7 @@ export default (prop: IProp) => {
 						<TouchableOpacity style={{ borderBottomLeftRadius: 5, height: 50, flex: 1 }}>
 							<Text style={{ fontSize: 16, textAlign: 'center', lineHeight: 50, color: '#333' }}>取消</Text>
 						</TouchableOpacity>
-						<TouchableOpacity style={{ borderBottomRightRadius: 5, backgroundColor: '#0099ff', height: 50, flex: 1 }}>
+						<TouchableOpacity style={{ borderBottomRightRadius: 5, backgroundColor: '#0099ff', height: 50, flex: 1 }} onPress={() => toExit()}>
 							<Text style={{ fontSize: 16, color: '#fff', textAlign: 'center', lineHeight: 50 }}>确定</Text>
 						</TouchableOpacity>
 					</View>
