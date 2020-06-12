@@ -29,7 +29,6 @@ export default (prop: IProp) => {
 			const mes_staff_name = await get<string>('mes_staff_name')
 			// const mes_ids = await get<string>('mes_ids')
 			const equipmentlist_res = await equipmentlist(mes_staff_code, mes_staff_name)
-			console.log('equipmentlist_res123456', equipmentlist_res)
 			set_states({
 				...states,
 				equipmentlist: equipmentlist_res.data.sub

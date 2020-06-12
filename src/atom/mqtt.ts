@@ -15,7 +15,6 @@ export async function config(uri: string): Promise<MqttClient> {
 		return new Promise((resolve, reject) => {
 			const c = connect(uri);
 			c.on('connect', () => {
-				console.log('mqtt connect')
 				client = c
 				resolve(c);
 			});
@@ -47,8 +46,6 @@ export async function listen(uri: string, topic: string) {
 	return new Promise(async (resolve, reject) => {
 		const c = await config(uri);
 		c.on('message', (res_topic, payload) => {
-			console.log('11111111111111111111', res_topic)
-
 			if (res_topic === topic) {
 				const buffer = payload.toString();
 				try {
@@ -59,9 +56,7 @@ export async function listen(uri: string, topic: string) {
 			}
 		});
 		c.subscribe(topic, (err) => {
-			console.log('eeeeeeeeeeeeeeee', err)
-
-
+			// console.log('eeeeeeeeeeeeeeee', err)
 			if (err) {
 				reject(err)
 			}
