@@ -1,13 +1,13 @@
 import { useFocusEffect } from '@react-navigation/native'
 import React, { useEffect, useState } from 'react';
 import { Image, Modal, Picker, ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import Fdicon from '../../atom/icon';
 import { get_file } from '../atom/config'
 import Fdicon from '../atom/icon';
 import { get } from '../atom/storage'
 import { userboard, userboardright } from './api'
 import SetDistribution from './components/set-distribution';
 import { IUserboard, IUserboardRight } from './interface'
-
 
 interface IProp {
 	visible: boolean;
@@ -86,6 +86,11 @@ export default (prop: IProp) => {
 										</View>
 									)
 								})
+							} else {
+								return <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+									<Fdicon name='guanbi' size={20} color='#333'></Fdicon>
+									<Text style={{ fontSize: 18, textAlign: 'center' }}>暂无数据~</Text>
+								</View>
 							}
 						})()}
 					</View>
