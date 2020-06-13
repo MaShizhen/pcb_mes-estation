@@ -1,44 +1,54 @@
-import React, { useEffect } from 'react';
-import { Button, StyleSheet, Text, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Alert, Button, StyleSheet, Text, View } from 'react-native';
 import Pdf from 'react-native-pdf';
-import useStates from '../atom/use-states'
+import { get_file } from '../atom/config';
+import { format } from '../atom/dt';
+import Fdicon from '../atom/icon';
+import { get } from '../atom/storage'
+import { useresoplist } from './api';
+import { Iuseresoplis } from './interface';
 
 export default () => {
-	const local = useStates({
-		source: '',
-		end_time: 0
+	const [states, set_states] = useState({
+		useresoplist: {} as Iuseresoplis,
+		mes_staff_name: '',
+		mes_staff_code: '',
+		file_names: '',
+		state_esop: 0
 	})
 
 	useEffect(() => {
-		local.source = 'http://192.168.1.238/soft/node.pdf'
-		const end_time = new Date().getTime() + 2000
-		local.end_time = end_time
-
 		// setTimeout(() => {
 		// 	local.source = ''
 		// }, end_time - new Date().getTime());
+		(async () => {
+			const mes_staff_code = await get<string>('mes_staff_code')
+			const mes_staff_name = await get<string>('mes_staff_name')
+			const useresoplist_res = await useresoplist(mes_staff_code, mes_staff_name)
+			console.log('useresoplist_res122222', useresoplist_res)
+			set_states({
+				...states,
+				useresoplist: useresoplist_res.data,
+				file_names: get_file + useresoplist_res.data.file_name
+			})
+			// local.source = 'http://192.168.1.238/soft/node.pdf'
+			// const end_time = new Date().getTime() + 2000
+			// local.end_time = end_time
+		})()
 
 	}, []);
+	const aaa = ''
 
 	return (
 		<View>
-			<View>
-				<Text>版本：{JSON.stringify(local)}</Text>
-				<Button title='修改 source' onPress={() => {
-					local.source = '13245'
-				}}></Button>
-				<Button title='修改 end_time' onPress={() => {
-					local.end_time = 54563561
-				}}></Button>
-			</View>
 			{(() => {
-				if (local.source) {
+				if (states.file_names) {
 					return <Pdf
 						scale={2}
 						minScale={1.0}
 						maxScale={5.0}
 						horizontal={false}
-						source={{ uri: local.source }}
+						source={{ uri: states.file_names }}
 						onLoadComplete={(numberOfPages, filePath) => {
 							// 加载完成回调
 							// Alert.alert(`number of pages: ${numberOfPages}`);
@@ -48,11 +58,18 @@ export default () => {
 							// Alert.alert(`current page: ${page}`);
 						}}
 						onError={(error) => {
-							// Alert.alert(`Error: ${error}`);
+							set_states({
+								...states,
+								file_names: '',
+								state_esop: 1
+							})
 						}}
 						style={styles.pdf} />
 				} else {
-					return <Text>没有数据</Text>
+					return <View style={{ flexDirection: 'column', flex: 1, alignItems: 'center', marginTop: '20%', backgroundColor: '#fff' }}>
+						<Fdicon name='wushuju' size={60} color='#999'></Fdicon>
+						<Text style={{ fontSize: 18, textAlign: 'center', color: '#999' }}>{states.state_esop === 0 ? '暂无数据' : '文件地址无效'}~</Text>
+					</View>
 				}
 			})()}
 

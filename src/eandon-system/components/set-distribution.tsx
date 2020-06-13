@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Alert, Modal, Picker, StyleSheet, Text, TouchableHighlight, TouchableOpacity, View } from "react-native";
 import Fdicon from '../../atom/icon';
-import { get, set } from '../../atom/storage'
+import { get } from '../../atom/storage'
 import { equipmentlist } from '../../home/api';
 import { IEquipmentList } from '../../home/interface'
 interface IProp {

@@ -1,76 +1,60 @@
 import { IJavaRes } from '../atom/interface'
 
-/**
- * 安灯管理左侧列表
- */
-export interface IUserboard {
-	/**
-	 * 设备编号
-	 */
-	mes_alarm_no: string;
-	/**
-	 * 设备名称
-	 */
-	mes_alarm_name: string;
-}
+export interface Iuseresoplis {
 
-export interface IUserboardRes extends IJavaRes {
-	data: IUserboard[]
-}
-
-/**
- * 安灯管理右侧列表
- */
-export interface IUserboardRight {
 	/**
-	 * 报警代码
+	 * ESOP代码
 	 */
-	mes_alarm_no: string;
+	esop_code: string;
 	/**
-	 * 报警名称
+	 * ESOP名称
 	 */
-	mes_alarm_name: string;
+	esop_name: string;
 	/**
-	 * 报警代码库表主键
+	 * 文件名称
 	 */
-	mes_alarm_mesid: string;
+	file_name: string;
 	/**
-	 * 业务状态
+	 * 文件版本
 	 */
-	business_status: number;
-	/**
-	 * 报警时长
-	 */
-	alarm_duration: string;
+	file_version: string;
 	/**
 	 * 生效时间
 	 */
 	effective_time: number;
 	/**
-	 * 生效人
+	 * 回收时间
 	 */
-	effective_staff: string;
+	recovery_time: number;
 	/**
-	 * 解除时间
+	 * 回收人
 	 */
-	release_time: string;
+	recovery_staff: string;
 	/**
-	 * 解除人
+	 * 业务状态
 	 */
-	release_staff: string;
+	business_status: number;
 	/**
-	 * 报警代码库mes_id
+	 * 有效状态
+	 */
+	mes_valid_status: number;
+	/**
+	 * 审核状态
+	 */
+	mes_audit_status: number;
+	/**
+	 * 创建时间
+	 */
+	mes_create_date: number;
+	/**
+	 * 唯一mes_id
 	 */
 	mes_id: string;
-	/**
-	* 图片地址
-   */
-	mes_alarm_picture: string;
+
 }
 
-export interface IUserboardRightRes extends IJavaRes {
-	data: {
-		list: IUserboardRight[],
-		totalCount: number
-	}
+export interface IuseresoplistRes extends IJavaRes {
+	data: Iuseresoplis
 }
+
+
