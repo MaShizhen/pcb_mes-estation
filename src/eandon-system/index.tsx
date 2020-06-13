@@ -1,7 +1,6 @@
 import { useFocusEffect } from '@react-navigation/native'
 import React, { useEffect, useState } from 'react';
-import { Image, Modal, Picker, ScrollView, Text, TouchableOpacity, View } from 'react-native';
-import Fdicon from '../../atom/icon';
+import { Image, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { get_file } from '../atom/config'
 import Fdicon from '../atom/icon';
 import { get } from '../atom/storage'
@@ -32,7 +31,6 @@ export default (prop: IProp) => {
 			const mes_id = await get<string>('mes_id')
 			const userboard_res = await userboard(mes_id)
 			const userboardright_res = await userboardright('mes_id', 'mes_ids')
-			console.log('userboard_res', userboard_res, 'userboardright_res', userboardright_res)
 			set_states({
 				...states,
 				userboard: userboard_res.data,
@@ -52,7 +50,7 @@ export default (prop: IProp) => {
 
 	return (
 		<ScrollView>
-			<View style={{ flexDirection: 'row', flex: 1, backgroundColor: '#fff', minHeight: 200, paddingTop: 20 }}>
+			<View style={{ flexDirection: 'row', flex: 1, backgroundColor: '#fff', paddingTop: 20 }}>
 				<View style={{ flex: 0.25, borderRightWidth: 0.5, borderColor: '#e2e1de' }}>
 					<View style={{
 						height: 45, backgroundColor: '#fff', marginBottom: 20
@@ -70,6 +68,11 @@ export default (prop: IProp) => {
 									</TouchableOpacity>
 								)
 							})
+						} else {
+							return <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center', flex: 1 }}>
+								<Fdicon name='wushuju' size={60} color='#999'></Fdicon>
+								<Text style={{ fontSize: 18, textAlign: 'center', color: '#999' }}>暂无数据~</Text>
+							</View>
 						}
 					})()}
 				</View>
@@ -87,9 +90,9 @@ export default (prop: IProp) => {
 									)
 								})
 							} else {
-								return <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-									<Fdicon name='guanbi' size={20} color='#333'></Fdicon>
-									<Text style={{ fontSize: 18, textAlign: 'center' }}>暂无数据~</Text>
+								return <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center', flex: 1 }}>
+									<Fdicon name='wushuju' size={60} color='#999'></Fdicon>
+									<Text style={{ fontSize: 18, textAlign: 'center', color: '#999' }}>暂无数据~</Text>
 								</View>
 							}
 						})()}

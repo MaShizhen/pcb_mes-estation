@@ -109,21 +109,28 @@ export default (prop: IProp) => {
 
 	return (
 
-		<View style={{ padding: 16, paddingTop: 30, backgroundColor: '#fff' }}>
+		<View style={{ padding: 16, paddingTop: 30, backgroundColor: '#fff', flex: 1 }}>
 			<Table>
 				<Row data={tableHead} style={styles.head} textStyle={styles.text} />
 				<ScrollView style={{ marginBottom: '6.2%' }}>
-					{
-						states.collectioninfo.map((rowData, index) => (
-							<TableWrapper key={index} style={styles.row}>
-								{
-									rowData.map((cellData: string, cellIndex) => (
-										<Cell key={cellIndex} data={(cellIndex === 6 || cellIndex === 7) ? element(index, cellIndex, cellData) : cellData} textStyle={styles.text} />
-									))
-								}
-							</TableWrapper>
-						))
-					}
+					{(() => {
+						if (states.collectioninfo.length > 0) {
+							return states.collectioninfo.map((rowData, index) => (
+								<TableWrapper key={index} style={styles.row}>
+									{
+										rowData.map((cellData: string, cellIndex) => (
+											<Cell key={cellIndex} data={(cellIndex === 6 || cellIndex === 7) ? element(index, cellIndex, cellData) : cellData} textStyle={styles.text} />
+										))
+									}
+								</TableWrapper>
+							))
+						} else {
+							return <View style={{ flexDirection: 'column', flex: 1, alignItems: 'center', marginTop: '20%' }}>
+								<Fdicon name='wushuju' size={60} color='#999'></Fdicon>
+								<Text style={{ fontSize: 18, textAlign: 'center', color: '#999' }}>暂无数据~</Text>
+							</View>
+						}
+					})()}
 				</ScrollView>
 			</Table>
 			<SetDistribution visible={states.visible} row={{

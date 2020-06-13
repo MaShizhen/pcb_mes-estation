@@ -23,13 +23,9 @@ interface IProp {
 
 export default (prop: IProp) => {
 	const [value, onChangeText] = useState('');
-
-
 	useFocusEffect(() => {
 		onChangeText('')
 	})
-
-
 	function issue() {
 		if (!value) {
 			toast('请输入修改值', 1000, 'top', '#ffffff', 'rgba(0,0,0,0.4)');

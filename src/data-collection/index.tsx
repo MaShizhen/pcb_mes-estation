@@ -3,8 +3,10 @@ import { useNavigation } from '@react-navigation/native';
 import { useFocusEffect } from '@react-navigation/native';
 import { Container } from 'native-base';
 import React, { useEffect, useState } from 'react';
-import { Image, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { format } from '../atom/dt';
+import Fdicon from '../atom/icon';
+import { get } from '../atom/storage'
 import { collectionlist } from './api';
 
 export default () => {
@@ -19,7 +21,9 @@ export default () => {
 	// 初始化查询报警代码列表
 	useEffect(() => {
 		(async () => {
-			const collectionlist_res = await collectionlist('74c08b13-aa1e-48fh-a9bc-60257665afa7', '')
+			const mes_id = await get<string>('mes_id')
+			const collectionlist_res = await collectionlist('mes_id', '')
+			console.log('collectionlist_res', collectionlist_res)
 			set_states({
 				...states,
 				collectionlist: collectionlist_res.data.list.map((item) => {
@@ -67,19 +71,26 @@ export default () => {
 				<Table >
 					<Row data={tableHead} style={styles.head} textStyle={styles.text} />
 					<ScrollView style={{ marginBottom: '2.8%' }}>
-						{
-							states.collectionlist.map((rowData, index) => (
-								<TouchableOpacity key={index} onPress={() => _alertIndex(index)} style={{ borderBottomWidth: 1, borderColor: '#c8e1ff' }}>
-									<TableWrapper style={styles.row}>
-										{
-											rowData.arr.map((cellData, cellIndex) => (
-												<Cell key={cellIndex} data={cellIndex === 2 ? element(cellData, index) : cellData} textStyle={styles.text} />
-											))
-										}
-									</TableWrapper>
-								</TouchableOpacity>
-							))
-						}
+						{(() => {
+							if (states.collectionlist.length > 0) {
+								return states.collectionlist.map((rowData, index) => {
+									return <TouchableOpacity key={index} onPress={() => _alertIndex(index)} style={{ borderBottomWidth: 1, borderColor: '#c8e1ff' }}>
+										<TableWrapper style={styles.row}>
+											{
+												rowData.arr.map((cellData, cellIndex) => {
+													return <Cell key={cellIndex} data={cellIndex === 2 ? element(cellData, index) : cellData} textStyle={styles.text} />
+												})
+											}
+										</TableWrapper>
+									</TouchableOpacity>
+								})
+							} else {
+								return <View style={{ flexDirection: 'column', flex: 1, alignItems: 'center', marginTop: '20%' }}>
+									<Fdicon name='wushuju' size={60} color='#999'></Fdicon>
+									<Text style={{ fontSize: 18, textAlign: 'center', color: '#999' }}>暂无数据~</Text>
+								</View>
+							}
+						})()}
 					</ScrollView>
 				</Table>
 			</View>
