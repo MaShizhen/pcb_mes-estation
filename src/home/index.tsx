@@ -1,13 +1,14 @@
 // import { Picker } from '@react-native-community/picker'
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import React, { useEffect, useState } from 'react';
-import { Dimensions, Image, Picker, SectionList, Text, TouchableOpacity, View } from 'react-native'
+import React, { useCallback, useEffect, useState } from 'react';
+import { Image, Picker, SectionList, Text, TouchableOpacity, View } from 'react-native'
 import { Col, Grid, Row } from 'react-native-easy-grid';
 import { mqtt } from '../atom/config'
 import Icon from '../atom/icon'
 import Fdicon from '../atom/icon';
 import { config } from '../atom/mqtt'
+import { ticket_login } from '../atom/server'
 import { get, set } from '../atom/storage'
 import { equipmentlist } from './api';
 import LoginOut from './components/login-out';
@@ -66,6 +67,25 @@ export default (prop: IProp) => {
 
 	}, []);
 
+	/**
+	 * home显示时，开启定时更新登录日志服务
+	 */
+	useFocusEffect(
+		useCallback(() => {
+			const inv = setInterval(async () => {
+				const is_online = await ticket_login()
+				if (!(is_online && is_online.code)) {
+					navigation.navigate('login')
+				}
+			}, 1000 * 60 * 5)
+			/**
+			 * home页面返回时，清除定时器
+			 */
+			return () => {
+				clearInterval(inv)
+			}
+		}, [])
+	)
 
 	function alertClick() {
 		set_states({
