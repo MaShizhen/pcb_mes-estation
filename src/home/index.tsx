@@ -128,20 +128,72 @@ export default (prop: IProp) => {
 		}
 	]
 	return (
-		<View style={{ flex: 1, flexDirection: 'row' }}>
-			<View style={{ flex: 0.1, backgroundColor: '#448AFF', alignItems: 'center' }}>
+		<View >
+			<View style={{}}>
+				<Image style={{
+					height: 80
+					, width: '100%', justifyContent: 'center'
+				}} source={require('../../imgs/title_img.png')}></Image>
+				<TouchableOpacity style={{ height: 80, position: 'absolute', right: 20, top: 10 }} onPress={() => alertClick()}>
+					{/* 头像 */}
+					<View style={{ alignItems: 'center' }}>
+						<Image source={require('../../imgs/science5.png')} style={{ width: 60, height: 60, borderRadius: 30 }} />
+					</View>
+				</TouchableOpacity>
+				<View style={{ flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap', position: 'absolute', top: 20, left: 0 }}>
+					<View style={{ flexDirection: 'row', alignItems: 'center' }}>
+						<Text style={{ height: 35, lineHeight: 35, textAlign: 'right', width: 150, color: '#fff', fontSize: 18 }}>终端代码名称:</Text>
+						<Text style={{ height: 35, lineHeight: 35, color: '#fff', fontSize: 18 }}>测试终端代码名称</Text>
+					</View>
+					<View style={{ flexDirection: 'row', alignItems: 'center' }}>
+						<Text style={{ height: 35, lineHeight: 35, textAlign: 'right', width: 150, color: '#fff', fontSize: 18 }}>工序代码名称:</Text>
+						<Text style={{ height: 35, lineHeight: 35, color: '#fff', fontSize: 18 }}>{states.mes_process_name}</Text>
+					</View>
+					<View style={{ flexDirection: 'row', alignItems: 'center' }}>
+						<Text style={{ height: 35, lineHeight: 35, textAlign: 'right', width: 150, color: '#fff', fontSize: 18 }}>员工编号:</Text>
+						<Text style={{ height: 35, lineHeight: 35, color: '#fff', fontSize: 18 }}>{states.mes_staff_code}</Text>
+					</View>
+					<View style={{ flexDirection: 'row', alignItems: 'center' }}>
+						<Text style={{ height: 35, lineHeight: 35, textAlign: 'right', width: 150, color: '#fff', fontSize: 18 }}>员工名称:</Text>
+						<Text style={{ height: 35, lineHeight: 35, color: '#fff', fontSize: 18 }}>{states.mes_staff_name}</Text>
+					</View>
+					<View style={{ flexDirection: 'row', alignItems: 'center' }}>
+						<Text style={{ height: 35, lineHeight: 35, textAlign: 'right', width: 150, color: '#fff', fontSize: 18 }}>所属设备:</Text>
+						<Picker
+							style={{ height: 35, width: 190 }} >
+							{
+								states.equipmentlist.map((item, index) => {
+									return <Picker.Item label={item.mes_device_name} key={index} value={item.mes_device_code} />
+								})
+							}
+						</Picker>
+					</View>
+					<View style={{ flexDirection: 'row', alignItems: 'center' }}>
+						<Text style={{ height: 35, lineHeight: 35, textAlign: 'right', width: 150, color: '#fff', fontSize: 18 }}><Fdicon name='xiaoxi1' size={18} color='red'></Fdicon>消息:</Text>
+						<Text style={{ height: 35, lineHeight: 35, color: '#fff', fontSize: 18 }}>测试终端代码名称</Text>
+					</View>
+				</View>
+				<Stack.Navigator initialRouteName='esop_system' screenOptions={{
+					animationEnabled: true
+				}}>
+					<Stack.Screen name='esop_system' component={esop_system} />
+					<Stack.Screen name='eandon_system' component={eandon_system} />
+					<Stack.Screen name='data_collection' component={data_collection} options={{
+						title: '数据采录'
+					}} />
+					<Stack.Screen name='quality_management' component={quality_management} />
+					<Stack.Screen name='dashboard_system' component={dashboard_system} />
+					<Stack.Screen name='reporting_system' component={reporting_system} />
+					<Stack.Screen name='view_params' component={view_params} options={{
+						title: '查看参数'
+					}} />
+				</Stack.Navigator>
+			</View>
+			<View style={{ backgroundColor: '#448AFF', alignItems: 'center', width: '7%', height: '100%' }}>
 				<SectionList
 					keyExtractor={(item) => {
 						return item.path
 					}}
-					renderSectionHeader={({ section: { title } }) => (
-						<TouchableOpacity style={{ height: 80, alignItems: 'center', justifyContent: 'flex-end' }} onPress={() => alertClick()}>
-							{/* 头像 */}
-							<View style={{ alignItems: 'center' }}>
-								<Image source={require('../../imgs/science5.png')} style={{ width: 60, height: 60, borderRadius: 30 }} />
-							</View>
-						</TouchableOpacity>
-					)}
 					renderItem={({ item, index }) => {
 						return (
 							<TouchableOpacity style={{ width: 120, paddingTop: 20, paddingBottom: 20 }} onPress={
@@ -168,56 +220,7 @@ export default (prop: IProp) => {
 					sections={menus}
 				/>
 			</View>
-			<View style={{ flex: 0.9, backgroundColor: 'red' }}>
-				<View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: '#fff', flexWrap: 'wrap' }}>
-					<View style={{ flexDirection: 'row', alignItems: 'center' }}>
-						<Text style={{ height: 35, lineHeight: 35, textAlign: 'right', width: 100 }}>终端代码名称:</Text>
-						<Text style={{ height: 35, lineHeight: 35 }}>测试终端代码名称</Text>
-					</View>
-					<View style={{ flexDirection: 'row', alignItems: 'center' }}>
-						<Text style={{ height: 35, lineHeight: 35, textAlign: 'right', width: 100 }}>工序代码名称:</Text>
-						<Text style={{ height: 35, lineHeight: 35 }}>{states.mes_process_name}</Text>
-					</View>
-					<View style={{ flexDirection: 'row', alignItems: 'center' }}>
-						<Text style={{ height: 35, lineHeight: 35, textAlign: 'right', width: 100 }}>员工编号:</Text>
-						<Text style={{ height: 35, lineHeight: 35 }}>{states.mes_staff_code}</Text>
-					</View>
-					<View style={{ flexDirection: 'row', alignItems: 'center' }}>
-						<Text style={{ height: 35, lineHeight: 35, textAlign: 'right', width: 100 }}>员工名称:</Text>
-						<Text style={{ height: 35, lineHeight: 35 }}>{states.mes_staff_name}</Text>
-					</View>
-					<View style={{ flexDirection: 'row', alignItems: 'center' }}>
-						<Text style={{ height: 35, lineHeight: 35, textAlign: 'right', width: 100 }}>所属设备:</Text>
-						<Picker
-							style={{ height: 35, width: 190 }} >
-							{
-								states.equipmentlist.map((item, index) => {
-									return <Picker.Item label={item.mes_device_name} key={index} value={item.mes_device_code} />
-								})
-							}
-						</Picker>
-					</View>
-					<View style={{ flexDirection: 'row', alignItems: 'center' }}>
-						<Text style={{ height: 35, lineHeight: 35, textAlign: 'right', width: 100 }}><Fdicon name='xiaoxi1' size={18} color='red'></Fdicon>消息:</Text>
-						<Text style={{ height: 35, lineHeight: 35 }}>测试终端代码名称</Text>
-					</View>
-				</View>
-				<Stack.Navigator initialRouteName='esop_system' screenOptions={{
-					animationEnabled: true
-				}}>
-					<Stack.Screen name='esop_system' component={esop_system} />
-					<Stack.Screen name='eandon_system' component={eandon_system} />
-					<Stack.Screen name='data_collection' component={data_collection} options={{
-						title: '数据采录'
-					}} />
-					<Stack.Screen name='quality_management' component={quality_management} />
-					<Stack.Screen name='dashboard_system' component={dashboard_system} />
-					<Stack.Screen name='reporting_system' component={reporting_system} />
-					<Stack.Screen name='view_params' component={view_params} options={{
-						title: '查看参数'
-					}} />
-				</Stack.Navigator>
-			</View>
+
 			<SetDistribution visible={states.visible} toHide={() => {
 				set_states({
 					...states,

@@ -14,7 +14,9 @@ export default () => {
 		mes_staff_name: '',
 		mes_staff_code: '',
 		file_names: '',
-		state_esop: 0
+		state_esop: 0,
+		recovery_time: 0,
+		mes_valid_status: 0
 	})
 
 	useEffect(() => {
@@ -29,7 +31,8 @@ export default () => {
 			set_states({
 				...states,
 				useresoplist: useresoplist_res.data,
-				file_names: get_file + useresoplist_res.data.file_name
+				file_names: get_file + useresoplist_res.data.file_name,
+				recovery_time: useresoplist_res.data.recovery_time
 			})
 			// local.source = 'http://192.168.1.238/soft/node.pdf'
 			// const end_time = new Date().getTime() + 2000
@@ -37,8 +40,9 @@ export default () => {
 		})()
 
 	}, []);
-	const aaa = ''
-
+	// const myDate = new Date();
+	// if (states.recovery_time - myDate < 3) {
+	// }
 	return (
 		<View>
 			{(() => {
@@ -72,7 +76,6 @@ export default () => {
 					</View>
 				}
 			})()}
-
 		</View>
 	);
 }
