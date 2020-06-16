@@ -28,7 +28,7 @@ export default (prop: IProp) => {
 	})
 	function issue() {
 		if (!value) {
-			toast('请输入修改值', 1000, 'top', '#ffffff', 'rgba(0,0,0,0.4)');
+			toast('warning', '请输入修改值');
 		} else {
 			const arr = prop.row.arr[7]
 			const mes_devicesub_deviceid = arr[0] as string
@@ -36,7 +36,7 @@ export default (prop: IProp) => {
 			const request = uuid();
 
 			listen(mqtt, '/push/' + request).then((res: IMqttRespose) => {
-				toast('下发成功', 1000, 'top', '#ffffff', 'rgba(0,0,0,0.4)');
+				toast('success', '下发成功');
 				prop.toHide(prop.row.select_index, res.msg.datavalue[0].writevalue)
 			})
 

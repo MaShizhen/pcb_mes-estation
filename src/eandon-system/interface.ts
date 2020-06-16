@@ -5,6 +5,10 @@ import { IJavaRes } from '../atom/interface'
  */
 export interface IUserboard {
 	/**
+	 * 设备mes id
+	 */
+	mes_id: string;
+	/**
 	 * 设备编号
 	 */
 	mes_alarm_no: string;
@@ -63,8 +67,8 @@ export interface IUserboardRight {
 	 */
 	mes_id: string;
 	/**
-	* 图片地址
-   */
+	 * 图片地址
+	 */
 	mes_alarm_picture: string;
 }
 
@@ -72,5 +76,46 @@ export interface IUserboardRightRes extends IJavaRes {
 	data: {
 		list: IUserboardRight[],
 		totalCount: number
+	}
+}
+
+
+export interface IBoardadd {
+	/**
+	 * 报警代码库表主键
+	 */
+	mes_alarm_mesid: string;
+	/**
+	 * 工序管理表主键
+	 */
+	mes_process_mesid: string;
+	/**
+	 * 设备管理表主键
+	 */
+	mes_device_mesid: string;
+	/**
+	 * 生效人
+	 */
+	effective_staff: string;
+	/**
+	 * 创建人id
+	 */
+	mes_create_staffid: string;
+	/**
+	 * 创建人
+	 */
+	mes_create_staff: string;
+}
+
+export interface IboardaddRes extends IJavaRes {
+	data: {
+		/**
+		 * 参数_id
+		 */
+		_id: string;
+		/**
+		 * 参数mes_id
+		 */
+		mes_id: string;
 	}
 }

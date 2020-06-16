@@ -20,19 +20,17 @@ export default () => {
 	async function tologin() {
 		try {
 			const res = await login(states.account, states.pwd)
-			set('sessionid', res.sessionID)
-			set('usercode', res.usercode)
-			set('ticket', res.remember_me_ticket)
+			await set('sessionid', res.sessionID)
+			await set('usercode', res.usercode)
+			await set('ticket', res.remember_me_ticket)
 			const userinfo = await getuserroleinfo(res.usercode)
-			set('mes_staff_code', userinfo.user.pub_user_connect[0].pk_val)
-			set('mes_staff_name', userinfo.user.pub_user_connect[0].search_field_val)
+			await set('mes_staff_code', userinfo.user.pub_user_connect[0].pk_val)
+			await set('mes_staff_name', userinfo.user.pub_user_connect[0].search_field_val)
 			nvigation.navigate('home')
 
 		} catch (error) {
-			toast(error.message, 1000
-				, 'top', '#fff', 'rgba(0,0,0,0.4)');
+			toast('error', error.message);
 		}
-		3
 	}
 
 	return (
