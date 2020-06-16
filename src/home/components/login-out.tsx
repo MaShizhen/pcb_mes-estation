@@ -1,7 +1,8 @@
 import { useNavigation } from '@react-navigation/native'
-import React, { useState } from 'react';
+import React from 'react';
 import { Alert, Modal, Text, TouchableHighlight, TouchableOpacity, View } from "react-native";
 import Fdicon from '../../atom/icon';
+import { logout } from '../../atom/server';
 
 interface IProp {
 	visible: boolean;
@@ -10,9 +11,9 @@ interface IProp {
 
 export default (prop: IProp) => {
 	const nvigation = useNavigation();
-	const [value, onChangeText] = useState('');
 
 	async function toExit() {
+		logout()
 		nvigation.navigate('login')
 		prop.toHide()
 	}
