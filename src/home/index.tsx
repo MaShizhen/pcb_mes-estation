@@ -123,10 +123,10 @@ export default (prop: IProp) => {
 		}
 	]
 	return (
-		<Grid style={{ backgroundColor: '#eee' }}>
-			<Row size={12}>
+		<Grid>
+			<Row size={8}>
 				<Image style={{
-					height: 80
+					height: '100%'
 					, width: '100%', justifyContent: 'center'
 				}} source={require('../../imgs/title_img.png')}></Image>
 				<TouchableOpacity style={{ height: 80, position: 'absolute', right: 20, top: 10 }} onPress={() => alertClick()}>
@@ -136,6 +136,7 @@ export default (prop: IProp) => {
 					</View>
 				</TouchableOpacity>
 				<View style={{ flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap', position: 'absolute', top: 20, left: 0 }}>
+					<Image style={{ height: 40, width: 250, justifyContent: 'center' }} source={require('../../imgs/logo.png')}></Image>
 					<View style={{ flexDirection: 'row', alignItems: 'center' }}>
 						<Text style={{ height: 35, lineHeight: 35, textAlign: 'right', width: 150, color: '#fff', fontSize: 18 }}>终端代码名称:</Text>
 						<Text style={{ height: 35, lineHeight: 35, color: '#fff', fontSize: 18 }}>测试终端代码名称</Text>
@@ -169,15 +170,15 @@ export default (prop: IProp) => {
 					</View>
 				</View>
 			</Row>
-			<Row size={88}>
-				<Col size={1} style={{ backgroundColor: '#448AFF', alignItems: 'center', shadowColor: '#ccc' }}>
+			<Row size={92}>
+				<Col size={1} style={{ backgroundColor: 'black', alignItems: 'center', shadowColor: '#ccc' }}>
 					<SectionList
 						keyExtractor={(item) => {
 							return item.path
 						}}
 						renderItem={({ item, index }) => {
 							return (
-								<TouchableOpacity style={{ alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgb(50, 131, 252)', height: 140, width: 170, marginTop: 10, borderRadius: 20 }} onPress={
+								<TouchableOpacity style={{ alignItems: 'center', justifyContent: 'center', backgroundColor: '#448AFF', height: 140, width: 170, marginTop: 10, borderRadius: 20 }} onPress={
 									() => {
 										set_states({
 											...states,
