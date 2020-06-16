@@ -2,7 +2,8 @@
 import { useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import React, { useEffect, useState } from 'react';
-import { Image, Picker, SectionList, Text, TouchableOpacity, View } from 'react-native'
+import { Dimensions, Image, Picker, SectionList, Text, TouchableOpacity, View } from 'react-native'
+import { Col, Grid, Row } from 'react-native-easy-grid';
 import { mqtt } from '../atom/config'
 import Icon from '../atom/icon'
 import Fdicon from '../atom/icon';
@@ -79,7 +80,6 @@ export default (prop: IProp) => {
 			data: [{
 				name: 'ESOP',
 				path: 'esop_system',
-				backgroundColor: '#fff',
 				color: '#fff',
 				icon: 'propertysafety',
 				icon_focused: 'property-safety',
@@ -87,7 +87,6 @@ export default (prop: IProp) => {
 			}, {
 				name: '安灯系统',
 				path: 'eandon_system',
-				backgroundColor: '#fff',
 				color: '#fff',
 				icon: 'dengpao',
 				icon_focused: 'dengpao1',
@@ -95,7 +94,6 @@ export default (prop: IProp) => {
 			}, {
 				name: '数据采录',
 				path: 'data_collection',
-				backgroundColor: '#fff',
 				color: '#fff',
 				icon: 'wenbenbianji',
 				icon_focused: 'wenbenbianjitianchong',
@@ -103,7 +101,6 @@ export default (prop: IProp) => {
 			}, {
 				name: '品质管理',
 				path: 'quality_management',
-				backgroundColor: '#fff',
 				color: '#fff',
 				icon: 'pinzhi',
 				icon_focused: 'yiliaozhiliangfenxi',
@@ -111,7 +108,6 @@ export default (prop: IProp) => {
 			}, {
 				name: '看板系统',
 				path: 'dashboard_system',
-				backgroundColor: '#fff',
 				color: '#fff',
 				icon: 'jiankongmianban',
 				icon_focused: 'jiankongmianban-mianxing',
@@ -119,7 +115,6 @@ export default (prop: IProp) => {
 			}, {
 				name: '报表系统',
 				path: 'reporting_system',
-				backgroundColor: '#fff',
 				color: '#fff',
 				icon: 'tubiao',
 				icon_focused: 'tubiao1',
@@ -128,8 +123,8 @@ export default (prop: IProp) => {
 		}
 	]
 	return (
-		<View >
-			<View style={{}}>
+		<Grid style={{ backgroundColor: '#eee' }}>
+			<Row size={12}>
 				<Image style={{
 					height: 80
 					, width: '100%', justifyContent: 'center'
@@ -173,53 +168,57 @@ export default (prop: IProp) => {
 						<Text style={{ height: 35, lineHeight: 35, color: '#fff', fontSize: 18 }}>测试终端代码名称</Text>
 					</View>
 				</View>
-				<Stack.Navigator initialRouteName='esop_system' screenOptions={{
-					animationEnabled: true
-				}}>
-					<Stack.Screen name='esop_system' component={esop_system} />
-					<Stack.Screen name='eandon_system' component={eandon_system} />
-					<Stack.Screen name='data_collection' component={data_collection} options={{
-						title: '数据采录'
-					}} />
-					<Stack.Screen name='quality_management' component={quality_management} />
-					<Stack.Screen name='dashboard_system' component={dashboard_system} />
-					<Stack.Screen name='reporting_system' component={reporting_system} />
-					<Stack.Screen name='view_params' component={view_params} options={{
-						title: '查看参数'
-					}} />
-				</Stack.Navigator>
-			</View>
-			<View style={{ backgroundColor: '#448AFF', alignItems: 'center', width: '7%', height: '100%' }}>
-				<SectionList
-					keyExtractor={(item) => {
-						return item.path
-					}}
-					renderItem={({ item, index }) => {
-						return (
-							<TouchableOpacity style={{ width: 120, paddingTop: 20, paddingBottom: 20 }} onPress={
-								() => {
-									set_states({
-										...states,
-										focused_index: index
-									})
-									navigation.navigate(item.path)
-								}}>
-								<View style={{ alignItems: 'center', justifyContent: 'center' }}>
-									<Icon style={{ alignContent: 'center' }} name={(() => {
-										if (index === states.focused_index) {
-											return item.icon_focused
-										} else {
-											return item.icon
-										}
-									})()} size={35} color={item.color}></Icon>
-									<Text style={{ marginTop: 5, fontSize: 12, color: item.color }}>{item.name}</Text>
-								</View>
-							</TouchableOpacity>
-						);
-					}}
-					sections={menus}
-				/>
-			</View>
+			</Row>
+			<Row size={88}>
+				<Col size={1} style={{ backgroundColor: '#448AFF', alignItems: 'center', shadowColor: '#ccc' }}>
+					<SectionList
+						keyExtractor={(item) => {
+							return item.path
+						}}
+						renderItem={({ item, index }) => {
+							return (
+								<TouchableOpacity style={{ alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgb(50, 131, 252)', height: 140, width: 170, marginTop: 10, borderRadius: 20 }} onPress={
+									() => {
+										set_states({
+											...states,
+											focused_index: index
+										})
+										navigation.navigate(item.path)
+									}}>
+									<View style={{ alignItems: 'center', justifyContent: 'center' }}>
+										<Icon style={{ alignContent: 'center' }} name={(() => {
+											if (index === states.focused_index) {
+												return item.icon_focused
+											} else {
+												return item.icon
+											}
+										})()} size={35} color={item.color}></Icon>
+										<Text style={{ marginTop: 15, fontSize: 20, color: item.color, fontWeight: 'bold' }}>{item.name}</Text>
+									</View>
+								</TouchableOpacity>
+							);
+						}}
+						sections={menus}
+					/>
+				</Col>
+				<Col size={9}>
+					<Stack.Navigator initialRouteName='esop_system' screenOptions={{
+						animationEnabled: true
+					}}>
+						<Stack.Screen name='esop_system' component={esop_system} />
+						<Stack.Screen name='eandon_system' component={eandon_system} />
+						<Stack.Screen name='data_collection' component={data_collection} options={{
+							title: '数据采录'
+						}} />
+						<Stack.Screen name='quality_management' component={quality_management} />
+						<Stack.Screen name='dashboard_system' component={dashboard_system} />
+						<Stack.Screen name='reporting_system' component={reporting_system} />
+						<Stack.Screen name='view_params' component={view_params} options={{
+							title: '查看参数'
+						}} />
+					</Stack.Navigator>
+				</Col>
+			</Row>
 
 			<SetDistribution visible={states.visible} toHide={() => {
 				set_states({
@@ -227,6 +226,6 @@ export default (prop: IProp) => {
 					visible: false
 				})
 			}} />
-		</View >
+		</Grid>
 	);
 }

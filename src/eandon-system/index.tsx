@@ -184,7 +184,7 @@ export default (prop: IProp) => {
 			})} toCencel={() => set_message_box({ index: 0, args: null })}>
 				<View style={{ flexDirection: 'row', alignItems: "center", justifyContent: 'center' }}>
 					<Text style={{ fontSize: 16, color: '#333333', textAlign: 'center', lineHeight: 150 }}>可用设备代码：</Text>
-					<Picker selectedValue={equipment_list[selectedValue].mes_id} onValueChange={(_, itemIndex) => setSelectedValue(itemIndex)} style={{ height: 35, width: 250 }} >
+					<Picker selectedValue={equipment_list.length > 0 ? equipment_list[selectedValue].mes_id : ''} onValueChange={(_, itemIndex) => setSelectedValue(itemIndex)} style={{ height: 35, width: 250 }} >
 						{
 							equipment_list.map((item, index) => {
 								return <Picker.Item label={item.mes_device_name} key={index} value={item.mes_id} />
