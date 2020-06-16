@@ -198,7 +198,7 @@ export default (prop: IProp) => {
 						}}
 						renderItem={({ item, index }) => {
 							return (
-								<TouchableOpacity style={{ alignItems: 'center', justifyContent: 'center', backgroundColor: '#448AFF', height: 140, width: 170, marginTop: 10, borderRadius: 20 }} onPress={
+								<TouchableOpacity style={{ alignItems: 'center', justifyContent: 'center', backgroundColor: index === states.focused_index ? '#448AFF' : '#fff', height: 140, width: 170, marginTop: 10, borderRadius: 20 }} onPress={
 									() => {
 										set_states({
 											...states,
@@ -207,13 +207,7 @@ export default (prop: IProp) => {
 										navigation.navigate(item.path)
 									}}>
 									<View style={{ alignItems: 'center', justifyContent: 'center' }}>
-										<Icon style={{ alignContent: 'center' }} name={(() => {
-											if (index === states.focused_index) {
-												return item.icon_focused
-											} else {
-												return item.icon
-											}
-										})()} size={35} color={item.color}></Icon>
+										<Icon style={{ alignContent: 'center' }} name={item.icon} size={35} color={item.color}></Icon>
 										<Text style={{ marginTop: 15, fontSize: 20, color: item.color, fontWeight: 'bold' }}>{item.name}</Text>
 									</View>
 								</TouchableOpacity>
