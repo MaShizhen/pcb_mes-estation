@@ -10,7 +10,7 @@ import Fdicon from '../atom/icon';
 import { config } from '../atom/mqtt'
 import { get, set } from '../atom/storage'
 import { equipmentlist } from './api';
-import SetDistribution from './components/set-distribution';
+import LoginOut from './components/login-out';
 
 // 引入页面
 import dashboard_system from '../dashboard-system'
@@ -220,7 +220,7 @@ export default (prop: IProp) => {
 				</Col>
 			</Row>
 
-			<SetDistribution visible={states.visible} toHide={() => {
+			<LoginOut visible={states.visible} toHide={() => {
 				set_states({
 					...states,
 					visible: false

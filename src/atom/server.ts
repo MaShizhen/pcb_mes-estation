@@ -44,3 +44,10 @@ export async function ticket_login() {
 		productid
 	}))
 }
+
+/**
+ * logout退出登录
+ */
+export async function logout() {
+	return request<{ code: 1 | 0 }>(`/logout`, '')
+}
