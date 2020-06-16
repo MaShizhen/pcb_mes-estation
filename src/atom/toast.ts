@@ -14,22 +14,33 @@ import { WToast } from 'react-native-smart-tip';
  * am031('sucess', 1000, 'center', '#ffffff', '#444444');
  * ```
  */
-export default function toast_base(message: string, duration: number, position: 'top' | 'center' | 'bottom', text_color: string, background_color: string) {
-	const _opsition = (() => {
-		if (position === 'top') {
-			return WToast.position.TOP;
-		} else if (position === 'center') {
-			return WToast.position.CENTER;
+export default function toast(type: 'success' | 'warning' | 'info' | 'error', message: string) {
+	// const _opsition = (() => {
+	// 	if (position === 'top') {
+	// 		return WToast.position.TOP;
+	// 	} else if (position === 'center') {
+	// 		return WToast.position.CENTER;
+	// 	} else {
+	// 		return WToast.position.BOTTOM;
+	// 	}
+	// })();
+	const style = (() => {
+		if (type === 'success') {
+			return '#67C23A'
+		} else if (type === 'warning') {
+			return '#E6A23C'
+		} else if (type === 'info') {
+			return '#909399'
 		} else {
-			return WToast.position.BOTTOM;
+			return '#F56C6C'
 		}
-	})();
+	})()
 	const options = {
-		backgroundColor: background_color,
+		backgroundColor: '#fff',
 		data: message,
-		duration,
-		position: _opsition,
-		textColor: text_color
+		duration: 1000,
+		position: WToast.position.TOP,
+		textColor: style
 	};
 	WToast.show(options);
 }

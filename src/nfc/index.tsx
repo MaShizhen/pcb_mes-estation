@@ -44,19 +44,19 @@
 // 	_test = async () => {
 // 		try {
 // 			const tech = Platform.OS === 'ios' ? NfcTech.MifareIOS : NfcTech.NfcA;
-// 			let resp = await NfcManager.requestTechnology(tech);
-// 			console.warn(resp);
+// 			await NfcManager.requestTechnology(tech);
+// 			// console.warn(resp);
 
 // 			// the NFC uid can be found in tag.id
 // 			const tag = await NfcManager.getTag();
 // 			console.warn('tag； ', tag);
 
-// 			if (Platform.OS === 'ios') {
-// 				resp = await NfcManager.sendMifareCommandIOS([0x30, 0x00]);
-// 			} else {
-// 				resp = await NfcManager.transceive([0x30, 0x00]);
-// 			}
-// 			console.warn(resp);
+// 			// if (Platform.OS === 'ios') {
+// 			// 	resp = await NfcManager.sendMifareCommandIOS([0x30, 0x00]);
+// 			// } else {
+// 			// 	resp = await NfcManager.transceive([0x30, 0x00]);
+// 			// }
+// 			// console.warn(resp);
 
 // 			this._cleanUp();
 // 		} catch (ex) {

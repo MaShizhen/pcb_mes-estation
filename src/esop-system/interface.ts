@@ -57,4 +57,3 @@ export interface IuseresoplistRes extends IJavaRes {
 	data: Iuseresoplis
 }
 
-

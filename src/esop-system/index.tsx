@@ -40,9 +40,6 @@ export default () => {
 		})()
 
 	}, []);
-	// const myDate = new Date();
-	// if (states.recovery_time - myDate < 3) {
-	// }
 	return (
 		<View>
 			{(() => {

@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { Image, Picker, ScrollView, Text, TouchableOpacity, View } from 'react-native';
-import { get_file } from '../atom/config'
+import { get_file } from '../atom/config';
 import Fdicon from '../atom/icon';
-import MessageBox from '../atom/message-box'
-import { get } from '../atom/storage'
+import MessageBox from '../atom/message-box';
+import { get } from '../atom/storage';
+import toast from '../atom/toast';
 import { equipmentlist } from '../home/api';
-import { IEquipmentList } from '../home/interface'
-import { userboard, userboardright } from './api'
-import { IUserboard, IUserboardRight } from './interface'
+import { IEquipmentList } from '../home/interface';
+import { andonboardlight, boardadd, userboard, userboardright } from './api';
+import { IUserboard, IUserboardRight } from './interface';
 
 interface IProp {
 	visible: boolean;
@@ -33,6 +34,8 @@ export default (prop: IProp) => {
 		index: 0,
 		args: {}
 	})
+
+	const [selectedValue, setSelectedValue] = useState(0);
 
 	// 初始化查询报警代码列表
 	useEffect(() => {
@@ -65,14 +68,36 @@ export default (prop: IProp) => {
 	 * 下发
 	 */
 	async function issue(args: object) {
-
+		const obj = args as unknown as IUserboard
+		const mes_process_mesid = await get<string>('mes_id')
+		try {
+			await boardadd({
+				mes_alarm_mesid: obj.mes_id,
+				mes_process_mesid,
+				mes_device_mesid: equipment_list[selectedValue].mes_id,
+				effective_staff: '',
+				mes_create_staffid: '',
+				mes_create_staff: ''
+			})
+			toast('success', '提交成功')
+		} catch (error) {
+			toast('error', '提交失败')
+		}
 	}
 
 	/**
 	 * 移除报警
 	 */
 	async function remove(args: object) {
-
+		try {
+			const obj = args as unknown as IUserboardRight
+			const mes_staff_code = await get<string>('mes_staff_code')
+			const mes_staff_name = await get<string>('mes_staff_name')
+			await andonboardlight(mes_staff_code, mes_staff_name, obj.mes_id, obj.effective_time)
+			toast('success', '解除成功')
+		} catch (error) {
+			toast('error', '解除失败')
+		}
 	}
 
 	/**
@@ -159,11 +184,10 @@ export default (prop: IProp) => {
 			})} toCencel={() => set_message_box({ index: 0, args: null })}>
 				<View style={{ flexDirection: 'row', alignItems: "center", justifyContent: 'center' }}>
 					<Text style={{ fontSize: 16, color: '#333333', textAlign: 'center', lineHeight: 150 }}>可用设备代码：</Text>
-					<Picker
-						style={{ height: 35, width: 250 }} >
+					<Picker selectedValue={equipment_list[selectedValue].mes_id} onValueChange={(_, itemIndex) => setSelectedValue(itemIndex)} style={{ height: 35, width: 250 }} >
 						{
 							equipment_list.map((item, index) => {
-								return <Picker.Item label={item.mes_device_name} key={index} value={item.mes_device_code} />
+								return <Picker.Item label={item.mes_device_name} key={index} value={item.mes_id} />
 							})
 						}
 					</Picker>

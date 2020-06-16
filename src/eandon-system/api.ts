@@ -1,6 +1,6 @@
 import { productid, spaceid, systemid } from '../atom/config'
 import { service } from '../atom/server'
-import { IUserboardRes, IUserboardRightRes } from './interface'
+import { IBoardadd, IboardaddRes, IUserboardRes, IUserboardRightRes } from './interface'
 
 /**
  * 安灯管理左侧列表
@@ -32,6 +32,42 @@ export function userboardright(mes_process_mesid: string, mes_device_mesid: stri
 		criteria: {
 			mes_process_mesid,
 			mes_device_mesid
+		}
+	})
+}
+
+/**
+ * 安灯管理左侧新增
+ * @param param IBoardadd
+ */
+export function boardadd(param: IBoardadd) {
+	return service<IboardaddRes>('dataservice.mescomm.boardadd', {
+		spaceid,
+		productid,
+		systemid,
+		data: {
+			...param
+		}
+	})
+}
+
+/**
+ * 解除安灯报警
+ * @param staff_id 员工编号
+ * @param release_staff 员工名称
+ * @param mes_id
+ * @param effective_time
+ */
+export function andonboardlight(staff_id: string, release_staff: string, mes_id: string, effective_time: number) {
+	return service<IboardaddRes>('dataservice.mescomm.andonboardlight', {
+		spaceid,
+		productid,
+		systemid,
+		staff_id,
+		release_staff,
+		data: {
+			mes_id,
+			effective_time
 		}
 	})
 }
