@@ -54,21 +54,21 @@ export default function App() {
 				{/* <Stack.Screen name='nfc' component={nfc} /> */}
 			</Stack.Navigator>
 
-			{(() => {
+			{/* {(() => {
 				return (<View style={{ backgroundColor: 'rgba(0,0,0,.3)', top: 0, bottom: 0, left: 0, right: 0, position: 'absolute', justifyContent: 'center' }}>
-					<View style={{ margin: 30, backgroundColor: '#fff', borderRadius: 5 }}>
-						<Text style={{ fontSize: 16, color: '#333333', textAlign: 'center', lineHeight: 80 }}>有新版本，是否更新？</Text>
+					<View style={{ backgroundColor: '#fff', borderRadius: 5, alignItems: 'center', justifyContent: 'center', width: '35%', marginLeft: '35%' }}>
+						<Text style={{ fontSize: 16, color: '#333333', textAlign: 'center', lineHeight: 160 }}>有新版本，是否更新？</Text>
 						<View style={{ flexDirection: 'row', alignItems: "center", justifyContent: 'space-between', borderTopWidth: 1, borderTopColor: '#f2f2f2' }}>
-							<TouchableOpacity style={{ borderBottomLeftRadius: 5, height: 40, flex: 1 }}>
-								<Text style={{ fontSize: 16, textAlign: 'center', lineHeight: 40, color: '#333' }}>取消</Text>
+							<TouchableOpacity style={{ borderBottomLeftRadius: 5, height: 60, flex: 1 }}>
+								<Text style={{ fontSize: 16, textAlign: 'center', lineHeight: 60, color: '#333' }}>取消</Text>
 							</TouchableOpacity>
-							<TouchableOpacity style={{ borderBottomRightRadius: 5, backgroundColor: '#0099ff', height: 40, flex: 1 }}>
-								<Text style={{ fontSize: 16, color: '#fff', textAlign: 'center', lineHeight: 40 }}>确认</Text>
+							<TouchableOpacity style={{ borderBottomRightRadius: 5, backgroundColor: '#0099ff', height: 60, flex: 1 }}>
+								<Text style={{ fontSize: 16, color: '#fff', textAlign: 'center', lineHeight: 60 }}>确认</Text>
 							</TouchableOpacity>
 						</View>
 					</View>
 				</View>);
-			})()}
+			})()} */}
 		</NavigationContainer>
 	);
 }

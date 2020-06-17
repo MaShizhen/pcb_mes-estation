@@ -57,11 +57,11 @@ export default (prop: IProp) => {
 					</View>
 					{prop.children}
 					<View style={{ flexDirection: 'row', alignItems: "center", justifyContent: 'space-between', borderTopWidth: 1, borderTopColor: '#f2f2f2' }}>
-						<TouchableOpacity style={{ borderBottomLeftRadius: 5, height: 50, flex: 1 }} onPress={() => prop.toCencel(prop.args)}>
-							<Text style={{ fontSize: 16, textAlign: 'center', lineHeight: 50, color: '#333' }}>取消</Text>
+						<TouchableOpacity style={{ borderBottomLeftRadius: 5, height: 60, flex: 1 }} onPress={() => prop.toCencel(prop.args)}>
+							<Text style={{ fontSize: 16, textAlign: 'center', lineHeight: 60, color: '#333' }}>取消</Text>
 						</TouchableOpacity>
-						<TouchableOpacity style={{ borderBottomRightRadius: 5, backgroundColor: '#0099ff', height: 50, flex: 1 }} onPress={() => prop.toConfirm(prop.args)}>
-							<Text style={{ fontSize: 16, color: '#fff', textAlign: 'center', lineHeight: 50 }}>确定</Text>
+						<TouchableOpacity style={{ borderBottomRightRadius: 5, backgroundColor: '#0099ff', height: 60, flex: 1 }} onPress={() => prop.toConfirm(prop.args)}>
+							<Text style={{ fontSize: 16, color: '#fff', textAlign: 'center', lineHeight: 60 }}>确定</Text>
 						</TouchableOpacity>
 					</View>
 				</TouchableOpacity>

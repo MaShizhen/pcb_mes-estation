@@ -127,7 +127,7 @@ export default (prop: IProp) => {
 						<Text style={{ lineHeight: 45, textAlign: 'center', fontSize: 18 }}>报警代码列表</Text>
 					</View>
 					{(() => {
-						if (states.userboard.length < 0) {
+						if (states.userboard.length > 0) {
 							return states.userboard.map((item, index) => {
 								return (
 									<TouchableOpacity key={index} onPress={() => set_message_box({ index: 1, args: item })} >
@@ -151,7 +151,7 @@ export default (prop: IProp) => {
 					<View style={{ height: 45, backgroundColor: '#fff', marginBottom: 20 }}><Text style={{ lineHeight: 45, textAlign: 'center', fontSize: 18 }}>报警代码详情</Text></View>
 					<View style={{ flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center' }}>
 						{(() => {
-							if (states.userboardright.length < 0) {
+							if (states.userboardright.length > 0) {
 								return states.userboardright.map((item, index) => {
 									return (
 										<TouchableOpacity key={index} style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'space-around', height: 120, width: '25%' }} onPress={() => {

@@ -79,7 +79,7 @@ export default () => {
 				</View>
 				<View style={{ marginTop: 20 }}>
 					<TouchableOpacity onPress={() => set_display(true)}>
-						<Text style={{ color: server_address ? 'black' : 'red' }}>{server_address ? server_address : '请配置服务器地址'}</Text>
+						<Text style={{ color: server_address ? 'black' : 'black' }}>{server_address ? server_address : '请配置服务器地址'}</Text>
 					</TouchableOpacity>
 				</View>
 				{/* ID登录 */}
@@ -105,12 +105,13 @@ export default () => {
 					<Text style={{ color: '#FFF', fontSize: 18 }}>密码登录</Text>
 				</View> */}
 				<MessageBox visible={display} title='配置服务器地址' toCencel={() => set_display(false)} toConfirm={async () => { await set('server_address', server_address); set_display(false) }}>
-					<View style={{ flexDirection: 'row', alignItems: 'center' }}>
-						<Text>服务器地址:</Text>
+					<View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 20, height: 160 }}>
+						<Text style={{ fontSize: 16 }}>服务器地址:</Text>
 						<TextInput
-							style={{ borderColor: 'gray', borderWidth: 1 }}
+							style={{ borderColor: 'gray', borderBottomWidth: 1, flex: 0.8, paddingLeft: 5, fontSize: 16 }}
 							onChangeText={text => set_server_address(text)}
 							value={server_address}
+							placeholder="请输入服务器地址"
 						/>
 					</View>
 				</MessageBox>

@@ -54,7 +54,7 @@ export default (prop: IProp) => {
 				Alert.alert("Modal has been closed.");
 			}}
 		>
-			<TouchableOpacity style={{ backgroundColor: 'rgba(0,0,0,0.5)', flex: 1, flexDirection: 'row', alignItems: 'center' }} onPress={() => {
+			<TouchableOpacity style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }} onPress={() => {
 				prop.toHide(-1, '')
 			}}>
 				<TouchableOpacity
@@ -71,11 +71,11 @@ export default (prop: IProp) => {
 					</View>
 					<View style={styles.out}>
 						<Text style={styles.text}>设备代码:</Text>
-						<Text style={styles.mintext}>111111111111111111111{prop.row ? prop.row.params[0] : ''}</Text>
+						<Text style={styles.mintext}>{prop.row ? prop.row.params[0] : ''}</Text>
 					</View>
 					<View style={styles.out}>
 						<Text style={styles.text}>设备名称:</Text>
-						<Text style={styles.mintext}>222222222222{prop.row ? prop.row.params[1] : ''}</Text>
+						<Text style={styles.mintext}>{prop.row ? prop.row.params[1] : ''}</Text>
 					</View>
 					<View style={styles.out}>
 						<Text style={styles.text}>业务级参数代码:</Text>
