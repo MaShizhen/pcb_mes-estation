@@ -118,11 +118,11 @@ export default (prop: IProp) => {
 	}
 
 	return (
-		<ScrollView>
-			<View style={{ flexDirection: 'row', backgroundColor: '#fff', paddingTop: 20 }}>
-				<View style={{ width: '25%', borderRightWidth: 0.5, borderColor: '#e2e1de', minHeight: 600 }}>
+		<ScrollView style={{ backgroundColor: '#fff' }}>
+			<View style={{ flexDirection: 'row', paddingTop: 20 }}>
+				<View style={{ width: '25%' }}>
 					<View style={{
-						height: 45, backgroundColor: '#fff', marginBottom: 20
+						height: 45, marginBottom: 20
 					}}>
 						<Text style={{ lineHeight: 45, textAlign: 'center', fontSize: 18 }}>报警代码列表</Text>
 					</View>
@@ -131,7 +131,7 @@ export default (prop: IProp) => {
 							return states.userboard.map((item, index) => {
 								return (
 									<TouchableOpacity key={index} onPress={() => set_message_box({ index: 1, args: item })} >
-										<View style={{ height: 45, borderWidth: 1, borderRadius: 10, borderColor: '#e2e1de', backgroundColor: '#fff', width: '80%', marginLeft: '10%', marginBottom: 15 }}>
+										<View style={{ height: 45, borderWidth: 1, borderRadius: 10, borderColor: '#e2e1de', width: '80%', marginLeft: '10%', marginBottom: 15 }}>
 											<Text style={{ lineHeight: 45, textAlign: 'center', fontSize: 16 }}>{item.mes_alarm_name}</Text>
 										</View>
 									</TouchableOpacity>
@@ -147,8 +147,9 @@ export default (prop: IProp) => {
 						}
 					})()}
 				</View>
-				<View style={{ paddingLeft: 10, paddingRight: 10, width: '75%', minHeight: 600 }}>
-					<View style={{ height: 45, backgroundColor: '#fff', marginBottom: 20 }}><Text style={{ lineHeight: 45, textAlign: 'center', fontSize: 18 }}>报警代码详情</Text></View>
+				<View style={{ borderRightWidth: 0.5, borderColor: '#e2e1de', height: '100%' }}></View>
+				<View style={{ paddingLeft: 10, paddingRight: 10, width: '75%' }}>
+					<View style={{ height: 45, marginBottom: 20 }}><Text style={{ lineHeight: 45, textAlign: 'center', fontSize: 18 }}>报警代码详情</Text></View>
 					<View style={{ flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center' }}>
 						{(() => {
 							if (states.userboardright.length > 0) {
@@ -177,8 +178,6 @@ export default (prop: IProp) => {
 					</View>
 				</View>
 			</View>
-
-
 			<MessageBox title="提交安灯报警" visible={message_box.index === 1} toConfirm={(args) => set_message_box({
 				index: 2,
 				args: {
@@ -222,7 +221,7 @@ export default (prop: IProp) => {
 
 
 			{/* 全展示效果 */}
-			{/* <View style={{ flex: 1, paddingLeft: 10, paddingRight: 10, backgroundColor: '#fff', paddingTop: 20 }}>
+			{/* <View style={{ flex: 1, paddingLeft: 10, paddingRight: 10, paddingTop: 20 }}>
 				<View style={{ height: 45, backgroundColor: '#fff', marginBottom: 20 }}><Text style={{ lineHeight: 45, textAlign: 'center', fontSize: 18 }}>报警代码详情</Text></View>
 				<View style={{ flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center' }}>
 					<View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'space-around', height: 120, width: '20%' }}>
