@@ -64,7 +64,6 @@ export default (prop: IProp) => {
 			})
 			config(mqtt)
 		})()
-
 	}, []);
 
 	/**

@@ -4,7 +4,7 @@ export const systemid = '10121';
 export const sql_db_type = 'MongoDB';
 
 
-export const server = 'http://192.168.1.238:9009';
+export const server = 'http://192.168.1.239:8890';
 export const init_server = server + '/pcb_mes-app';
 export const file_server = 'http://dev.koimy.com:1080/fsweb'; // 文件服务器地址
 export const get_file = `${file_server}/getfile?productid=${productid}&id=`; // 文件服务器地址

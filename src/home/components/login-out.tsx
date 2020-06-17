@@ -13,7 +13,7 @@ export default (prop: IProp) => {
 	const nvigation = useNavigation();
 
 	async function toExit() {
-		logout()
+		await logout()
 		nvigation.navigate('login')
 		prop.toHide()
 	}

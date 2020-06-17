@@ -1,31 +1,36 @@
 import { useNavigation } from '@react-navigation/native'
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Image, ImageBackground, StyleSheet, Text, TextInput, View } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Fdicon from '../atom/icon';
+import MessageBox from '../atom/message-box'
 import { login } from '../atom/server'
-import { set } from '../atom/storage';
+import { get, set } from '../atom/storage';
 import toast from '../atom/toast'
-import useStates from '../atom/use-states'
-import { getuserroleinfo } from './api'
 
 export default () => {
 	const nvigation = useNavigation()
 
-	const states = useStates({
-		account: 'user01',
-		pwd: '111111'
-	})
+	const [account, set_account] = useState('user01')
+	const [pwd, set_pwd] = useState('111111')
+	const [display, set_display] = useState(false)
+	const [server_address, set_server_address] = useState('')
+
+	useEffect(() => {
+		(async () => {
+			const _server_address = await get<string>('server_address')
+			set_server_address(_server_address)
+		})()
+	}, [display])
 
 	async function tologin() {
 		try {
-			const res = await login(states.account, states.pwd)
+			const res = await login(account, pwd)
 			await set('sessionid', res.sessionID)
 			await set('usercode', res.usercode)
 			await set('ticket', res.remember_me_ticket)
-			const userinfo = await getuserroleinfo(res.usercode)
-			await set('mes_staff_code', userinfo.user.pub_user_connect[0].pk_val)
-			await set('mes_staff_name', userinfo.user.pub_user_connect[0].search_field_val)
+			await set('mes_staff_code', res.mes_staff_code)
+			await set('mes_staff_name', res.mes_staff_name)
 			nvigation.navigate('home')
 
 		} catch (error) {
@@ -48,7 +53,7 @@ export default () => {
 							<Text style={{ fontSize: 18, color: '#fffdf5' }}>账号</Text>
 						</View>
 					</View>
-					<TextInput placeholder='请输入账号' underlineColorAndroid="transparent" style={styles.inputs} placeholderTextColor='#fffdf5' onChangeText={(text) => states.account = text}>
+					<TextInput placeholder='请输入账号' underlineColorAndroid="transparent" style={styles.inputs} placeholderTextColor='#fffdf5' onChangeText={(text) => set_account(text)}>
 					</TextInput>
 				</View>
 				<View style={{ height: 70, flexDirection: 'row', borderBottomWidth: 1, borderBottomColor: '#fffdf5', alignItems: 'center', width: '30%' }}>
@@ -57,7 +62,7 @@ export default () => {
 							< Text style={{ fontSize: 18, color: '#fffdf5' }}>密码</Text>
 						</View>
 					</View>
-					<TextInput placeholder='请输入密码' style={styles.inputs} placeholderTextColor='#fffdf5' secureTextEntry={true} underlineColorAndroid="transparent" onChangeText={(text) => states.pwd = text}>
+					<TextInput placeholder='请输入密码' style={styles.inputs} placeholderTextColor='#fffdf5' secureTextEntry={true} underlineColorAndroid="transparent" onChangeText={(text) => set_pwd(text)}>
 					</TextInput>
 				</View>
 				<TouchableOpacity onPress={() => tologin()} style={{ height: 70, width: 600, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(0,0,0,0.4)', marginTop: 50, borderRadius: 35 }}>
@@ -71,6 +76,11 @@ export default () => {
 					<Fdicon name='zhiwen-xianxing' size={67} color='#242c3a'></Fdicon>
 					<Fdicon name='id1' size={70} color='#242c3a'></Fdicon>
 					<Fdicon name='nfc-1' size={70} color='#242c3a'></Fdicon>
+				</View>
+				<View style={{ marginTop: 20 }}>
+					<TouchableOpacity onPress={() => set_display(true)}>
+						<Text style={{ color: server_address ? 'black' : 'red' }}>{server_address ? server_address : '请配置服务器地址'}</Text>
+					</TouchableOpacity>
 				</View>
 				{/* ID登录 */}
 				{/* <View style={{ marginTop: 40 }}>
@@ -94,6 +104,16 @@ export default () => {
 				<View style={{ position: 'relative', top: -45 }}>
 					<Text style={{ color: '#FFF', fontSize: 18 }}>密码登录</Text>
 				</View> */}
+				<MessageBox visible={display} title='配置服务器地址' toCencel={() => set_display(false)} toConfirm={async () => { await set('server_address', server_address); set_display(false) }}>
+					<View style={{ flexDirection: 'row', alignItems: 'center' }}>
+						<Text>服务器地址:</Text>
+						<TextInput
+							style={{ borderColor: 'gray', borderWidth: 1 }}
+							onChangeText={text => set_server_address(text)}
+							value={server_address}
+						/>
+					</View>
+				</MessageBox>
 			</View>
 		</ImageBackground >
 	);

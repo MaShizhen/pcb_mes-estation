@@ -23,7 +23,9 @@ export function service<T>(message_type: string, condition: unknown) {
  */
 export function login(usercode: string, userpw: string) {
 	const fid = uniqueid()
-	return request<{ sessionID: string, remember_me_ticket: string, usercode: string }>(`/login`, JSON.stringify({
+	return request<{
+		sessionID: string, remember_me_ticket: string, usercode: string, mes_staff_code: string; mes_staff_name: string;
+	}>(`/login`, JSON.stringify({
 		usercode,
 		userpw,
 		fid
@@ -38,10 +40,14 @@ export function login(usercode: string, userpw: string) {
 export async function ticket_login() {
 	const ticket = await get<string>('ticket');
 	const fid = uniqueid()
+	const mes_staff_code = await get('mes_staff_code')
+	const mes_staff_name = await get('mes_staff_name')
 	return request<{ code: 1 | 0 }>(`/ticket-login`, JSON.stringify({
 		fid,
 		ticket,
-		productid
+		productid,
+		mes_staff_code,
+		mes_staff_name
 	}))
 }
 

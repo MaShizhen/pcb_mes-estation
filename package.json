@@ -67,6 +67,7 @@
 		"react": "latest",
 		"react-dom": "latest",
 		"react-native": "latest",
+		"react-native-bootsplash": "^2.2.4",
 		"react-native-device-info": "^5.6.1",
 		"react-native-gesture-handler": "latest",
 		"react-native-nfc-manager": "^2.1.9",
