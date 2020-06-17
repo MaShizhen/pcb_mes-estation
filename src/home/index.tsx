@@ -175,7 +175,7 @@ export default (prop: IProp) => {
 					<View style={{ flexDirection: 'row', alignItems: 'center' }}>
 						<Text style={{ height: 35, lineHeight: 35, textAlign: 'right', width: 150, color: '#fff', fontSize: 18 }}>所属设备:</Text>
 						<Picker
-							style={{ height: 35, width: 190 }} >
+							style={{ height: 35, width: 190, color: '#fff' }} >
 							{
 								states.equipmentlist.map((item, index) => {
 									return <Picker.Item label={item.mes_device_name} key={index} value={item.mes_device_code} />
@@ -197,7 +197,7 @@ export default (prop: IProp) => {
 						}}
 						renderItem={({ item, index }) => {
 							return (
-								<TouchableOpacity style={{ alignItems: 'center', justifyContent: 'center', backgroundColor: index === states.focused_index ? '#448AFF' : '#fff', height: 140, width: 170, marginTop: 10, borderRadius: 20 }} onPress={
+								<TouchableOpacity activeOpacity={0.9} style={{ alignItems: 'center', justifyContent: 'center', backgroundColor: index === states.focused_index ? '#448AFF' : '#fff', height: 140, width: 170, marginTop: 10, borderRadius: 20 }} onPress={
 									() => {
 										set_states({
 											...states,
@@ -206,8 +206,8 @@ export default (prop: IProp) => {
 										navigation.navigate(item.path)
 									}}>
 									<View style={{ alignItems: 'center', justifyContent: 'center' }}>
-										<Icon style={{ alignContent: 'center' }} name={item.icon} size={35} color={item.color}></Icon>
-										<Text style={{ marginTop: 15, fontSize: 20, color: item.color, fontWeight: 'bold' }}>{item.name}</Text>
+										<Icon style={{ alignContent: 'center' }} name={item.icon} size={35} color={index === states.focused_index ? '#fff' : '#448AFF'}></Icon>
+										<Text style={{ marginTop: 15, fontSize: 20, color: index === states.focused_index ? '#fff' : '#448AFF', fontWeight: 'bold' }}>{item.name}</Text>
 									</View>
 								</TouchableOpacity>
 							);

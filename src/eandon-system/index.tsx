@@ -119,15 +119,15 @@ export default (prop: IProp) => {
 
 	return (
 		<ScrollView>
-			<View style={{ flexDirection: 'row', flex: 1, backgroundColor: '#fff', paddingTop: 20 }}>
-				<View style={{ flex: 0.25, borderRightWidth: 0.5, borderColor: '#e2e1de' }}>
+			<View style={{ flexDirection: 'row', backgroundColor: '#fff', paddingTop: 20 }}>
+				<View style={{ width: '25%', borderRightWidth: 0.5, borderColor: '#e2e1de', minHeight: 600 }}>
 					<View style={{
 						height: 45, backgroundColor: '#fff', marginBottom: 20
 					}}>
 						<Text style={{ lineHeight: 45, textAlign: 'center', fontSize: 18 }}>报警代码列表</Text>
 					</View>
 					{(() => {
-						if (states.userboard.length > 0) {
+						if (states.userboard.length < 0) {
 							return states.userboard.map((item, index) => {
 								return (
 									<TouchableOpacity key={index} onPress={() => set_message_box({ index: 1, args: item })} >
@@ -138,18 +138,20 @@ export default (prop: IProp) => {
 								)
 							})
 						} else {
-							return <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center', flex: 1 }}>
-								<Fdicon name='wushuju' size={60} color='#999'></Fdicon>
-								<Text style={{ fontSize: 18, textAlign: 'center', color: '#999' }}>暂无数据~</Text>
+							return <View style={{ flex: 1 }}>
+								<View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center', marginTop: '20%' }}>
+									<Fdicon name='wushuju' size={60} color='#999'></Fdicon>
+									<Text style={{ fontSize: 18, textAlign: 'center', color: '#999' }}>暂无数据~</Text>
+								</View>
 							</View>
 						}
 					})()}
 				</View>
-				<View style={{ flex: 0.75, paddingLeft: 10, paddingRight: 10 }}>
+				<View style={{ paddingLeft: 10, paddingRight: 10, width: '75%', minHeight: 600 }}>
 					<View style={{ height: 45, backgroundColor: '#fff', marginBottom: 20 }}><Text style={{ lineHeight: 45, textAlign: 'center', fontSize: 18 }}>报警代码详情</Text></View>
 					<View style={{ flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center' }}>
 						{(() => {
-							if (states.userboardright.length > 0) {
+							if (states.userboardright.length < 0) {
 								return states.userboardright.map((item, index) => {
 									return (
 										<TouchableOpacity key={index} style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'space-around', height: 120, width: '25%' }} onPress={() => {
@@ -164,9 +166,11 @@ export default (prop: IProp) => {
 									)
 								})
 							} else {
-								return <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center', flex: 1 }}>
-									<Fdicon name='wushuju' size={60} color='#999'></Fdicon>
-									<Text style={{ fontSize: 18, textAlign: 'center', color: '#999' }}>暂无数据~</Text>
+								return <View style={{ flex: 1 }}>
+									<View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center', marginTop: '20%' }}>
+										<Fdicon name='wushuju' size={60} color='#999'></Fdicon>
+										<Text style={{ fontSize: 18, textAlign: 'center', color: '#999' }}>暂无数据~</Text>
+									</View>
 								</View>
 							}
 						})()}
@@ -307,7 +311,7 @@ export default (prop: IProp) => {
 				}
 			})()} */}
 			{/* 筛选 end */}
-		</ScrollView>
+		</ScrollView >
 
 	);
 }

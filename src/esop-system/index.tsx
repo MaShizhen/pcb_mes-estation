@@ -67,9 +67,11 @@ export default () => {
 						}}
 						style={styles.pdf} />
 				} else {
-					return <View style={{ flexDirection: 'column', flex: 1, alignItems: 'center', marginTop: '20%', backgroundColor: '#fff' }}>
-						<Fdicon name='wushuju' size={60} color='#999'></Fdicon>
-						<Text style={{ fontSize: 18, textAlign: 'center', color: '#999' }}>{states.state_esop === 0 ? '暂无数据' : '文件地址无效'}~</Text>
+					return <View style={{ backgroundColor: '#fff', height: '100%' }}>
+						<View style={{ flexDirection: 'column', alignItems: 'center', marginTop: '20%' }}>
+							<Fdicon name='wushuju' size={60} color='#999'></Fdicon>
+							<Text style={{ fontSize: 18, textAlign: 'center', color: '#999' }}>{states.state_esop === 0 ? '暂无数据' : '文件地址无效'}~</Text>
+						</View>
 					</View>
 				}
 			})()}
