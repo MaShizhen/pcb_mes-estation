@@ -75,6 +75,8 @@ export default (prop: IProp) => {
 				const is_online = await ticket_login()
 				if (!(is_online && is_online.code)) {
 					navigation.navigate('login')
+				} else {
+					await set('sessionid', is_online.sessionid)
 				}
 			}, 1000 * 60 * 5)
 			/**

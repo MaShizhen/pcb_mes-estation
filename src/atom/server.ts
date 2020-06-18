@@ -42,7 +42,7 @@ export async function ticket_login() {
 	const fid = uniqueid()
 	const mes_staff_code = await get('mes_staff_code')
 	const mes_staff_name = await get('mes_staff_name')
-	return request<{ code: 1 | 0 }>(`/ticket-login`, JSON.stringify({
+	return request<{ code: 1 | 0, sessionid: string }>(`/ticket-login`, JSON.stringify({
 		fid,
 		ticket,
 		productid,

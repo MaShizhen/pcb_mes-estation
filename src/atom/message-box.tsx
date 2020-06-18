@@ -10,7 +10,7 @@ interface IProp {
 	/**
 	 * 标题
 	 */
-	title: string;
+	title?: string;
 	/**
 	 * 附加参数
 	 */
@@ -46,15 +46,19 @@ export default (prop: IProp) => {
 				<TouchableOpacity
 					activeOpacity={1}
 					style={{ backgroundColor: '#fff', width: '30%', marginLeft: '35%', borderRadius: 5 }}>
-					<View style={{ flexDirection: 'row', alignItems: 'center', height: 50, borderBottomWidth: 1, justifyContent: 'space-between', paddingLeft: 15, paddingRight: 15, borderBottomColor: '#999' }}>
-						<Text style={{ fontSize: 18, color: '#333' }}>{prop.title}</Text>
-						<TouchableHighlight
-							style={{ padding: 13 }}
-							onPress={() => prop.toCencel(prop.args)}
-							underlayColor='transparent'>
-							<Fdicon name='guanbi' size={20} color='#333'></Fdicon>
-						</TouchableHighlight>
-					</View>
+					{(() => {
+						if (prop.title) {
+							return <View style={{ flexDirection: 'row', alignItems: 'center', height: 50, borderBottomWidth: 1, justifyContent: 'space-between', paddingLeft: 15, paddingRight: 15, borderBottomColor: '#999' }}>
+								<Text style={{ fontSize: 18, color: '#333' }}>{prop.title}</Text>
+								<TouchableHighlight
+									style={{ padding: 13 }}
+									onPress={() => prop.toCencel(prop.args)}
+									underlayColor='transparent'>
+									<Fdicon name='guanbi' size={20} color='#333'></Fdicon>
+								</TouchableHighlight>
+							</View>
+						}
+					})()}
 					{prop.children}
 					<View style={{ flexDirection: 'row', alignItems: "center", justifyContent: 'space-between', borderTopWidth: 1, borderTopColor: '#f2f2f2' }}>
 						<TouchableOpacity style={{ borderBottomLeftRadius: 5, height: 60, flex: 1 }} onPress={() => prop.toCencel(prop.args)}>
