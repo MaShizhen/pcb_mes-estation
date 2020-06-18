@@ -46,8 +46,8 @@ def flipper_post_install(installer)
   end
 end
 
-target 'MyApp' do
-  # Pods for MyApp
+target 'mesestation' do
+  # Pods for mesestation
   pod 'FBLazyVector', :path => "../node_modules/react-native/Libraries/FBLazyVector"
   pod 'FBReactNativeSpec', :path => "../node_modules/react-native/Libraries/FBReactNativeSpec"
   pod 'RCTRequired', :path => "../node_modules/react-native/Libraries/RCTRequired"
@@ -81,7 +81,7 @@ target 'MyApp' do
 
   pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 
-  target 'MyAppTests' do
+  target 'mesestationTests' do
     inherit! :complete
     # Pods for testing
   end
@@ -98,10 +98,10 @@ target 'MyApp' do
   end
 end
 
-target 'MyApp-tvOS' do
-  # Pods for MyApp-tvOS
+target 'mesestation-tvOS' do
+  # Pods for mesestation-tvOS
 
-  target 'MyApp-tvOSTests' do
+  target 'mesestation-tvOSTests' do
     inherit! :search_paths
     # Pods for testing
   end

@@ -1,4 +1,4 @@
-package com.myapp;
+package com.mesestation;
 
 import android.os.Bundle; // <- add this necessary import
 
@@ -13,7 +13,7 @@ public class MainActivity extends ReactActivity {
 	 */
 	@Override
 	protected String getMainComponentName() {
-		return "MyApp";
+		return "mesestation";
 	}
 
 	@Override
