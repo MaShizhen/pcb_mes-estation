@@ -15,8 +15,6 @@ export default async function check_new_version(service_url: string) {
 	if (!m) {
 		throw new Error('错误的文件路径');
 	}
-	console.log('a1', `${service_url}?v=${new Date().getTime()}`);
-
 	const res = await fetch(`${service_url}?v=${new Date().getTime()}`, {
 		method: 'GET'
 	});

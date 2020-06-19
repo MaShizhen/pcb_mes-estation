@@ -2,6 +2,7 @@ import { Cell, Row, Table, TableWrapper } from '@koimy/react-native-table-compon
 import { Button } from 'native-base';
 import React, { useEffect, useState } from 'react';
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { FlatList } from 'react-native-gesture-handler';
 import uuid from 'uuid'
 import { mqtt } from '../atom/config'
 import { format } from '../atom/dt'
@@ -31,13 +32,15 @@ export default (prop: IProp) => {
 	const [states, set_states] = useState({
 		collectioninfo: [] as (string | string[])[][],
 		visible: false as boolean,
-		select_index: null as number
+		select_index: null as number,
+		page_num: 1
 	})
 	// 初始化查询报警代码列表
 	useEffect(() => {
 		(async () => {
 			const load = await loading()
-			const collectioninfo_res = await collectioninfo(prop.route.params.data.mes_id)
+			const collectioninfo_res = await collectioninfo(prop.route.params.data.mes_id, states.page_num)
+			console.log('44444444', states.page_num);
 			set_states({
 				...states,
 				collectioninfo: collectioninfo_res.data.list.map((item) => {
@@ -55,7 +58,7 @@ export default (prop: IProp) => {
 			})
 			await load.destroy()
 		})()
-	}, []);
+	}, [states.page_num]);
 
 	const tableHead = ['业务级参数代码', '业务级参数名称', '业务级参数说明', '业务级参数类型', '创建时间', '当前值', '下发值', '操作'];
 
@@ -115,7 +118,41 @@ export default (prop: IProp) => {
 		<View style={{ padding: 16, paddingTop: 30, backgroundColor: '#fff', flex: 1 }}>
 			<Table>
 				<Row data={tableHead} style={styles.head} textStyle={styles.text} />
-				<ScrollView style={{ marginBottom: '6.2%' }}>
+				{(() => {
+					if (states.collectioninfo.length > 0) {
+						return <FlatList
+							data={states.collectioninfo}
+							style={{ marginBottom: '6.2%' }}
+							onEndReached={() => {
+								set_states({
+									...states,
+									page_num: states.page_num + 1
+								})
+							}}
+							keyExtractor={(_, index) => {
+								return index.toString()
+							}}
+							onEndReachedThreshold={0.1}
+							renderItem={({ item, index }) => {
+								return <TableWrapper key={index} style={styles.row}>
+									{
+										item.map((cellData: string, cellIndex) => {
+											return (
+												<Cell key={cellIndex} data={(cellIndex === 6 || cellIndex === 7) ? element(index, cellIndex, cellData) : cellData} textStyle={styles.text} />
+											)
+										})
+									}
+								</TableWrapper>
+							}}>
+						</FlatList>
+					} else {
+						return <View style={{ flexDirection: 'column', flex: 1, alignItems: 'center', marginTop: '20%' }}>
+							<Fdicon name='wushuju' size={60} color='#999'></Fdicon>
+							<Text style={{ fontSize: 18, textAlign: 'center', color: '#999' }}>暂无数据~</Text>
+						</View>
+					}
+				})()}
+				{/* <ScrollView style={{}}>
 					{(() => {
 						if (states.collectioninfo.length > 0) {
 							return states.collectioninfo.map((rowData, index) => (
@@ -134,7 +171,7 @@ export default (prop: IProp) => {
 							</View>
 						}
 					})()}
-				</ScrollView>
+				</ScrollView> */}
 			</Table>
 			<SetDistribution visible={states.visible} row={{
 				params: prop.route.params.data.arr,
