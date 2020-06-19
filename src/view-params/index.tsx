@@ -40,7 +40,6 @@ export default (prop: IProp) => {
 		(async () => {
 			const load = await loading()
 			const collectioninfo_res = await collectioninfo(prop.route.params.data.mes_id, states.page_num)
-			console.log('44444444', states.page_num);
 			set_states({
 				...states,
 				collectioninfo: collectioninfo_res.data.list.map((item) => {
