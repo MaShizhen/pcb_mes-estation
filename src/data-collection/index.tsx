@@ -22,8 +22,7 @@ export default () => {
 	useEffect(() => {
 		(async () => {
 			const mes_id = await get<string>('mes_id')
-			const collectionlist_res = await collectionlist('mes_id', '')
-			console.log('collectionlist_res', collectionlist_res)
+			const collectionlist_res = await collectionlist(mes_id, '')
 			set_states({
 				...states,
 				collectionlist: collectionlist_res.data.list.map((item) => {

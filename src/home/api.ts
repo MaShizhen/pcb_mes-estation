@@ -1,6 +1,6 @@
 import { productid, spaceid, systemid } from '../atom/config'
 import { service } from '../atom/server'
-import { IEquipmentList, IEquipmentListRes, IUserInfo } from './interface'
+import { IEquipmentListRes, IUserInfo } from './interface'
 
 /**
  * 安灯管理左侧列表

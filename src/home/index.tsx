@@ -143,6 +143,7 @@ export default (prop: IProp) => {
 			}]
 		}
 	]
+
 	return (
 		<Grid>
 			<Row size={8}>
