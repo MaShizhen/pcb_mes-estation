@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Image, ImageBackground, StyleSheet, Text, TextInput, View } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Fdicon from '../atom/icon';
+import loading from '../atom/loading';
 import MessageBox from '../atom/message-box'
 import { login } from '../atom/server'
 import { get, set } from '../atom/storage';
@@ -18,13 +19,14 @@ export default () => {
 
 	useEffect(() => {
 		(async () => {
-			const _server_address = await get<string>('server_address')
+			const _server_address = await get<string>('server_address') || '192.168.1.239:8890'
 			set_server_address(_server_address)
 		})()
 	}, [display])
 
 	async function tologin() {
 		try {
+			const load = await loading()
 			const res = await login(account, pwd)
 			await set('sessionid', res.sessionID)
 			await set('usercode', res.usercode)
@@ -32,6 +34,7 @@ export default () => {
 			await set('mes_staff_code', res.mes_staff_code)
 			await set('mes_staff_name', res.mes_staff_name)
 			nvigation.navigate('home')
+			await load.destroy()
 
 		} catch (error) {
 			toast('error', error.message);
@@ -116,7 +119,7 @@ export default () => {
 					</View>
 				</MessageBox>
 			</View>
-		</ImageBackground >
+		</ImageBackground>
 	);
 }
 

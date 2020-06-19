@@ -13,3 +13,6 @@ export const get_file = `${file_server}/getfile?productid=${productid}&id=`; // 
 export const ticket_login = 'ticket-login';
 export const login = `customs-login`;
 export const mqtt = 'mqtt://dev.koimy.com:1080/ws';
+
+// export const update_url = 'https://dev.koimy.com:1081/public/pcb_erp/AppUpdate/update.json';// 静态文件地址
+export const update_url = '';// 静态文件地址

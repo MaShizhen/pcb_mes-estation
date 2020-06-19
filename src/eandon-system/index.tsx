@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Image, Picker, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { get_file } from '../atom/config';
 import Fdicon from '../atom/icon';
+import loading from '../atom/loading';
 import MessageBox from '../atom/message-box';
 import { get } from '../atom/storage';
 import toast from '../atom/toast';
@@ -40,6 +41,8 @@ export default (prop: IProp) => {
 	// 初始化查询报警代码列表
 	useEffect(() => {
 		(async () => {
+			const load = await loading()
+
 			const mes_id = await get<string>('mes_id')
 			const userboard_res = await userboard(mes_id)
 			const userboardright_res = await userboardright('74c08b13-aa1e-48fh-a9bc-60257665afa7', '')
@@ -48,6 +51,7 @@ export default (prop: IProp) => {
 				userboard: userboard_res.data,
 				userboardright: userboardright_res.data.list
 			})
+			await load.destroy()
 
 		})()
 	}, []);

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Alert, Button, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import Pdf from 'react-native-pdf';
 import { get_file } from '../atom/config';
-import { format } from '../atom/dt';
 import Fdicon from '../atom/icon';
+import loading from '../atom/loading';
 import { get } from '../atom/storage'
 import { useresoplist } from './api';
 import { Iuseresoplis } from './interface';
@@ -24,19 +24,17 @@ export default () => {
 		// 	local.source = ''
 		// }, end_time - new Date().getTime());
 		(async () => {
+			const load = await loading()
 			const mes_staff_code = await get<string>('mes_staff_code')
 			const mes_staff_name = await get<string>('mes_staff_name')
 			const useresoplist_res = await useresoplist(mes_staff_code, mes_staff_name)
-			console.log('useresoplist_res122222', useresoplist_res)
 			set_states({
 				...states,
 				useresoplist: useresoplist_res.data,
 				file_names: get_file + useresoplist_res.data.file_name,
 				recovery_time: useresoplist_res.data.recovery_time
 			})
-			// local.source = 'http://192.168.1.238/soft/node.pdf'
-			// const end_time = new Date().getTime() + 2000
-			// local.end_time = end_time
+			await load.destroy()
 		})()
 
 	}, []);

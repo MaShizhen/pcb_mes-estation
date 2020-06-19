@@ -1,9 +1,9 @@
 // import RNSerialPort from '@koimy/react-native-serial-port'
 // import React from 'react';
 // import { Button, DeviceEventEmitter, Text, TouchableHighlight, View } from 'react-native';
+// import bytes2str from '../atom/bytes2str'
 
 // export default () => {
-
 
 // 	return (
 // 		<View style={{ padding: 20 }}>
@@ -18,7 +18,8 @@
 // 				// 监听串口回传数据
 // 				DeviceEventEmitter.addListener('onSerialPortRecevieData', (receiveData) => {
 // 					console.log("onSerialPortRecevieData", receiveData);
-
+// 					const str = bytes2str(receiveData)
+// 					console.log('卡号: ', str);
 // 				})
 // 				// 监听接收串口开关的状态
 // 				DeviceEventEmitter.addListener('onSerialPortOpenStatus', (status) => {
