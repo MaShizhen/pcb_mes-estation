@@ -163,6 +163,7 @@ export default (prop: IProp) => {
 										}}>
 											<Image source={{ uri: get_file + item.mes_alarm_picture }} style={{ borderRadius: 5, width: 120, height: 70, backgroundColor: 'rgba(0,0,0,0.2)' }} />
 											<Text style={{ height: 30, lineHeight: 30, textAlign: 'center', fontSize: 16 }}>{item.mes_alarm_name}</Text>
+											<View style={{ borderRadius: 5, width: 120, height: 70, backgroundColor: 'rgba(0,0,0,0.6)', position: 'absolute', top: 5 }} />
 										</TouchableOpacity>
 									)
 								})
