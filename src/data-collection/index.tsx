@@ -6,6 +6,7 @@ import React, { useEffect, useState } from 'react';
 import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { format } from '../atom/dt';
 import Fdicon from '../atom/icon';
+import loading from '../atom/loading';
 import { get } from '../atom/storage'
 import { collectionlist } from './api';
 
@@ -21,6 +22,7 @@ export default () => {
 	// 初始化查询报警代码列表
 	useEffect(() => {
 		(async () => {
+			const load = await loading()
 			const mes_id = await get<string>('mes_id')
 			const collectionlist_res = await collectionlist(mes_id, '')
 			set_states({
@@ -40,6 +42,7 @@ export default () => {
 					}
 				})
 			})
+			await load.destroy()
 		})()
 	}, []);
 

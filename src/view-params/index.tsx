@@ -6,6 +6,7 @@ import uuid from 'uuid'
 import { mqtt } from '../atom/config'
 import { format } from '../atom/dt'
 import Fdicon from '../atom/icon';
+import loading from '../atom/loading';
 import { listen } from '../atom/mqtt'
 import { collectioninfo, eboxdataread } from './api';
 import SetDistribution from './components/set-distribution';
@@ -35,6 +36,7 @@ export default (prop: IProp) => {
 	// 初始化查询报警代码列表
 	useEffect(() => {
 		(async () => {
+			const load = await loading()
 			const collectioninfo_res = await collectioninfo(prop.route.params.data.mes_id)
 			set_states({
 				...states,
@@ -51,6 +53,7 @@ export default (prop: IProp) => {
 					];
 				})
 			})
+			await load.destroy()
 		})()
 	}, []);
 
