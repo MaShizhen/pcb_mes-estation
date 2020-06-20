@@ -5,7 +5,7 @@ import { Alert, Modal, StyleSheet, Text, TextInput, TouchableHighlight, Touchabl
 import uuid from 'uuid'
 import { mqtt } from '../../atom/config';
 import Fdicon from '../../atom/icon';
-import { listen } from '../../atom/mqtt';
+import { listen, unsubscribe } from '../../atom/mqtt';
 import toast from '../../atom/toast'
 import { eboxdatawrite } from '../api';
 import { IMqttRespose } from '../interface'
@@ -35,7 +35,10 @@ export default (prop: IProp) => {
 			const mes_devicesub_cparamid = arr[1] as string
 			const request = uuid();
 
-			listen(mqtt, '/push/' + request).then((res: IMqttRespose) => {
+			const topic = '/push/' + request
+			listen(mqtt, topic).then(async (res: IMqttRespose) => {
+				await unsubscribe(mqtt, topic)
+
 				toast('success', '下发成功');
 				prop.toHide(prop.row.select_index, res.msg.datavalue[0].writevalue)
 			})

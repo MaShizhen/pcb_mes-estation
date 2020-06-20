@@ -1,14 +1,14 @@
 import { Cell, Row, Table, TableWrapper } from '@koimy/react-native-table-component';
 import { Button } from 'native-base';
 import React, { useEffect, useState } from 'react';
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { FlatList } from 'react-native-gesture-handler';
 import uuid from 'uuid'
 import { mqtt } from '../atom/config'
 import { format } from '../atom/dt'
 import Fdicon from '../atom/icon';
 import loading from '../atom/loading';
-import { listen } from '../atom/mqtt'
+import { listen, unsubscribe } from '../atom/mqtt'
 import { collectioninfo, eboxdataread } from './api';
 import SetDistribution from './components/set-distribution';
 import { IMqttRespose } from './interface'
@@ -76,7 +76,9 @@ export default (prop: IProp) => {
 		const mes_devicesub_cparamid = arr[1] as string
 		const request = uuid();
 
-		listen(mqtt, '/push/' + request).then((res: IMqttRespose) => {
+		const topic = '/push/' + request
+		listen(mqtt, topic).then(async (res: IMqttRespose) => {
+			await unsubscribe(mqtt, topic)
 			const _collectioninfo = states.collectioninfo
 			_collectioninfo[index][5] = res.msg.datavalue[0].readvalue
 			set_states({

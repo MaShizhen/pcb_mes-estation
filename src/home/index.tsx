@@ -3,14 +3,15 @@ import RNSerialPort from '@koimy/react-native-serial-port'
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import React, { useCallback, useEffect, useState } from 'react';
-import { DeviceEventEmitter, Image, Picker, SectionList, Text, TouchableOpacity, View } from 'react-native'
+import { Image, Picker, SectionList, Text, TouchableOpacity, View } from 'react-native'
 import { Col, Grid, Row } from 'react-native-easy-grid';
 import { mqtt } from '../atom/config'
 import Icon from '../atom/icon'
 import Fdicon from '../atom/icon';
-import { config } from '../atom/mqtt'
+import { config, listen, unsubscribe } from '../atom/mqtt'
 import { ticket_login } from '../atom/server'
 import { get, set } from '../atom/storage'
+import useSession from '../atom/useSession'
 import { equipmentlist } from './api';
 import LoginOut from './components/login-out';
 
@@ -35,6 +36,8 @@ interface IProp {
 }
 
 export default (prop: IProp) => {
+	const use_session = useSession()
+
 	const navigation = useNavigation();
 	const [states, set_states] = useState({
 		equipmentlist: [] as IEquipmentList[],
@@ -82,11 +85,17 @@ export default (prop: IProp) => {
 	useFocusEffect(
 		useCallback(() => {
 			const inv = setInterval(async () => {
+				const sessionid = await get('sessionid')
+				config(mqtt)
+				await unsubscribe(mqtt, `/push/${sessionid}`)
 				const is_online = await ticket_login()
 				if (!(is_online && is_online.code)) {
 					navigation.navigate('login')
 				} else {
 					await set('sessionid', is_online.sessionid)
+					listen(mqtt, `/push/${is_online.sessionid}`).then((res) => {
+						use_session[1](res)
+					})
 				}
 			}, 1000 * 60 * 5)
 			/**

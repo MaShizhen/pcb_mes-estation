@@ -63,3 +63,13 @@ export async function listen(uri: string, topic: string) {
 		});
 	})
 }
+
+/**
+ * 取消订阅
+ * @param uri 推送服务地址
+ * @param topic 主题
+ */
+export async function unsubscribe(uri: string, topic: string) {
+	const c = await config(uri);
+	return c.unsubscribe(topic);
+}
