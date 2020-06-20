@@ -28,7 +28,8 @@ export default (prop: IProp) => {
 	const [states, set_states] = useState({
 		userboard: [] as IUserboard[],
 		userboardright: [] as IUserboardRight[],
-		visible: false as boolean
+		visible: false as boolean,
+		page_num: 1
 	})
 	// 弹窗内设备列表
 	const [equipment_list, set_equipment_list] = useState<IEquipmentList[]>([])
@@ -56,7 +57,7 @@ export default (prop: IProp) => {
 
 			const mes_id = await get<string>('mes_id')
 			const userboard_res = await userboard(mes_id)
-			const userboardright_res = await userboardright('74c08b13-aa1e-48fh-a9bc-60257665afa7', '')
+			const userboardright_res = await userboardright('74c08b13-aa1e-48fh-a9bc-60257665afa7', '', states.page_num)
 			set_states({
 				...states,
 				userboard: userboard_res.data,

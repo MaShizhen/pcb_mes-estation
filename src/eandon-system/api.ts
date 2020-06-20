@@ -22,12 +22,12 @@ export function userboard(mes_process_mesid: string) {
  * @param mes_process_mesid 工序mes_id
  * @param mes_device_mesid 设备mes_id
  */
-export function userboardright(mes_process_mesid: string, mes_device_mesid: string) {
+export function userboardright(mes_process_mesid: string, mes_device_mesid: string, pageNum: number) {
 	return service<IUserboardRightRes>('dataservice.mescomm.userboardright', {
 		spaceid,
 		productid,
 		systemid,
-		pageNum: 1,
+		pageNum,
 		pageSize: 10,
 		criteria: {
 			mes_process_mesid,

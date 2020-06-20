@@ -6,12 +6,12 @@ import { ICollectionInfoRes } from './interface'
  * 安灯管理左侧列表
  * @param mes_process_mesid 工序mes_id
  */
-export function collectioninfo(mes_devicesub_deviceid: string) {
+export function collectioninfo(mes_devicesub_deviceid: string, pageNum: number) {
 	return service<ICollectionInfoRes>('dataservice.mescomm.collectioninfo', {
 		spaceid,
 		productid,
 		systemid,
-		pageNum: 1,
+		pageNum,
 		pageSize: 10,
 		criteria: {
 			mes_devicesub_deviceid

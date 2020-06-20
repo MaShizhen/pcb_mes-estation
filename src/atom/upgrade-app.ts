@@ -43,8 +43,6 @@ export default async function upgrade_app(service_url: string) {
 		const version = result.androidVersion;
 		const file = encodeURIComponent(`${name}-v${version}`);
 		const apkUrl = `${baseurl}${file}.apk`;
-		console.log('333333333333333333', apkUrl);
-
 		upgrade(apkUrl);
 	}
 }

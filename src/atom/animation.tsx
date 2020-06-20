@@ -47,8 +47,6 @@ export default class Animation extends Component<IAnimationProps, IAnimationProp
 		this.scale();
 	}
 	public render() {
-		console.log('3333333333333333333333333333333333333333333333333333333333');
-
 		const spin = this.spinValue.interpolate({
 			inputRange: [0, 1],
 			outputRange: ['0deg', '360deg']
