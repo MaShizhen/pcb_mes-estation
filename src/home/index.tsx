@@ -1,8 +1,9 @@
 // import { Picker } from '@react-native-community/picker'
+import RNSerialPort from '@koimy/react-native-serial-port'
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import React, { useCallback, useEffect, useState } from 'react';
-import { Image, Picker, SectionList, Text, TouchableOpacity, View } from 'react-native'
+import { DeviceEventEmitter, Image, Picker, SectionList, Text, TouchableOpacity, View } from 'react-native'
 import { Col, Grid, Row } from 'react-native-easy-grid';
 import { mqtt } from '../atom/config'
 import Icon from '../atom/icon'
@@ -46,6 +47,15 @@ export default (prop: IProp) => {
 		focused_index: 0 as number,
 		visible: false as boolean
 	})
+
+	// 开启串口监听
+	useEffect(() => {
+		RNSerialPort.openSerialPort('/dev/ttyS4', '9600')
+		// 监听接收串口开关的状态
+		// DeviceEventEmitter.addListener('onSerialPortOpenStatus', (status) => {
+		// 	console.log("onSerialPortOpenStatus", status);
+		// })
+	}, [])
 
 	// 初始化查询头部
 	useEffect(() => {

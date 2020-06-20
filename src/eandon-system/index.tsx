@@ -4,6 +4,8 @@ import { get_file } from '../atom/config';
 import Fdicon from '../atom/icon';
 import loading from '../atom/loading';
 import MessageBox from '../atom/message-box';
+import nfc from '../atom/nfc';
+import rfid from '../atom/rfid';
 import { get } from '../atom/storage';
 import toast from '../atom/toast';
 import { equipmentlist } from '../home/api';
@@ -37,6 +39,15 @@ export default (prop: IProp) => {
 	})
 
 	const [selectedValue, setSelectedValue] = useState(0);
+
+	const [card_type, set_card_type] = useState('1');
+	const cards = [{
+		name: 'id',
+		flag: '1'
+	}, {
+		name: 'ic',
+		flag: '2'
+	}]
 
 	// 初始化查询报警代码列表
 	useEffect(() => {
@@ -108,6 +119,17 @@ export default (prop: IProp) => {
 	 * 校验权限
 	 */
 	async function check(args: { _index: number }) {
+		console.log('--------------------', card_type);
+
+		const code = await (() => {
+			if (card_type === '1') {
+				return rfid()
+			} else {
+				return nfc()
+			}
+		})()
+		console.log('cccccccccccccccccccccccccc', code);
+		return
 		const _index = args._index
 		if (_index === 1) {
 			await issue(args)
@@ -208,6 +230,13 @@ export default (prop: IProp) => {
 				set_message_box({ index: args._index, args: null })
 			}}>
 				<View style={{ flexDirection: 'row', alignItems: "center", justifyContent: 'center' }}>
+					<Picker selectedValue={card_type} onValueChange={(i) => set_card_type(i)} style={{ height: 35, width: 250 }} >
+						{
+							cards.map((item, index) => {
+								return <Picker.Item label={item.name} key={index} value={item.flag} />
+							})
+						}
+					</Picker>
 					<Text style={{ fontSize: 16, color: '#333333', textAlign: 'center', lineHeight: 150 }}>请刷卡验证登录</Text>
 				</View>
 			</MessageBox>
