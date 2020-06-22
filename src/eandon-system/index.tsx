@@ -138,6 +138,17 @@ export default (prop: IProp) => {
 			const sawadika = await verified(id_code, states.card_identification)
 			if (sawadika.data.length > 0) {
 				toast('success', '验证成功')
+				const _index = args._index
+				if (_index === 1) {
+					await issue(args)
+				} else if (_index === 3) {
+					await remove(args)
+				}
+				// 隐藏弹窗
+				set_message_box({
+					index: 0,
+					args: null
+				})
 			} else {
 				toast('error', '验证失败')
 			}
@@ -145,18 +156,8 @@ export default (prop: IProp) => {
 			toast('error', '验证失败')
 		}
 
-		// return
-		const _index = args._index
-		if (_index === 1) {
-			await issue(args)
-		} else if (_index === 3) {
-			await remove(args)
-		}
-		// 隐藏弹窗
-		set_message_box({
-			index: 0,
-			args: null
-		})
+		//
+
 	}
 
 	return (
