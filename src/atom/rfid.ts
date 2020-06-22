@@ -8,7 +8,7 @@ export default async function rfid() {
 			// RNSerialPort.openSerialPort('/dev/ttyS4', '9600')
 			// 监听串口回传数据
 			DeviceEventEmitter.addListener('onSerialPortRecevieData', (receiveData) => {
-				const str = bytes2str(receiveData)
+				const str = bytes2str(receiveData).slice(2, -2).toUpperCase()
 				resolve({
 					code: 1,
 					id: str

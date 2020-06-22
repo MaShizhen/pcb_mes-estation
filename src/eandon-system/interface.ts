@@ -122,14 +122,14 @@ export interface IboardaddRes extends IJavaRes {
 
 
 export interface IAwadika extends IJavaRes {
-	data: {
+	data: [{
 		/**
-		 * 参数id_code
+		 *
 		 */
-		id_code: string;
+		staff_no: string;
 		/**
-		 * 参数card_identification
+		 *
 		 */
-		card_identification: string;
-	}
+		staff_name: string;
+	}]
 }

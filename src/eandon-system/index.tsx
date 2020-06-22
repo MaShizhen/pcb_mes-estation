@@ -77,7 +77,7 @@ export default (prop: IProp) => {
 			const mes_staff_name = await get<string>('mes_staff_name')
 			// const mes_ids = await get<string>('mes_ids')
 			const equipmentlist_res = await equipmentlist(mes_staff_code, mes_staff_name)
-			console.log(equipmentlist_res, '0------0-0-0-0-0-0-0-0-0-0-0-0-0-0---------------')
+			// console.log(equipmentlist_res, '0------0-0-0-0-0-0-0-0-0-0-0-0-0-0---------------')
 			set_equipment_list(equipmentlist_res.data.sub)
 		})()
 
@@ -123,7 +123,6 @@ export default (prop: IProp) => {
 	 * 校验权限
 	 */
 	async function check(args: { _index: number }) {
-		console.log('--------------------', card_type);
 
 		const code = await (() => {
 			if (card_type === '1') {
@@ -134,12 +133,14 @@ export default (prop: IProp) => {
 				return nfc()
 			}
 		})() as { id: string }
-		console.log('cccccccccccccccccccccccccc', code);
 		const id_code = code.id
 		try {
 			const sawadika = await verified(id_code, states.card_identification)
-			console.log(sawadika, '---------------------')
-			toast('success', '验证成功')
+			if (sawadika.data.length > 0) {
+				toast('success', '验证成功')
+			} else {
+				toast('error', '验证失败')
+			}
 		} catch (error) {
 			toast('error', '验证失败')
 		}
