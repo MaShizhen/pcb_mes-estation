@@ -119,3 +119,17 @@ export interface IboardaddRes extends IJavaRes {
 		mes_id: string;
 	}
 }
+
+
+export interface IAwadika extends IJavaRes {
+	data: {
+		/**
+		 * 参数id_code
+		 */
+		id_code: string;
+		/**
+		 * 参数card_identification
+		 */
+		card_identification: string;
+	}
+}

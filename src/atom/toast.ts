@@ -36,7 +36,7 @@ export default function toast(type: 'success' | 'warning' | 'info' | 'error', me
 		}
 	})()
 	const options = {
-		backgroundColor: '#fff',
+		backgroundColor: 'red',
 		data: message,
 		duration: 1000,
 		position: WToast.position.TOP,

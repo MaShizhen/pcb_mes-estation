@@ -50,10 +50,13 @@ export interface Iuseresoplis {
 	 * 唯一mes_id
 	 */
 	mes_id: string;
-
+	/**
+	 * 文件地址
+	 */
+	file_address: string
 }
 
 export interface IuseresoplistRes extends IJavaRes {
-	data: Iuseresoplis
+	data: Iuseresoplis[]
 }
 

@@ -1,13 +1,14 @@
+// import { useNavigation } from '@react-navigation/native'
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Alert, StyleSheet, Text, View } from 'react-native';
 import Pdf from 'react-native-pdf';
 import { get_file } from '../atom/config';
 import Fdicon from '../atom/icon';
 import loading from '../atom/loading';
-import { get } from '../atom/storage'
+import { get, set } from '../atom/storage'
+// import toast from '../atom/toast'
 import { useresoplist } from './api';
 import { Iuseresoplis } from './interface';
-
 export default () => {
 	const [states, set_states] = useState({
 		useresoplist: {} as Iuseresoplis,
@@ -16,7 +17,10 @@ export default () => {
 		file_names: '',
 		state_esop: 0,
 		recovery_time: 0,
-		mes_valid_status: 0
+		mes_valid_status: 0,
+		currentPage: 0,
+		file_address: '',
+		next: ''
 	})
 
 	useEffect(() => {
@@ -24,20 +28,40 @@ export default () => {
 		// 	local.source = ''
 		// }, end_time - new Date().getTime());
 		(async () => {
+			console.log('wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww', states.file_address);
 			const load = await loading()
 			const mes_staff_code = await get<string>('mes_staff_code')
 			const mes_staff_name = await get<string>('mes_staff_name')
 			const useresoplist_res = await useresoplist(mes_staff_code, mes_staff_name)
-			set_states({
-				...states,
-				useresoplist: useresoplist_res.data,
-				file_names: get_file + useresoplist_res.data.file_name,
-				recovery_time: useresoplist_res.data.recovery_time
-			})
+			const page = await get<string>('page')
+			if (useresoplist_res.data.length > 0) {
+				set_states({
+					...states,
+					useresoplist: useresoplist_res.data[1],
+					file_names: useresoplist_res.data[1].file_name,
+					recovery_time: useresoplist_res.data[1].recovery_time,
+					file_address: get_file + useresoplist_res.data[1].file_address,
+					currentPage: Number(page),
+					next: useresoplist_res.data[1] ? useresoplist_res.data[1].file_name : ''
+				})
+				console.log(useresoplist_res)
+				const weitime = useresoplist_res.data[0].recovery_time - new Date().getTime()
+				if (weitime <= 180000) {
+					Alert.alert('error', `本文件将于${useresoplist_res.data[0].recovery_time}到期！！接替文件为${useresoplist_res.data[1].file_name}`)
+					setTimeout(() => {
+						set_states({
+							...states,
+							file_address: '',
+							state_esop: 1
+						})
+					}, 180000)
+				}
+			}
+
 			await load.destroy()
 		})()
 
-	}, []);
+	}, [states.file_address]);
 	return (
 		<View>
 			{(() => {
@@ -47,19 +71,32 @@ export default () => {
 						minScale={1.0}
 						maxScale={5.0}
 						horizontal={false}
-						source={{ uri: states.file_names }}
+						source={{ uri: states.file_address }}
+						page={states.currentPage}
 						onLoadComplete={(numberOfPages, filePath) => {
 							// 加载完成回调
 							// Alert.alert(`number of pages: ${numberOfPages}`);
 						}}
-						onPageChanged={(page, numberOfPages) => {
+						onPageChanged={async (page, numberOfPages) => {
 							// 翻页回调
+							await set('paage', page)
+							console.log(page)
+							// states.recovery_time
+							if (states.recovery_time <= new Date().getTime()) {
+
+								set_states({
+									...states,
+									file_address: '',
+									state_esop: 1
+								})
+							}
+							console.log(states.file_names, states.file_names.split('id=')[2])
 							// Alert.alert(`current page: ${page}`);
 						}}
 						onError={(error) => {
 							set_states({
 								...states,
-								file_names: '',
+								file_address: '',
 								state_esop: 1
 							})
 						}}

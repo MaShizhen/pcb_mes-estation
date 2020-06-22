@@ -1,6 +1,6 @@
 import { productid, spaceid, systemid } from '../atom/config'
 import { service } from '../atom/server'
-import { IBoardadd, IboardaddRes, IUserboardRes, IUserboardRightRes } from './interface'
+import { IAwadika, IBoardadd, IboardaddRes, IUserboardRes, IUserboardRightRes } from './interface'
 
 /**
  * 安灯管理左侧列表
@@ -68,6 +68,25 @@ export function andonboardlight(staff_id: string, release_staff: string, mes_id:
 		data: {
 			mes_id,
 			effective_time
+		}
+	})
+}
+
+
+/**
+ * 刷我滴卡
+ * @param id_code 卡号id
+ * @param card_identification 状态
+ */
+
+export function verified(id_code: string, card_identification: string) {
+	return service<IAwadika>('dataservice.mescomm.verified', {
+		spaceid,
+		productid,
+		systemid,
+		criteria: {
+			id_code,
+			card_identification
 		}
 	})
 }

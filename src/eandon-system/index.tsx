@@ -10,7 +10,7 @@ import { get } from '../atom/storage';
 import toast from '../atom/toast';
 import { equipmentlist } from '../home/api';
 import { IEquipmentList } from '../home/interface';
-import { andonboardlight, boardadd, userboard, userboardright } from './api';
+import { andonboardlight, boardadd, userboard, userboardright, verified } from './api';
 import { IUserboard, IUserboardRight } from './interface';
 
 interface IProp {
@@ -21,7 +21,8 @@ interface IProp {
 		params: {
 			data: string[]
 		}
-	}
+	},
+
 }
 
 export default (prop: IProp) => {
@@ -29,7 +30,8 @@ export default (prop: IProp) => {
 		userboard: [] as IUserboard[],
 		userboardright: [] as IUserboardRight[],
 		visible: false as boolean,
-		page_num: 1
+		page_num: 1,
+		card_identification: ''
 	})
 	// 弹窗内设备列表
 	const [equipment_list, set_equipment_list] = useState<IEquipmentList[]>([])
@@ -75,6 +77,7 @@ export default (prop: IProp) => {
 			const mes_staff_name = await get<string>('mes_staff_name')
 			// const mes_ids = await get<string>('mes_ids')
 			const equipmentlist_res = await equipmentlist(mes_staff_code, mes_staff_name)
+			console.log(equipmentlist_res, '0------0-0-0-0-0-0-0-0-0-0-0-0-0-0---------------')
 			set_equipment_list(equipmentlist_res.data.sub)
 		})()
 
@@ -124,13 +127,24 @@ export default (prop: IProp) => {
 
 		const code = await (() => {
 			if (card_type === '1') {
+				set_states({ ...states, card_identification: '0' })
 				return rfid()
 			} else {
+				set_states({ ...states, card_identification: '1' })
 				return nfc()
 			}
-		})()
+		})() as { id: string }
 		console.log('cccccccccccccccccccccccccc', code);
-		return
+		const id_code = code.id
+		try {
+			const sawadika = await verified(id_code, states.card_identification)
+			console.log(sawadika, '---------------------')
+			toast('success', '验证成功')
+		} catch (error) {
+			toast('error', '验证失败')
+		}
+
+		// return
 		const _index = args._index
 		if (_index === 1) {
 			await issue(args)
