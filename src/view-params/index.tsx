@@ -42,8 +42,8 @@ export default (prop: IProp) => {
 			const collectioninfo_res = await collectioninfo(prop.route.params.data.mes_id, states.page_num)
 			set_states({
 				...states,
-				collectioninfo: collectioninfo_res.data.list.map((item) => {
-					return [
+				collectioninfo: collectioninfo_res.data.list.reduce((p, item) => {
+					p.push([
 						item.mes_devicesub_bparamcode,
 						item.mes_devicesub_bparamname,
 						item.mes_devicesub_bparamdesc,
@@ -52,8 +52,9 @@ export default (prop: IProp) => {
 						'',
 						'',
 						[item.mes_devicesub_deviceid, item.mes_devicesub_cparamid, item.mes_paramgroups_type.toString()]
-					];
-				})
+					]);
+					return p
+				}, states.collectioninfo)
 			})
 			await load.destroy()
 		})()
