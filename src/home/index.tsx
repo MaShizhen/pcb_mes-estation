@@ -3,7 +3,7 @@ import RNSerialPort from '@koimy/react-native-serial-port'
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import React, { useCallback, useEffect, useState } from 'react';
-import { Image, Picker, SectionList, Text, TouchableOpacity, View } from 'react-native'
+import { Image, Picker, ScrollView, SectionList, Text, TouchableOpacity, View } from 'react-native'
 import { Col, Grid, Row } from 'react-native-easy-grid';
 import { mqtt } from '../atom/config'
 import Icon from '../atom/icon'
@@ -165,61 +165,65 @@ export default (prop: IProp) => {
 
 	return (
 		<Grid>
-			<Row size={8}>
+			<Row size={9}>
 				<Image style={{
-					height: '100%'
-					, width: '100%', justifyContent: 'center'
+					height: 150, width: '100%', position: 'absolute'
 				}} source={require('../../imgs/title_img.png')}></Image>
-				<TouchableOpacity style={{ height: 80, position: 'absolute', right: 20, top: 10 }} onPress={() => alertClick()}>
-					{/* 头像 */}
+				<View style={{
+					flexDirection: 'row', alignItems: 'center'
+				}}>
+					<Image style={{ height: 35, width: 130 }} source={require('../../imgs/logo.png')}></Image>
+					<ScrollView showsHorizontalScrollIndicator={false} horizontal={true} style={{ width: '79%' }}>
+						<View style={{ flexDirection: 'row', alignItems: 'center' }}>
+							<Text style={{ height: 35, lineHeight: 35, textAlign: 'right', paddingLeft: 25, color: '#fff', fontSize: 16 }}>终端代码名称:</Text>
+							<Text style={{ height: 35, lineHeight: 35, color: '#fff', fontSize: 16 }}>终端代码名称</Text>
+						</View>
+						<View style={{ flexDirection: 'row', alignItems: 'center' }}>
+							<Text style={{ height: 35, lineHeight: 35, textAlign: 'right', paddingLeft: 25, color: '#fff', fontSize: 16 }}>工序代码名称:</Text>
+							<Text style={{ height: 35, lineHeight: 35, color: '#fff', fontSize: 16 }}>{states.mes_process_name}</Text>
+						</View>
+						<View style={{ flexDirection: 'row', alignItems: 'center' }}>
+							<Text style={{ height: 35, lineHeight: 35, textAlign: 'right', paddingLeft: 25, color: '#fff', fontSize: 16 }}>员工编号:</Text>
+							<Text style={{ height: 35, lineHeight: 35, color: '#fff', fontSize: 16 }}>{states.mes_staff_code}</Text>
+						</View>
+						<View style={{ flexDirection: 'row', alignItems: 'center' }}>
+							<Text style={{ height: 35, lineHeight: 35, textAlign: 'right', paddingLeft: 25, color: '#fff', fontSize: 16 }}>员工名称:</Text>
+							<Text style={{ height: 35, lineHeight: 35, color: '#fff', fontSize: 16 }}>{states.mes_staff_name}</Text>
+						</View>
+						<View style={{ flexDirection: 'row', alignItems: 'center' }}>
+							<Text style={{ height: 35, lineHeight: 35, textAlign: 'right', paddingLeft: 25, color: '#fff', fontSize: 16 }}>所属设备:</Text>
+							<Picker mode={'dialog'}
+								style={{ height: 35, width: 220, color: '#fff', fontSize: 16 }} >
+								{
+									states.equipmentlist.map((item, index) => {
+										return <Picker.Item label={item.mes_device_name} key={index} value={item.mes_device_code} />
+									})
+								}
+							</Picker>
+						</View>
+						<View style={{ flexDirection: 'row', alignItems: 'center' }}>
+							<Text style={{ textAlign: 'right', paddingLeft: 25, color: '#fff', fontSize: 16 }}><Fdicon name='xiaoxi1' size={18} color='red'></Fdicon>消息:</Text>
+							<Text style={{ color: '#fff', fontSize: 18 }}>测试终端代码名称</Text>
+						</View>
+					</ScrollView>
+				</View>
+				{/* 头像 */}
+				<TouchableOpacity style={{ flexDirection: 'row', justifyContent: 'center', position: 'absolute', right: 10, top: 6 }} onPress={() => alertClick()}>
 					<View style={{ alignItems: 'center' }}>
-						<Image source={require('../../imgs/science5.png')} style={{ width: 60, height: 60, borderRadius: 30 }} />
+						<Image source={require('../../imgs/science5.png')} style={{ width: 30, height: 30, borderRadius: 15 }} />
 					</View>
 				</TouchableOpacity>
-				<View style={{ flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap', position: 'absolute', top: 20, left: 0 }}>
-					<Image style={{ height: 40, width: 250, justifyContent: 'center' }} source={require('../../imgs/logo.png')}></Image>
-					<View style={{ flexDirection: 'row', alignItems: 'center' }}>
-						<Text style={{ height: 35, lineHeight: 35, textAlign: 'right', width: 150, color: '#fff', fontSize: 18 }}>终端代码名称:</Text>
-						<Text style={{ height: 35, lineHeight: 35, color: '#fff', fontSize: 18 }}>测试终端代码名称</Text>
-					</View>
-					<View style={{ flexDirection: 'row', alignItems: 'center' }}>
-						<Text style={{ height: 35, lineHeight: 35, textAlign: 'right', width: 150, color: '#fff', fontSize: 18 }}>工序代码名称:</Text>
-						<Text style={{ height: 35, lineHeight: 35, color: '#fff', fontSize: 18 }}>{states.mes_process_name}</Text>
-					</View>
-					<View style={{ flexDirection: 'row', alignItems: 'center' }}>
-						<Text style={{ height: 35, lineHeight: 35, textAlign: 'right', width: 150, color: '#fff', fontSize: 18 }}>员工编号:</Text>
-						<Text style={{ height: 35, lineHeight: 35, color: '#fff', fontSize: 18 }}>{states.mes_staff_code}</Text>
-					</View>
-					<View style={{ flexDirection: 'row', alignItems: 'center' }}>
-						<Text style={{ height: 35, lineHeight: 35, textAlign: 'right', width: 150, color: '#fff', fontSize: 18 }}>员工名称:</Text>
-						<Text style={{ height: 35, lineHeight: 35, color: '#fff', fontSize: 18 }}>{states.mes_staff_name}</Text>
-					</View>
-					<View style={{ flexDirection: 'row', alignItems: 'center' }}>
-						<Text style={{ height: 35, lineHeight: 35, textAlign: 'right', width: 150, color: '#fff', fontSize: 18 }}>所属设备:</Text>
-						<Picker
-							style={{ height: 35, width: 190, color: '#fff' }} >
-							{
-								states.equipmentlist.map((item, index) => {
-									return <Picker.Item label={item.mes_device_name} key={index} value={item.mes_device_code} />
-								})
-							}
-						</Picker>
-					</View>
-					<View style={{ flexDirection: 'row', alignItems: 'center' }}>
-						<Text style={{ height: 35, lineHeight: 35, textAlign: 'right', width: 150, color: '#fff', fontSize: 18 }}><Fdicon name='xiaoxi1' size={18} color='red'></Fdicon>消息:</Text>
-						<Text style={{ height: 35, lineHeight: 35, color: '#fff', fontSize: 18 }}>测试终端代码名称</Text>
-					</View>
-				</View>
 			</Row>
-			<Row size={92}>
-				<Col size={1} style={{ backgroundColor: 'black', alignItems: 'center', shadowColor: '#ccc' }}>
+			<Row size={91}>
+				<Col size={1.3} style={{ backgroundColor: 'black', alignItems: 'center', shadowColor: '#ccc', width: '100%' }} >
 					<SectionList
+
 						keyExtractor={(item) => {
 							return item.path
 						}}
 						renderItem={({ item, index }) => {
 							return (
-								<TouchableOpacity activeOpacity={0.9} style={{ alignItems: 'center', justifyContent: 'center', backgroundColor: index === states.focused_index ? '#448AFF' : '#fff', height: 140, width: 170, marginTop: 10, borderRadius: 20 }} onPress={
+								<TouchableOpacity activeOpacity={0.9} style={{ justifyContent: 'center', backgroundColor: index === states.focused_index ? '#448AFF' : '#fff', height: 100, width: '100%', marginTop: 10, borderRadius: 20 }} onPress={
 									() => {
 										set_states({
 											...states,
@@ -229,7 +233,7 @@ export default (prop: IProp) => {
 									}}>
 									<View style={{ alignItems: 'center', justifyContent: 'center' }}>
 										<Icon style={{ alignContent: 'center' }} name={item.icon} size={35} color={index === states.focused_index ? '#fff' : '#448AFF'}></Icon>
-										<Text style={{ marginTop: 15, fontSize: 20, color: index === states.focused_index ? '#fff' : '#448AFF', fontWeight: 'bold' }}>{item.name}</Text>
+										<Text style={{ marginTop: '10%', fontSize: 20, color: index === states.focused_index ? '#fff' : '#448AFF', fontWeight: 'bold' }}>{item.name}</Text>
 									</View>
 								</TouchableOpacity>
 							);
@@ -237,7 +241,7 @@ export default (prop: IProp) => {
 						sections={menus}
 					/>
 				</Col>
-				<Col size={9}>
+				<Col size={8.7}>
 					<Stack.Navigator initialRouteName='esop_system' screenOptions={{
 						animationEnabled: true
 					}}>
