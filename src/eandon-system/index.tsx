@@ -227,7 +227,7 @@ export default (prop: IProp) => {
 					_index: 1
 				}
 			})} toCencel={() => set_message_box({ index: 0, args: null })}>
-				<View style={{ flexDirection: 'row', alignItems: "center", justifyContent: 'center' }}>
+				<View style={{ flexDirection: 'row', alignItems: "center", justifyContent: 'center', flexWrap: 'nowrap' }}>
 					<Text style={{ fontSize: 16, color: '#333333', textAlign: 'center', lineHeight: 150 }}>可用设备代码：</Text>
 					<Picker selectedValue={equipment_list.length > 0 ? equipment_list[selectedValue].mes_id : ''} onValueChange={(_, itemIndex) => setSelectedValue(itemIndex)} style={{ height: 35, width: 250 }} >
 						{
