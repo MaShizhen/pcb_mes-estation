@@ -6,10 +6,14 @@ import { get_file } from '../atom/config';
 import Fdicon from '../atom/icon';
 import loading from '../atom/loading';
 import { get, set } from '../atom/storage'
+import useSession from '../atom/useSession'
 // import toast from '../atom/toast'
 import { useresoplist } from './api';
 import { Iuseresoplis } from './interface';
+
 export default () => {
+	const [session] = useSession()
+
 	const [states, set_states] = useState({
 		useresoplist: {} as Iuseresoplis,
 		mes_staff_name: '',
@@ -61,7 +65,7 @@ export default () => {
 			await load.destroy()
 		})()
 
-	}, [states.file_address]);
+	}, [states.file_address, session]);
 	return (
 		<View>
 			{(() => {
