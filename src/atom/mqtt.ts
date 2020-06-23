@@ -64,6 +64,31 @@ export async function listen(uri: string, topic: string) {
 	})
 }
 
+
+/**
+ * 监听推送消息
+ * @param fd 系统变量
+ * @param topic 主题
+ * @param event_no 事件编号
+ */
+export async function listen_callback(uri: string, topic: string, callback: (msg: string) => void) {
+	const c = await config(uri);
+	c.on('message', (res_topic, payload) => {
+		if (res_topic === topic) {
+			const buffer = payload.toString();
+			try {
+				const msg = JSON.parse(buffer)
+				return callback(msg)
+			} catch {
+				return callback(buffer)
+			}
+		}
+	});
+	c.subscribe(topic, (err) => {
+
+	});
+}
+
 /**
  * 取消订阅
  * @param uri 推送服务地址

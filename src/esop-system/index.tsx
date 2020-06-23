@@ -13,7 +13,7 @@ import { Iuseresoplis } from './interface';
 
 export default () => {
 	const [session] = useSession()
-
+	console.log(session)
 	const [states, set_states] = useState({
 		useresoplist: {} as Iuseresoplis,
 		mes_staff_name: '',
@@ -109,7 +109,7 @@ export default () => {
 					return <View style={{ backgroundColor: '#fff', height: '100%' }}>
 						<View style={{ flexDirection: 'column', alignItems: 'center', marginTop: '20%' }}>
 							<Fdicon name='wushuju' size={60} color='#999'></Fdicon>
-							<Text style={{ fontSize: 18, textAlign: 'center', color: '#999' }}>{states.state_esop === 0 ? '暂无数据' : '文件地址无效'}~</Text>
+							<Text style={{ fontSize: 18, textAlign: 'center', color: '#999' }}>{states.state_esop === 0 ? JSON.stringify(session) : '文件地址无效'}~</Text>
 						</View>
 					</View>
 				}
