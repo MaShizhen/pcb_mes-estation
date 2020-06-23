@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Platform, Text } from 'react-native'
 import RNBootSplash from "react-native-bootsplash";
 import { RootSiblingParent } from 'react-native-root-siblings';
+import { connect, Provider } from 'react-redux';
 import check_new_version from '../atom/check-new-version'
 import { update_url } from '../atom/config'
 import get_changelog from '../atom/get-changelog'
@@ -11,6 +12,7 @@ import MessageBox from '../atom/message-box'
 import { ticket_login } from '../atom/server'
 import { get, set } from '../atom/storage';
 import upgrade_app from '../atom/upgrade-app';
+import store from '../store/index'
 
 // 引入页面
 import { View } from 'native-base';
@@ -73,29 +75,30 @@ export default function App() {
 
 	return (
 		<Wrapper>
-			<NavigationContainer ref={navigation_container}>
-				<Stack.Navigator initialRouteName='login' screenOptions={{
-					headerStyle: {
-						height: 0
-					},
-					headerTitle: ''
-				}}>
-					<Stack.Screen name='login' component={login} />
-					<Stack.Screen name='home' component={home} />
-					{/* <Stack.Screen name='nfc' component={nfc} /> */}
-				</Stack.Navigator>
+			<Provider store={store}>
+				<NavigationContainer ref={navigation_container}>
+					<Stack.Navigator initialRouteName='login' screenOptions={{
+						headerStyle: {
+							height: 0
+						},
+						headerTitle: ''
+					}}>
+						<Stack.Screen name='login' component={login} />
+						<Stack.Screen name='home' component={connect((state: { session: string }) => ({ session: state.session }))(home)} />
+						{/* <Stack.Screen name='nfc' component={nfc} /> */}
+					</Stack.Navigator>
 
-				<MessageBox visible={update.new} toCencel={() => set_update({
-					...update,
-					new: false
-				})} toConfirm={() => to_update()}>
-					<View style={{ marginTop: 40, marginBottom: 40 }}>
-						<Text style={{ fontSize: 16, color: '#333333', textAlign: 'center' }}>有新版本，是否更新？</Text>
-						<Text style={{ marginTop: 20, fontSize: 16, color: '#333333', textAlign: 'center' }}>{update.changelog}</Text>
-					</View>
-				</MessageBox>
-
-			</NavigationContainer>
+					<MessageBox visible={update.new} toCencel={() => set_update({
+						...update,
+						new: false
+					})} toConfirm={() => to_update()}>
+						<View style={{ marginTop: 40, marginBottom: 40 }}>
+							<Text style={{ fontSize: 16, color: '#333333', textAlign: 'center' }}>有新版本，是否更新？</Text>
+							<Text style={{ marginTop: 20, fontSize: 16, color: '#333333', textAlign: 'center' }}>{update.changelog}</Text>
+						</View>
+					</MessageBox>
+				</NavigationContainer>
+			</Provider>
 		</Wrapper>
 	);
 }

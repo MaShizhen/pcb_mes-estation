@@ -5,13 +5,14 @@ import { createStackNavigator } from '@react-navigation/stack';
 import React, { useCallback, useEffect, useState } from 'react';
 import { Image, Picker, ScrollView, SectionList, Text, TouchableOpacity, View } from 'react-native'
 import { Col, Grid, Row } from 'react-native-easy-grid';
+import { connect } from 'react-redux';
+import { AnyAction, Dispatch } from 'redux';
 import { mqtt } from '../atom/config'
 import Icon from '../atom/icon'
 import Fdicon from '../atom/icon';
-import { config, listen, unsubscribe } from '../atom/mqtt'
+import { config, listen_callback, unsubscribe } from '../atom/mqtt'
 import { ticket_login } from '../atom/server'
 import { get, set } from '../atom/storage'
-import useSession from '../atom/useSession'
 import { equipmentlist } from './api';
 import LoginOut from './components/login-out';
 
@@ -28,15 +29,13 @@ import { IEquipmentList } from './interface'
 // tslint:disable-next-line: variable-name
 const Stack = createStackNavigator();
 
-
-interface IProp {
-	visible: boolean;
-	id: string;
-	toHide: () => void,
+interface IProps {
+	session: string;
+	dispatch: Dispatch<AnyAction>
 }
 
-export default (prop: IProp) => {
-	const use_session = useSession()
+export default (props: IProps) => {
+	// const use_session = useSession()
 
 	const navigation = useNavigation();
 	const [states, set_states] = useState({
@@ -85,6 +84,7 @@ export default (prop: IProp) => {
 	useFocusEffect(
 		useCallback(() => {
 			const inv = setInterval(async () => {
+				// (async () => {
 				const sessionid = await get('sessionid')
 				config(mqtt)
 				await unsubscribe(mqtt, `/push/${sessionid}`)
@@ -93,10 +93,13 @@ export default (prop: IProp) => {
 					navigation.navigate('login')
 				} else {
 					await set('sessionid', is_online.sessionid)
-					listen(mqtt, `/push/${is_online.sessionid}`).then((res) => {
-						use_session[1](res)
+					console.log('----------------------------', is_online.sessionid);
+
+					listen_callback(mqtt, `/push/${is_online.sessionid}`, (res) => {
+						props.dispatch({ type: 'message' })
 					})
 				}
+				// })()
 			}, 1000 * 60 * 5)
 			/**
 			 * home页面返回时，清除定时器
@@ -245,7 +248,7 @@ export default (prop: IProp) => {
 					<Stack.Navigator initialRouteName='esop_system' screenOptions={{
 						animationEnabled: true
 					}}>
-						<Stack.Screen name='esop_system' component={esop_system} />
+						<Stack.Screen name='esop_system' component={connect((state: { session: string }) => ({ session: state.session }))(esop_system)} />
 						<Stack.Screen name='eandon_system' component={eandon_system} />
 						<Stack.Screen name='data_collection' component={data_collection} options={{
 							title: '数据采录'

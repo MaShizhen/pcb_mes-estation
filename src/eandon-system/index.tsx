@@ -133,6 +133,7 @@ export default (prop: IProp) => {
 				return nfc()
 			}
 		})() as { id: string }
+
 		const id_code = code.id
 		try {
 			const sawadika = await verified(id_code, states.card_identification)
@@ -155,9 +156,6 @@ export default (prop: IProp) => {
 		} catch (error) {
 			toast('error', '验证失败')
 		}
-
-		//
-
 	}
 
 	return (

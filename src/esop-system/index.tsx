@@ -1,19 +1,20 @@
-// import { useNavigation } from '@react-navigation/native'
 import React, { useEffect, useState } from 'react';
 import { Alert, StyleSheet, Text, View } from 'react-native';
 import Pdf from 'react-native-pdf';
+import { AnyAction, Dispatch } from 'redux';
 import { get_file } from '../atom/config';
 import Fdicon from '../atom/icon';
 import loading from '../atom/loading';
 import { get, set } from '../atom/storage'
-import useSession from '../atom/useSession'
-// import toast from '../atom/toast'
 import { useresoplist } from './api';
 import { Iuseresoplis } from './interface';
 
-export default () => {
-	const [session] = useSession()
-	console.log(session)
+interface IProps {
+	session: string;
+	dispatch: Dispatch<AnyAction>
+}
+
+export default (props: IProps) => {
 	const [states, set_states] = useState({
 		useresoplist: {} as Iuseresoplis,
 		mes_staff_name: '',
@@ -32,7 +33,7 @@ export default () => {
 		// 	local.source = ''
 		// }, end_time - new Date().getTime());
 		(async () => {
-			console.log('wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww', states.file_address);
+			console.log('wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww', props.session);
 			const load = await loading()
 			const mes_staff_code = await get<string>('mes_staff_code')
 			const mes_staff_name = await get<string>('mes_staff_name')
@@ -65,7 +66,7 @@ export default () => {
 			await load.destroy()
 		})()
 
-	}, [states.file_address, session]);
+	}, [states.file_address, props.session]);
 	return (
 		<View>
 			{(() => {
@@ -109,7 +110,7 @@ export default () => {
 					return <View style={{ backgroundColor: '#fff', height: '100%' }}>
 						<View style={{ flexDirection: 'column', alignItems: 'center', marginTop: '20%' }}>
 							<Fdicon name='wushuju' size={60} color='#999'></Fdicon>
-							<Text style={{ fontSize: 18, textAlign: 'center', color: '#999' }}>{states.state_esop === 0 ? JSON.stringify(session) : '文件地址无效'}~</Text>
+							<Text style={{ fontSize: 18, textAlign: 'center', color: '#999' }}>{states.state_esop === 0 ? JSON.stringify(props.session) : '文件地址无效'}~</Text>
 						</View>
 					</View>
 				}
