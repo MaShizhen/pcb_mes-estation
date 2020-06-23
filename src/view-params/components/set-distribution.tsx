@@ -57,12 +57,12 @@ export default (prop: IProp) => {
 				Alert.alert("Modal has been closed.");
 			}}
 		>
-			<TouchableOpacity style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }} onPress={() => {
+			<TouchableOpacity style={styles.max} onPress={() => {
 				prop.toHide(-1, '')
 			}}>
 				<TouchableOpacity
 					activeOpacity={1}
-					style={{ backgroundColor: '#fff', width: '30%', marginLeft: '35%', borderRadius: 5 }}>
+					style={{ backgroundColor: '#fff', width: '40%', marginLeft: '35%', borderRadius: 5 }}>
 					<View style={{ flexDirection: 'row', alignItems: 'center', height: 50, borderBottomWidth: 1, justifyContent: 'space-between', paddingLeft: 15, paddingRight: 15, borderBottomColor: '#999' }}>
 						<Text style={{ fontSize: 18, color: '#333' }}>设定下发值</Text>
 						<TouchableHighlight
@@ -99,7 +99,7 @@ export default (prop: IProp) => {
 					{/* <View style={{ height: 35, width: 100, backgroundColor: '#c8e1ff', position: 'relative', left: 180, top: 10, marginBottom: 10 }}>
 						<Text style={{ lineHeight: 35, textAlign: 'center' }}>下发</Text>
 					</View> */}
-					<View style={{ flexDirection: 'row', justifyContent: 'flex-end', marginBottom: 40, marginRight: 40 }}>
+					<View style={{ flexDirection: 'row', justifyContent: 'flex-end', marginBottom: 40, marginRight: 40, marginTop: 20 }}>
 						<Button onPress={() => issue()} block info style={{ width: 150 }}>
 							<Text style={{ color: '#fff', fontSize: 16 }}>下 发</Text>
 						</Button>
@@ -119,5 +119,5 @@ const styles = StyleSheet.create({
 	row: { height: 60, flexDirection: 'row', borderBottomWidth: 1, borderColor: '#c8e1ff' },
 	out: { flexDirection: 'row', alignItems: 'center', height: 45 },
 	mintext: { paddingLeft: 5, fontSize: 16, color: '#333', flex: 0.8 },
-	input: { borderColor: '#999', borderWidth: 1, width: 200, marginLeft: 5 }
+	input: { borderColor: '#999', borderWidth: 1, flex: 0.5, marginLeft: 5 }
 });
