@@ -1,4 +1,3 @@
-// import { Picker } from '@react-native-community/picker'
 import RNSerialPort from '@koimy/react-native-serial-port'
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -26,11 +25,11 @@ import reporting_system from '../reporting-system'
 import view_params from '../view-params'
 import { IEquipmentList } from './interface'
 
-// tslint:disable-next-line: variable-name
-const Stack = createStackNavigator();
+const { Navigator, Screen } = createStackNavigator();
 
 interface IProps {
-	session: string;
+	equipment_mes_id: string;
+	process_mes_id: string;
 	dispatch: Dispatch<AnyAction>
 }
 
@@ -65,8 +64,14 @@ export default (props: IProps) => {
 			const mes_staff_code = await get<string>('mes_staff_code')
 			const mes_staff_name = await get<string>('mes_staff_name')
 			const equipmentlist_res = await equipmentlist(mes_staff_code, mes_staff_name)
-			await set('mes_id', equipmentlist_res.data.mes_id)
-			await set('mes_ids', equipmentlist_res.data.sub[0].mes_id)
+			// 工序mesid
+			await set('process_mes_id', equipmentlist_res.data.mes_id)
+			props.dispatch({ type: 'SET_PROCESS_MES_ID', id: equipmentlist_res.data.mes_id })
+
+			// 设备mesid
+			await set('equipment_mes_id', equipmentlist_res.data.sub[0].mes_id)
+			props.dispatch({ type: 'SET_EQUIPMENT_MES_ID', id: equipmentlist_res.data.sub[0].mes_id })
+
 			set_states({
 				...states,
 				equipmentlist: equipmentlist_res.data.sub,
@@ -77,6 +82,15 @@ export default (props: IProps) => {
 			config(mqtt)
 		})()
 	}, []);
+
+	// 启动监听
+	useEffect(() => {
+		if (props.process_mes_id) {
+			listen_callback(mqtt, `/push/${props.process_mes_id}`, (res) => {
+				props.dispatch({ type: 'MQTT_LISTEN' })
+			})
+		}
+	}, [props.process_mes_id])
 
 	/**
 	 * home显示时，开启定时更新登录日志服务
@@ -93,11 +107,6 @@ export default (props: IProps) => {
 					navigation.navigate('login')
 				} else {
 					await set('sessionid', is_online.sessionid)
-					console.log('----------------------------', is_online.sessionid);
-
-					listen_callback(mqtt, `/push/${is_online.sessionid}`, (res) => {
-						props.dispatch({ type: 'message' })
-					})
 				}
 				// })()
 			}, 1000 * 60 * 5)
@@ -175,7 +184,7 @@ export default (props: IProps) => {
 				<View style={{
 					flexDirection: 'row', alignItems: 'center'
 				}}>
-					<Image style={{ height: 35, width: 130 }} source={require('../../imgs/logo.png')}></Image>
+					<Image style={{ marginLeft: 15, height: 35, width: 130 }} source={require('../../imgs/logo.png')}></Image>
 					<ScrollView showsHorizontalScrollIndicator={false} horizontal={true} style={{ width: '79%' }}>
 						<View style={{ flexDirection: 'row', alignItems: 'center' }}>
 							<Text style={{ height: 35, lineHeight: 35, textAlign: 'right', paddingLeft: 25, color: '#fff', fontSize: 16 }}>终端代码名称:</Text>
@@ -195,8 +204,9 @@ export default (props: IProps) => {
 						</View>
 						<View style={{ flexDirection: 'row', alignItems: 'center' }}>
 							<Text style={{ height: 35, lineHeight: 35, textAlign: 'right', paddingLeft: 25, color: '#fff', fontSize: 16 }}>所属设备:</Text>
-							<Picker mode={'dialog'}
-								style={{ height: 35, width: 220, color: '#fff', fontSize: 16 }} >
+							<Picker selectedValue={props.equipment_mes_id} onValueChange={(value) => {
+								props.dispatch({ type: 'SET_EQUIPMENT_MES_ID', id: value })
+							}} mode={'dialog'} style={{ height: 35, width: 220, color: '#fff', fontSize: 16 }} >
 								{
 									states.equipmentlist.map((item, index) => {
 										return <Picker.Item label={item.mes_device_name} key={index} value={item.mes_device_code} />
@@ -211,22 +221,21 @@ export default (props: IProps) => {
 					</ScrollView>
 				</View>
 				{/* 头像 */}
-				<TouchableOpacity style={{ flexDirection: 'row', justifyContent: 'center', position: 'absolute', right: 10, top: 6 }} onPress={() => alertClick()}>
+				<TouchableOpacity style={{ flexDirection: 'row', justifyContent: 'center', position: 'absolute', right: 15, top: 10 }} onPress={() => alertClick()}>
 					<View style={{ alignItems: 'center' }}>
-						<Image source={require('../../imgs/science5.png')} style={{ width: 30, height: 30, borderRadius: 15 }} />
+						<Image source={require('../../imgs/science5.png')} style={{ width: 60, height: 60, borderRadius: 30 }} />
 					</View>
 				</TouchableOpacity>
 			</Row>
 			<Row size={91}>
-				<Col size={1.3} style={{ backgroundColor: 'black', alignItems: 'center', shadowColor: '#ccc', width: '100%' }} >
+				<Col size={1} style={{ backgroundColor: 'black', alignItems: 'center', shadowColor: '#ccc', flex: 1 }} >
 					<SectionList
-
 						keyExtractor={(item) => {
 							return item.path
 						}}
 						renderItem={({ item, index }) => {
 							return (
-								<TouchableOpacity activeOpacity={0.9} style={{ justifyContent: 'center', backgroundColor: index === states.focused_index ? '#448AFF' : '#fff', height: 100, width: '100%', marginTop: 10, borderRadius: 20 }} onPress={
+								<TouchableOpacity activeOpacity={0.9} style={{ justifyContent: 'center', backgroundColor: index === states.focused_index ? '#448AFF' : '#fff', height: 140, width: 170, flex: 1, marginTop: 10, borderRadius: 20, alignItems: 'center' }} onPress={
 									() => {
 										set_states({
 											...states,
@@ -244,22 +253,36 @@ export default (props: IProps) => {
 						sections={menus}
 					/>
 				</Col>
-				<Col size={8.7}>
-					<Stack.Navigator initialRouteName='esop_system' screenOptions={{
+				<Col size={9}>
+					<Navigator initialRouteName='esop_system' screenOptions={{
 						animationEnabled: true
 					}}>
-						<Stack.Screen name='esop_system' component={connect((state: { session: string }) => ({ session: state.session }))(esop_system)} />
-						<Stack.Screen name='eandon_system' component={eandon_system} />
-						<Stack.Screen name='data_collection' component={data_collection} options={{
+						<Screen name='esop_system' component={
+							connect(
+								(state: { mqtt_listen: string }) => ({ mqtt_listen: state.mqtt_listen })
+							)(esop_system)
+						} />
+						<Screen name='eandon_system' component={
+							connect(
+								(state: {
+									equipment_mes_id: string;
+									process_mes_id: string
+								}) => ({
+									equipment_mes_id: state.equipment_mes_id,
+									process_mes_id: state.process_mes_id
+								})
+							)(eandon_system)
+						} />
+						<Screen name='data_collection' component={data_collection} options={{
 							title: '数据采录'
 						}} />
-						<Stack.Screen name='quality_management' component={quality_management} />
-						<Stack.Screen name='dashboard_system' component={dashboard_system} />
-						<Stack.Screen name='reporting_system' component={reporting_system} />
-						<Stack.Screen name='view_params' component={view_params} options={{
+						<Screen name='quality_management' component={quality_management} />
+						<Screen name='dashboard_system' component={dashboard_system} />
+						<Screen name='reporting_system' component={reporting_system} />
+						<Screen name='view_params' component={view_params} options={{
 							title: '查看参数'
 						}} />
-					</Stack.Navigator>
+					</Navigator>
 				</Col>
 			</Row>
 

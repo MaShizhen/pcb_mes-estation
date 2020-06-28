@@ -10,7 +10,7 @@ import { useresoplist } from './api';
 import { Iuseresoplis } from './interface';
 
 interface IProps {
-	session: string;
+	mqtt_listen: string;
 	dispatch: Dispatch<AnyAction>
 }
 
@@ -29,11 +29,7 @@ export default (props: IProps) => {
 	})
 
 	useEffect(() => {
-		// setTimeout(() => {
-		// 	local.source = ''
-		// }, end_time - new Date().getTime());
 		(async () => {
-			console.log('wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww', props.session);
 			const load = await loading()
 			const mes_staff_code = await get<string>('mes_staff_code')
 			const mes_staff_name = await get<string>('mes_staff_name')
@@ -49,7 +45,6 @@ export default (props: IProps) => {
 					currentPage: Number(page),
 					next: useresoplist_res.data[1] ? useresoplist_res.data[1].file_name : ''
 				})
-				console.log(useresoplist_res)
 				const weitime = useresoplist_res.data[0].recovery_time - new Date().getTime()
 				if (weitime <= 180000) {
 					Alert.alert('error', `本文件将于${useresoplist_res.data[0].recovery_time}到期！！接替文件为${useresoplist_res.data[1].file_name}`)
@@ -66,7 +61,7 @@ export default (props: IProps) => {
 			await load.destroy()
 		})()
 
-	}, [states.file_address, props.session]);
+	}, [states.file_address, props.mqtt_listen]);
 	return (
 		<View>
 			{(() => {
@@ -85,8 +80,6 @@ export default (props: IProps) => {
 						onPageChanged={async (page, numberOfPages) => {
 							// 翻页回调
 							await set('paage', page)
-							console.log(page)
-							// states.recovery_time
 							if (states.recovery_time <= new Date().getTime()) {
 
 								set_states({
@@ -95,8 +88,6 @@ export default (props: IProps) => {
 									state_esop: 1
 								})
 							}
-							console.log(states.file_names, states.file_names.split('id=')[2])
-							// Alert.alert(`current page: ${page}`);
 						}}
 						onError={(error) => {
 							set_states({
@@ -110,7 +101,7 @@ export default (props: IProps) => {
 					return <View style={{ backgroundColor: '#fff', height: '100%' }}>
 						<View style={{ flexDirection: 'column', alignItems: 'center', marginTop: '20%' }}>
 							<Fdicon name='wushuju' size={60} color='#999'></Fdicon>
-							<Text style={{ fontSize: 18, textAlign: 'center', color: '#999' }}>{states.state_esop === 0 ? JSON.stringify(props.session) : '文件地址无效'}~</Text>
+							<Text style={{ fontSize: 18, textAlign: 'center', color: '#999' }}>{states.state_esop === 0 ? '暂无数据' : '文件地址无效'}~</Text>
 						</View>
 					</View>
 				}

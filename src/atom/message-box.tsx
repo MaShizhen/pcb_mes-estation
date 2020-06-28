@@ -1,5 +1,5 @@
 import React from 'react';
-import { Alert, Modal, Text, TouchableHighlight, TouchableOpacity, View } from "react-native";
+import { Modal, Text, TouchableHighlight, TouchableOpacity, View } from "react-native";
 import Fdicon from './icon';
 
 interface IProps {
@@ -33,16 +33,14 @@ export default (props: IProps) => {
 
 	return (
 		<Modal
-			animationType={"fade"}
+			animationType="none"
 			transparent={true}
 			visible={props.visible}
 			onRequestClose={() => {
-				Alert.alert("Modal has been closed.");
+				props.toCencel(props.args)
 			}}
 		>
-			<TouchableOpacity style={{ backgroundColor: 'rgba(0,0,0,0.5)', flex: 1, flexDirection: 'row', alignItems: 'center' }} onPress={() => {
-				props.toCencel(props.args)
-			}}>
+			<View style={{ backgroundColor: 'rgba(0,0,0,0.5)', flex: 1, flexDirection: 'row', alignItems: 'center' }} >
 				<TouchableOpacity
 					activeOpacity={1}
 					style={{ backgroundColor: '#fff', width: '30%', marginLeft: '35%', borderRadius: 5 }}>
@@ -69,7 +67,7 @@ export default (props: IProps) => {
 						</TouchableOpacity>
 					</View>
 				</TouchableOpacity>
-			</TouchableOpacity>
+			</View>
 		</Modal >
 	);
 }

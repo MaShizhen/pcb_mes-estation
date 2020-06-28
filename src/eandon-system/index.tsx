@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Image, Picker, ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import { AnyAction, Dispatch } from 'redux';
 import { get_file } from '../atom/config';
 import Fdicon from '../atom/icon';
 import loading from '../atom/loading';
@@ -13,22 +14,19 @@ import { IEquipmentList } from '../home/interface';
 import { andonboardlight, boardadd, userboard, userboardright, verified } from './api';
 import { IUserboard, IUserboardRight } from './interface';
 
-interface IProp {
-	visible: boolean;
-	id: string;
-	toHide: () => void,
-	route: {
-		params: {
-			data: string[]
-		}
-	},
+interface IProps {
+	equipment_mes_id: string;
+	process_mes_id: string;
+	dispatch: Dispatch<AnyAction>
 
 }
 
-export default (prop: IProp) => {
+export default (props: IProps) => {
+
+	const [userboard_data, set_userboard_data] = useState<IUserboard[]>([])
+	const [userboardright_data, set_userboardright_data] = useState<IUserboardRight[]>([])
+
 	const [states, set_states] = useState({
-		userboard: [] as IUserboard[],
-		userboardright: [] as IUserboardRight[],
 		visible: false as boolean,
 		page_num: 1,
 		card_identification: ''
@@ -52,51 +50,53 @@ export default (prop: IProp) => {
 		flag: '2'
 	}]
 
-	// 初始化查询报警代码列表
+	// 查询报警代码列表
 	useEffect(() => {
 		(async () => {
 			const load = await loading()
-
-			const mes_id = await get<string>('mes_id')
-			const userboard_res = await userboard(mes_id)
-			const userboardright_res = await userboardright('74c08b13-aa1e-48fh-a9bc-60257665afa7', '', states.page_num)
-			set_states({
-				...states,
-				userboard: userboard_res.data,
-				userboardright: userboardright_res.data.list
-			})
+			const userboard_res = await userboard(props.process_mes_id)
+			set_userboard_data(userboard_res.data)
 			await load.destroy()
-
 		})()
-	}, []);
+	}, [props.process_mes_id]);
+
+	// 查询报警代码详情
+	useEffect(() => {
+		(async () => {
+			const load = await loading()
+			const userboardright_res = await userboardright(props.process_mes_id, props.equipment_mes_id, states.page_num)
+			set_userboardright_data(userboardright_res.data.list)
+			await load.destroy()
+		})()
+	}, [props.process_mes_id]);
 
 	// 头部设备下拉数据
 	useEffect(() => {
 		(async () => {
 			const mes_staff_code = await get<string>('mes_staff_code')
 			const mes_staff_name = await get<string>('mes_staff_name')
-			// const mes_ids = await get<string>('mes_ids')
 			const equipmentlist_res = await equipmentlist(mes_staff_code, mes_staff_name)
-			// console.log(equipmentlist_res, '0------0-0-0-0-0-0-0-0-0-0-0-0-0-0---------------')
 			set_equipment_list(equipmentlist_res.data.sub)
+			setSelectedValue(equipmentlist_res.data.sub.findIndex((item) => {
+				return item.mes_id === props.equipment_mes_id
+			}))
 		})()
-
-	}, []);
+	}, [props.equipment_mes_id]);
 
 	/**
 	 * 下发
 	 */
-	async function issue(args: object) {
+	async function issue(args: object, staff_no: string, staff_name: string) {
 		const obj = args as unknown as IUserboard
-		const mes_process_mesid = await get<string>('mes_id')
+		const mes_process_mesid = await get<string>('process_mes_id')
 		try {
 			await boardadd({
 				mes_alarm_mesid: obj.mes_id,
 				mes_process_mesid,
 				mes_device_mesid: equipment_list[selectedValue].mes_id,
-				effective_staff: '',
-				mes_create_staffid: '',
-				mes_create_staff: ''
+				effective_staff: staff_name,
+				mes_create_staffid: staff_no,
+				mes_create_staff: staff_name
 			})
 			toast('success', '提交成功')
 		} catch (error) {
@@ -141,7 +141,7 @@ export default (prop: IProp) => {
 				toast('success', '验证成功')
 				const _index = args._index
 				if (_index === 1) {
-					await issue(args)
+					await issue(args, sawadika.data[0].staff_no, sawadika.data[0].staff_name)
 				} else if (_index === 3) {
 					await remove(args)
 				}
@@ -168,8 +168,8 @@ export default (prop: IProp) => {
 						<Text style={{ lineHeight: 45, textAlign: 'center', fontSize: 18 }}>报警代码列表</Text>
 					</View>
 					{(() => {
-						if (states.userboard.length > 0) {
-							return states.userboard.map((item, index) => {
+						if (userboard_data.length > 0) {
+							return userboard_data.map((item, index) => {
 								return (
 									<TouchableOpacity key={index} onPress={() => set_message_box({ index: 1, args: item })} >
 										<View style={{ height: 45, borderWidth: 1, borderRadius: 10, borderColor: '#e2e1de', width: '80%', marginLeft: '10%', marginBottom: 15 }}>
@@ -193,10 +193,14 @@ export default (prop: IProp) => {
 					<View style={{ height: 45, marginBottom: 20 }}><Text style={{ lineHeight: 45, textAlign: 'center', fontSize: 18 }}>报警代码详情</Text></View>
 					<View style={{ flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center' }}>
 						{(() => {
-							if (states.userboardright.length > 0) {
-								return states.userboardright.map((item, index) => {
+							if (userboardright_data.length > 0) {
+								return userboardright_data.map((item, index) => {
+									const color = item.business_status === 2 ? 'rgba(0,0,0,0.6)' : 'none'
 									return (
 										<TouchableOpacity key={index} style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'space-around', height: 120, width: '25%' }} onPress={() => {
+											if (item.business_status === 2) {
+												return
+											}
 											set_message_box({
 												index: 3,
 												args: item
@@ -204,7 +208,20 @@ export default (prop: IProp) => {
 										}}>
 											<Image source={{ uri: get_file + item.mes_alarm_picture }} style={{ borderRadius: 5, width: 120, height: 70, backgroundColor: 'rgba(0,0,0,0.2)' }} />
 											<Text style={{ height: 30, lineHeight: 30, textAlign: 'center', fontSize: 16 }}>{item.mes_alarm_name}</Text>
-											<View style={{ borderRadius: 5, width: 120, height: 70, backgroundColor: 'rgba(0,0,0,0.6)', position: 'absolute', top: 5 }} />
+
+											<View style={{
+												borderRadius: 5,
+												width: 120,
+												height: 70,
+												backgroundColor: color,
+												position: 'absolute',
+												top: 5,
+												alignItems: 'center',
+												justifyContent: 'center'
+											}}>
+												{item.business_status === 1 && <Fdicon name='xiaoxi1' size={50} color='red'></Fdicon>}
+											</View>
+
 										</TouchableOpacity>
 									)
 								})
@@ -220,13 +237,15 @@ export default (prop: IProp) => {
 					</View>
 				</View>
 			</View>
-			<MessageBox title="提交安灯报警" visible={message_box.index === 1} toConfirm={(args) => set_message_box({
-				index: 2,
-				args: {
-					...args,
-					_index: 1
-				}
-			})} toCencel={() => set_message_box({ index: 0, args: null })}>
+			<MessageBox args={message_box.args} title="提交安灯报警" visible={message_box.index === 1} toConfirm={(args) => {
+				set_message_box({
+					index: 2,
+					args: {
+						...args,
+						_index: 1
+					}
+				})
+			}} toCencel={() => set_message_box({ index: 0, args: null })}>
 				<View style={{ flexDirection: 'row', alignItems: "center", justifyContent: 'center', flexWrap: 'nowrap' }}>
 					<Text style={{ fontSize: 16, color: '#333333', textAlign: 'center', lineHeight: 150 }}>可用设备代码：</Text>
 					<Picker selectedValue={equipment_list.length > 0 ? equipment_list[selectedValue].mes_id : ''} onValueChange={(_, itemIndex) => setSelectedValue(itemIndex)} style={{ height: 35, width: 250 }} >
@@ -256,13 +275,15 @@ export default (prop: IProp) => {
 				</View>
 			</MessageBox>
 
-			<MessageBox title="提示" visible={message_box.index === 3} toConfirm={(args) => set_message_box({
-				index: 2,
-				args: {
-					...args,
-					_index: 3
-				}
-			})} toCencel={() => set_message_box({ index: 0, args: null })}>
+			<MessageBox args={message_box.args} title="提示" visible={message_box.index === 3} toConfirm={(args) => {
+				set_message_box({
+					index: 2,
+					args: {
+						...args,
+						_index: 3
+					}
+				})
+			}} toCencel={() => set_message_box({ index: 0, args: null })}>
 				<View style={{ flexDirection: 'row', alignItems: "center", justifyContent: 'center' }}>
 					<Text style={{ fontSize: 16, color: '#333333', textAlign: 'center', lineHeight: 150 }}>是否解除安灯报警？</Text>
 				</View>

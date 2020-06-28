@@ -25,8 +25,8 @@ export default () => {
 	useEffect(() => {
 		(async () => {
 			const load = await loading()
-			const mes_id = await get<string>('mes_id')
-			const collectionlist_res = await collectionlist(mes_id, '', states.page_num)
+			const process_mes_id = await get<string>('process_mes_id')
+			const collectionlist_res = await collectionlist(process_mes_id, '', states.page_num)
 			const _collectionlist = collectionlist_res.data.list.reduce((p, item) => {
 				p.push({
 					arr: [

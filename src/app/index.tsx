@@ -81,10 +81,15 @@ export default function App() {
 						headerStyle: {
 							height: 0
 						},
-						headerTitle: ''
+						headerTitle: '',
+						headerBackTitle: ''
 					}}>
 						<Stack.Screen name='login' component={login} />
-						<Stack.Screen name='home' component={connect((state: { session: string }) => ({ session: state.session }))(home)} />
+						<Stack.Screen name='home' component={
+							connect(
+								(state: { equipment_mes_id: string, process_mes_id: string }) => ({ equipment_mes_id: state.equipment_mes_id, process_mes_id: state.process_mes_id })
+							)(home)
+						} />
 						{/* <Stack.Screen name='nfc' component={nfc} /> */}
 					</Stack.Navigator>
 

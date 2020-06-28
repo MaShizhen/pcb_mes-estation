@@ -47,7 +47,9 @@ export default (prop: IProp) => {
 
 					</View>
 					<View style={{ flexDirection: 'row', alignItems: "center", justifyContent: 'space-between', borderTopWidth: 1, borderTopColor: '#f2f2f2' }}>
-						<TouchableOpacity style={{ borderBottomLeftRadius: 5, height: 50, flex: 1 }}>
+						<TouchableOpacity style={{ borderBottomLeftRadius: 5, height: 50, flex: 1 }} onPress={() =>
+							prop.toHide()
+						}>
 							<Text style={{ fontSize: 16, textAlign: 'center', lineHeight: 50, color: '#333' }}>取消</Text>
 						</TouchableOpacity>
 						<TouchableOpacity style={{ borderBottomRightRadius: 5, backgroundColor: '#0099ff', height: 50, flex: 1 }} onPress={() => toExit()}>

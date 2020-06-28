@@ -3,7 +3,7 @@ import { service } from '../atom/server'
 import { IEquipmentListRes, IUserInfo } from './interface'
 
 /**
- * 安灯管理左侧列表
+ * 头部工序及设备下拉框
  * @param mes_process_mesid 工序mes_id
  */
 export function equipmentlist(mes_staff_code: string, mes_staff_name: string) {

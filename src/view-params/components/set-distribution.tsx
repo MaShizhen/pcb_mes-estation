@@ -57,7 +57,7 @@ export default (prop: IProp) => {
 				Alert.alert("Modal has been closed.");
 			}}
 		>
-			<TouchableOpacity style={styles.max} onPress={() => {
+			<TouchableOpacity style={{ backgroundColor: 'rgba(0,0,0,0.5)', flex: 1, justifyContent: 'center' }} onPress={() => {
 				prop.toHide(-1, '')
 			}}>
 				<TouchableOpacity
@@ -112,7 +112,6 @@ export default (prop: IProp) => {
 }
 
 const styles = StyleSheet.create({
-	max: { backgroundColor: 'rgba(0,0,0,0.5)', borderWidth: 1, borderColor: 'red', flex: 1 },
 	container: { backgroundColor: '#fff', width: 400 },
 	head: { height: 60, backgroundColor: '#f1f8ff', textAlign: 'center' },
 	text: { width: 150, textAlign: 'right', lineHeight: 45, fontSize: 16, color: '#333' },
