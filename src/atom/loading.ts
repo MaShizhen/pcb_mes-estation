@@ -7,13 +7,13 @@ import Animating from './animation';
  * @param progressInnerImage 进度条的环部分
  * @param progressOuterImage 进度条的中间部分
  */
-export default function Animated() {
+export default function Animated(marginLeft?: string) {
 	const instance = new RootSiblings((
 		React.createElement(Animating, {
 			progressInnerImage: require('../../imgs/logo_img.png'),
 			progressOuterImage: require('../../imgs/circle.png'),
 			viewstyle: {
-				marginLeft: '10%'
+				marginLeft: marginLeft ? marginLeft : '10%'
 			}
 		})));
 	return {

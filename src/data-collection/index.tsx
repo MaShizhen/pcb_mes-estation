@@ -1,6 +1,5 @@
 import { Cell, Row, Table, TableWrapper } from '@koimy/react-native-table-component';
 import { useNavigation } from '@react-navigation/native';
-import { useFocusEffect } from '@react-navigation/native';
 import { Container } from 'native-base';
 import React, { useEffect, useState } from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
@@ -49,9 +48,6 @@ export default () => {
 			await load.destroy()
 		})()
 	}, [states.page_num]);
-
-	useFocusEffect(() => {
-	})
 
 	const tableHead = ['设备编号', '设备名称', '设备图片', '设备说明', '有效状态', '审核状态', '创建时间']
 

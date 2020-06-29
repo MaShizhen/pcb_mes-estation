@@ -3,7 +3,7 @@ import { service } from '../atom/server'
 import { ICollectionlistRes } from './interface'
 
 /**
- * 安灯管理左侧列表
+ * 数据采录
  * @param mes_process_mesid 工序mes_id, mes_device_mesid  设备mes_id|是
  */
 export function collectionlist(mes_process_mesid: string, mes_device_mesid: string, pageNum: number) {

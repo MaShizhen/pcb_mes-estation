@@ -5,6 +5,7 @@ import { createStore, combineReducers } from 'redux';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import RNBootSplash from "react-native-bootsplash";
+import toast from './dist/atom/toast'
 
 // A very simple reducer
 function counter(state, action) {
@@ -46,6 +47,12 @@ function Counter({ count, dispatch, navigation }) {
 						count,
 					})
 				}
+			/>
+			<Button
+				title="测试"
+				onPress={() => {
+					return toast('success', '11111111111111')
+				}}
 			/>
 		</View>
 	);

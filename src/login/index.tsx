@@ -10,7 +10,7 @@ import { get, set } from '../atom/storage';
 import toast from '../atom/toast'
 
 export default () => {
-	const nvigation = useNavigation()
+	const navigation = useNavigation()
 
 	const [account, set_account] = useState('user01')
 	const [pwd, set_pwd] = useState('111111')
@@ -26,19 +26,29 @@ export default () => {
 
 	async function tologin() {
 		try {
-			const load = await loading()
+			const load = await loading('0%')
 			const res = await login(account, pwd)
 			await set('sessionid', res.sessionID)
 			await set('usercode', res.usercode)
 			await set('ticket', res.remember_me_ticket)
 			await set('mes_staff_code', res.mes_staff_code)
 			await set('mes_staff_name', res.mes_staff_name)
-			nvigation.navigate('home')
+			// navigation.navigate('home')
+			navigation.reset({
+				index: 0,
+				routes: [{
+					name: 'home'
+				}]
+			})
 			await load.destroy()
 
 		} catch (error) {
-			toast('error', error.message);
+			return toast('error', error.message);
 		}
+	}
+
+	async function test() {
+		return toast('success', '11111111111111')
 	}
 
 	return (
@@ -71,6 +81,13 @@ export default () => {
 				<TouchableOpacity onPress={() => tologin()} style={{ height: 70, width: 600, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(0,0,0,0.4)', marginTop: 50, borderRadius: 35 }}>
 					<Text style={{ color: '#FFF', fontSize: 18, alignItems: 'center' }}>登录</Text>
 				</TouchableOpacity>
+
+
+				<TouchableOpacity onPress={() => test()} style={{ height: 70, width: 600, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(0,0,0,0.4)', marginTop: 50, borderRadius: 35 }}>
+					<Text style={{ color: '#FFF', fontSize: 18, alignItems: 'center' }}>测试</Text>
+				</TouchableOpacity>
+
+
 				<View style={{ marginTop: 20 }}>
 					<Text style={{ color: '#fffdf5' }}>切换登录方式</Text>
 				</View>

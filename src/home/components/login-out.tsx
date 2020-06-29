@@ -4,31 +4,37 @@ import { Alert, Modal, Text, TouchableHighlight, TouchableOpacity, View } from "
 import Fdicon from '../../atom/icon';
 import { logout } from '../../atom/server';
 
-interface IProp {
+interface IProps {
 	visible: boolean;
 	toHide: () => void
 }
 
-export default (prop: IProp) => {
-	const nvigation = useNavigation();
+export default (props: IProps) => {
+	const navigation = useNavigation();
 
 	async function toExit() {
 		await logout()
-		nvigation.navigate('login')
-		prop.toHide()
+		navigation.reset({
+			index: 0,
+			routes: [{
+				name: 'login'
+			}]
+		})
+		// navigation.navigate('login')
+		props.toHide()
 	}
 
 	return (
 		<Modal
 			animationType={"fade"}
 			transparent={true}
-			visible={prop.visible}
+			visible={props.visible}
 			onRequestClose={() => {
 				Alert.alert("Modal has been closed.");
 			}}
 		>
 			<TouchableOpacity style={{ backgroundColor: 'rgba(0,0,0,0.5)', flex: 1, flexDirection: 'row', alignItems: 'center' }} onPress={() => {
-				prop.toHide()
+				props.toHide()
 			}}>
 				<TouchableOpacity
 					activeOpacity={1}
@@ -37,7 +43,7 @@ export default (prop: IProp) => {
 						<Text style={{ fontSize: 18, color: '#333' }}>提示</Text>
 						<TouchableHighlight
 							style={{ padding: 13 }}
-							onPress={() => prop.toHide()}
+							onPress={() => props.toHide()}
 							underlayColor='transparent'>
 							<Fdicon name='guanbi' size={20} color='#333'></Fdicon>
 						</TouchableHighlight>
@@ -48,7 +54,7 @@ export default (prop: IProp) => {
 					</View>
 					<View style={{ flexDirection: 'row', alignItems: "center", justifyContent: 'space-between', borderTopWidth: 1, borderTopColor: '#f2f2f2' }}>
 						<TouchableOpacity style={{ borderBottomLeftRadius: 5, height: 50, flex: 1 }} onPress={() =>
-							prop.toHide()
+							props.toHide()
 						}>
 							<Text style={{ fontSize: 16, textAlign: 'center', lineHeight: 50, color: '#333' }}>取消</Text>
 						</TouchableOpacity>

@@ -1,9 +1,10 @@
+import RNSerialPort from '@koimy/react-native-serial-port'
 import { NavigationContainer, NavigationContainerRef } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { View } from 'native-base';
 import React, { useEffect, useRef, useState } from 'react';
-import { Platform, Text } from 'react-native'
+import { Text } from 'react-native'
 import RNBootSplash from "react-native-bootsplash";
-import { RootSiblingParent } from 'react-native-root-siblings';
 import { connect, Provider } from 'react-redux';
 import check_new_version from '../atom/check-new-version'
 import { update_url } from '../atom/config'
@@ -15,7 +16,6 @@ import upgrade_app from '../atom/upgrade-app';
 import store from '../store/index'
 
 // 引入页面
-import { View } from 'native-base';
 import home from '../home'
 import login from '../login'
 // import nfc from '../nfc'
@@ -70,40 +70,48 @@ export default function App() {
 		await upgrade_app(update_url)
 	}
 
-	// tslint:disable-next-line: variable-name
-	const Wrapper = Platform.OS === 'ios' ? React.Fragment : RootSiblingParent;
+	// 开启串口监听
+	useEffect(() => {
+		RNSerialPort.openSerialPort('/dev/ttyS4', '9600')
+		// 监听接收串口开关的状态
+		// DeviceEventEmitter.addListener('onSerialPortOpenStatus', (status) => {
+		// 	console.log("onSerialPortOpenStatus", status);
+		// })
+	}, [])
 
 	return (
-		<Wrapper>
-			<Provider store={store}>
-				<NavigationContainer ref={navigation_container}>
-					<Stack.Navigator initialRouteName='login' screenOptions={{
-						headerStyle: {
-							height: 0
-						},
-						headerTitle: '',
-						headerBackTitle: ''
-					}}>
-						<Stack.Screen name='login' component={login} />
-						<Stack.Screen name='home' component={
-							connect(
-								(state: { equipment_mes_id: string, process_mes_id: string }) => ({ equipment_mes_id: state.equipment_mes_id, process_mes_id: state.process_mes_id })
-							)(home)
-						} />
-						{/* <Stack.Screen name='nfc' component={nfc} /> */}
-					</Stack.Navigator>
+		<Provider store={store}>
+			<NavigationContainer ref={navigation_container}>
+				<Stack.Navigator initialRouteName='login' screenOptions={{
+					headerStyle: {
+						height: 0
+					},
+					headerTitle: '',
+					headerBackTitle: ''
+				}}>
+					<Stack.Screen name='login' component={login} />
+					<Stack.Screen name='home' component={
+						connect(
+							(state: { equipment_mes_id: string, process_mes_id: string }) => ({ equipment_mes_id: state.equipment_mes_id, process_mes_id: state.process_mes_id })
+						)(home)
+					} />
+					{/* <Stack.Screen name='nfc' component={nfc} /> */}
+				</Stack.Navigator>
 
-					<MessageBox visible={update.new} toCencel={() => set_update({
-						...update,
-						new: false
-					})} toConfirm={() => to_update()}>
-						<View style={{ marginTop: 40, marginBottom: 40 }}>
-							<Text style={{ fontSize: 16, color: '#333333', textAlign: 'center' }}>有新版本，是否更新？</Text>
-							<Text style={{ marginTop: 20, fontSize: 16, color: '#333333', textAlign: 'center' }}>{update.changelog}</Text>
-						</View>
-					</MessageBox>
-				</NavigationContainer>
-			</Provider>
-		</Wrapper>
+				<MessageBox visible={update.new} toCencel={() => set_update({
+					...update,
+					new: false
+				})} toConfirm={() => to_update()}>
+					<View style={{ marginTop: 40, marginBottom: 40 }}>
+						<Text style={{ fontSize: 16, color: '#333333', textAlign: 'center' }}>有新版本，是否更新？</Text>
+						<Text style={{ marginTop: 20, fontSize: 16, color: '#333333', textAlign: 'center' }}>{update.changelog}</Text>
+					</View>
+				</MessageBox>
+			</NavigationContainer>
+		</Provider>
 	);
 }
+
+// import { RootSiblingParent } from 'react-native-root-siblings';
+// <RootSiblingParent>
+// </RootSiblingParent>

@@ -1,6 +1,6 @@
 import { useFocusEffect } from '@react-navigation/native';
 import { Button } from 'native-base';
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Alert, Modal, StyleSheet, Text, TextInput, TouchableHighlight, TouchableOpacity, View } from "react-native";
 import uuid from 'uuid'
 import { mqtt } from '../../atom/config';
@@ -23,12 +23,18 @@ interface IProp {
 
 export default (prop: IProp) => {
 	const [value, onChangeText] = useState('');
-	useFocusEffect(() => {
-		onChangeText('')
-	})
+
+	// 显示的时候清空输入框
+	useFocusEffect(
+		useCallback(() => {
+			onChangeText('')
+			return
+		}, [])
+	)
+
 	function issue() {
 		if (!value) {
-			toast('warning', '请输入修改值');
+			return toast('warning', '请输入修改值');
 		} else {
 			const arr = prop.row.arr[7]
 			const mes_devicesub_deviceid = arr[0] as string
@@ -38,9 +44,8 @@ export default (prop: IProp) => {
 			const topic = '/push/' + request
 			listen(mqtt, topic).then(async (res: IMqttRespose) => {
 				await unsubscribe(mqtt, topic)
-
-				toast('success', '下发成功');
 				prop.toHide(prop.row.select_index, res.msg.datavalue[0].writevalue)
+				return toast('success', '下发成功');
 			})
 
 			eboxdatawrite(request, mes_devicesub_deviceid, mes_devicesub_cparamid, value).then(() => {
@@ -93,8 +98,10 @@ export default (prop: IProp) => {
 						<Text style={styles.mintext}>{(prop.row && prop.row.arr) ? prop.row.arr[5] : ''}</Text>
 					</View>
 					<View style={styles.out}>
-						<Text style={styles.text}>修改值:</Text>
-						<TextInput onChangeText={text => onChangeText(text)} value={value} style={styles.input}></TextInput>
+						<Text style={styles.text}>修改值:{value}</Text>
+						<TextInput onChangeText={text => {
+							onChangeText(text)
+						}} value={value} style={styles.input}></TextInput>
 					</View>
 					{/* <View style={{ height: 35, width: 100, backgroundColor: '#c8e1ff', position: 'relative', left: 180, top: 10, marginBottom: 10 }}>
 						<Text style={{ lineHeight: 35, textAlign: 'center' }}>下发</Text>

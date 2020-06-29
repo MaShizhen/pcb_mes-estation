@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Image, Picker, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { AnyAction, Dispatch } from 'redux';
+import uuid from 'uuid';
 import { get_file } from '../atom/config';
 import Fdicon from '../atom/icon';
 import loading from '../atom/loading';
@@ -18,7 +19,6 @@ interface IProps {
 	equipment_mes_id: string;
 	process_mes_id: string;
 	dispatch: Dispatch<AnyAction>
-
 }
 
 export default (props: IProps) => {
@@ -40,6 +40,7 @@ export default (props: IProps) => {
 	})
 
 	const [selectedValue, setSelectedValue] = useState(0);
+	const [reload, set_reload] = useState('');
 
 	const [card_type, set_card_type] = useState('1');
 	const cards = [{
@@ -68,7 +69,7 @@ export default (props: IProps) => {
 			set_userboardright_data(userboardright_res.data.list)
 			await load.destroy()
 		})()
-	}, [props.process_mes_id]);
+	}, [props.process_mes_id, reload]);
 
 	// 头部设备下拉数据
 	useEffect(() => {
@@ -98,9 +99,9 @@ export default (props: IProps) => {
 				mes_create_staffid: staff_no,
 				mes_create_staff: staff_name
 			})
-			toast('success', '提交成功')
+			return toast('success', '提交成功')
 		} catch (error) {
-			toast('error', '提交失败')
+			return toast('error', '提交失败')
 		}
 	}
 
@@ -113,9 +114,9 @@ export default (props: IProps) => {
 			const mes_staff_code = await get<string>('mes_staff_code')
 			const mes_staff_name = await get<string>('mes_staff_name')
 			await andonboardlight(mes_staff_code, mes_staff_name, obj.mes_id, obj.effective_time)
-			toast('success', '解除成功')
+			return toast('success', '解除成功')
 		} catch (error) {
-			toast('error', '解除失败')
+			return toast('error', '解除失败')
 		}
 	}
 
@@ -138,7 +139,6 @@ export default (props: IProps) => {
 		try {
 			const sawadika = await verified(id_code, states.card_identification)
 			if (sawadika.data.length > 0) {
-				toast('success', '验证成功')
 				const _index = args._index
 				if (_index === 1) {
 					await issue(args, sawadika.data[0].staff_no, sawadika.data[0].staff_name)
@@ -150,11 +150,13 @@ export default (props: IProps) => {
 					index: 0,
 					args: null
 				})
+				set_reload(uuid())
+				return toast('success', '验证成功')
 			} else {
-				toast('error', '验证失败')
+				return toast('error', '验证失败')
 			}
 		} catch (error) {
-			toast('error', '验证失败')
+			return toast('error', '验证失败')
 		}
 	}
 

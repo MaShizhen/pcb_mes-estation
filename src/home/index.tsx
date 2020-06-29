@@ -1,4 +1,3 @@
-import RNSerialPort from '@koimy/react-native-serial-port'
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import React, { useCallback, useEffect, useState } from 'react';
@@ -49,15 +48,6 @@ export default (props: IProps) => {
 		visible: false as boolean
 	})
 
-	// 开启串口监听
-	useEffect(() => {
-		RNSerialPort.openSerialPort('/dev/ttyS4', '9600')
-		// 监听接收串口开关的状态
-		// DeviceEventEmitter.addListener('onSerialPortOpenStatus', (status) => {
-		// 	console.log("onSerialPortOpenStatus", status);
-		// })
-	}, [])
-
 	// 初始化查询头部
 	useEffect(() => {
 		(async () => {
@@ -85,10 +75,14 @@ export default (props: IProps) => {
 
 	// 启动监听
 	useEffect(() => {
+		config(mqtt)
 		if (props.process_mes_id) {
 			listen_callback(mqtt, `/push/${props.process_mes_id}`, (res) => {
 				props.dispatch({ type: 'MQTT_LISTEN' })
 			})
+		}
+		return () => {
+			unsubscribe(mqtt, `/push/${props.process_mes_id}`)
 		}
 	}, [props.process_mes_id])
 
@@ -98,17 +92,12 @@ export default (props: IProps) => {
 	useFocusEffect(
 		useCallback(() => {
 			const inv = setInterval(async () => {
-				// (async () => {
-				const sessionid = await get('sessionid')
-				config(mqtt)
-				await unsubscribe(mqtt, `/push/${sessionid}`)
 				const is_online = await ticket_login()
 				if (!(is_online && is_online.code)) {
 					navigation.navigate('login')
 				} else {
 					await set('sessionid', is_online.sessionid)
 				}
-				// })()
 			}, 1000 * 60 * 5)
 			/**
 			 * home页面返回时，清除定时器
@@ -184,7 +173,7 @@ export default (props: IProps) => {
 				<View style={{
 					flexDirection: 'row', alignItems: 'center'
 				}}>
-					<Image style={{ marginLeft: 15, height: 35, width: 130 }} source={require('../../imgs/logo.png')}></Image>
+					<Image style={{ marginLeft: 17, height: 40, width: 130 }} source={require('../../imgs/logo.png')}></Image>
 					<ScrollView showsHorizontalScrollIndicator={false} horizontal={true} style={{ width: '79%' }}>
 						<View style={{ flexDirection: 'row', alignItems: 'center' }}>
 							<Text style={{ height: 35, lineHeight: 35, textAlign: 'right', paddingLeft: 25, color: '#fff', fontSize: 16 }}>终端代码名称:</Text>

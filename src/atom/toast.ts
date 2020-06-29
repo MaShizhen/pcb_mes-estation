@@ -15,6 +15,7 @@ import { WToast } from 'react-native-smart-tip';
  * ```
  */
 export default function toast(type: 'success' | 'warning' | 'info' | 'error', message: string) {
+
 	// const _opsition = (() => {
 	// 	if (position === 'top') {
 	// 		return WToast.position.TOP;
@@ -36,10 +37,10 @@ export default function toast(type: 'success' | 'warning' | 'info' | 'error', me
 		}
 	})()
 	const options = {
-		backgroundColor: 'red',
+		backgroundColor: '#444444',
 		data: message,
 		duration: 1000,
-		position: WToast.position.TOP,
+		position: WToast.position.BOTTOM,
 		textColor: style
 	};
 	WToast.show(options);
