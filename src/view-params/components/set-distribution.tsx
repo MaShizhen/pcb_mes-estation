@@ -98,7 +98,7 @@ export default (prop: IProp) => {
 						<Text style={styles.mintext}>{(prop.row && prop.row.arr) ? prop.row.arr[5] : ''}</Text>
 					</View>
 					<View style={styles.out}>
-						<Text style={styles.text}>修改值:{value}</Text>
+						<Text style={styles.text}>修改值:</Text>
 						<TextInput onChangeText={text => {
 							onChangeText(text)
 						}} value={value} style={styles.input}></TextInput>

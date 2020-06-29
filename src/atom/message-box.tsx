@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dimensions, Modal, Text, TouchableHighlight, TouchableOpacity, View } from "react-native";
+import { Text, TouchableHighlight, TouchableOpacity, View } from "react-native";
 import Fdicon from './icon';
 
 interface IProps {
@@ -34,10 +34,10 @@ export default (props: IProps) => {
 	if (props.visible) {
 		return (
 			<View style={{ width: '100%', height: '100%', position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, zIndex: 10 }}>
-				<View style={{ backgroundColor: 'rgba(0,0,0,0.5)', flex: 1, flexDirection: 'row', alignItems: 'center', zIndex: 15 }} >
+				<View style={{ backgroundColor: 'rgba(0,0,0,0.5)', flex: 1, flexDirection: 'row', alignItems: 'center', zIndex: 15, justifyContent: 'center' }} >
 					<TouchableOpacity
 						activeOpacity={1}
-						style={{ backgroundColor: '#fff', width: '40%', marginLeft: '35%', borderRadius: 5 }}>
+						style={{ backgroundColor: '#fff', width: '40%', borderRadius: 5 }}>
 						{(() => {
 							if (props.title) {
 								return <View style={{ flexDirection: 'row', alignItems: 'center', height: 50, borderBottomWidth: 1, justifyContent: 'space-between', paddingLeft: 15, paddingRight: 15, borderBottomColor: '#999' }}>

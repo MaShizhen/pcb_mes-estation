@@ -2,7 +2,7 @@ import RNSerialPort from '@koimy/react-native-serial-port'
 import { NavigationContainer, NavigationContainerRef } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import React, { useEffect, useRef, useState } from 'react';
-import { Button, Text, View } from 'react-native'
+import { Text, View } from 'react-native'
 import RNBootSplash from "react-native-bootsplash";
 import { connect, Provider } from 'react-redux';
 import check_new_version from '../atom/check-new-version'
@@ -11,7 +11,6 @@ import get_changelog from '../atom/get-changelog'
 import MessageBox from '../atom/message-box'
 import { ticket_login } from '../atom/server'
 import { get, set } from '../atom/storage';
-import toast from '../atom/toast';
 import upgrade_app from '../atom/upgrade-app';
 import store from '../store/index'
 

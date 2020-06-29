@@ -30,11 +30,21 @@ export default () => {
 	}, [display])
 
 	async function tologin() {
+		const load = await loading('0%')
 		try {
 			if (!server_address) {
+				await load.destroy()
+				set_display(true)
 				return toast('warning', '请设置服务器地址');
 			}
-			const load = await loading('0%')
+			if (login_type === '2') {
+				if (!account) {
+					return toast('warning', '请输入账号');
+				} else if (!pwd) {
+					return toast('warning', '请密码');
+				}
+			}
+
 			const res = await login(account, pwd, login_type, card_id)
 			await set('sessionid', res.sessionID)
 			await set('usercode', res.usercode)
@@ -51,6 +61,7 @@ export default () => {
 
 		} catch (error) {
 			set_login_type('2')
+			await load.destroy()
 			return toast('error', error.message);
 		}
 	}

@@ -11,7 +11,8 @@
 		"jest": "jest",
 		"lint": "eslint . --ext .js,.jsx,.ts,.tsx",
 		"devices": "adb devices",
-		"logs": "adb logcat -v time *:E"
+		"logs": "adb logcat -v time *:E",
+		"export": "npm run build && cd android && ./gradlew assembleRelease"
 	},
 	"peerDependencies": {
 		"@koimy/react-native-serial-port": "1.0.4",
@@ -30,11 +31,11 @@
 		"react-native-gesture-handler": "^1.6.1",
 		"react-native-paper": "^3.8.0",
 		"react-native-reanimated": "^1.8.0",
+		"react-native-root-siblings": "^4.0.6",
 		"react-native-safe-area-context": "^0.7.3",
 		"react-native-screens": "^2.5.0",
 		"react-native-tab-view": "^2.14.0",
-		"react-native-vector-icons": "^6.6.0",
-		"react-native-root-siblings": "^4.0.6"
+		"react-native-vector-icons": "^6.6.0"
 	},
 	"devDependencies": {
 		"@babel/core": "latest",
@@ -82,7 +83,6 @@
 		"react-native-root-siblings": "^4.0.6",
 		"react-native-safe-area-context": "latest",
 		"react-native-screens": "latest",
-		"react-native-smart-tip": "^2.1.0",
 		"react-native-tab-view": "latest",
 		"react-native-vector-icons": "latest",
 		"react-redux": "^7.2.0",
@@ -91,7 +91,8 @@
 		"rn-fetch-blob": "^0.12.0",
 		"tslint": "latest",
 		"typescript": "next",
-		"uuid": "3.3.2"
+		"uuid": "3.3.2",
+		"react-native-simple-toast": "^1.1.2"
 	},
 	"jest": {
 		"preset": "react-native",

@@ -1,4 +1,4 @@
-import { WToast } from 'react-native-smart-tip';
+import Toast from 'react-native-simple-toast';
 
 /**
  * toast文字提示弹框
@@ -15,33 +15,5 @@ import { WToast } from 'react-native-smart-tip';
  * ```
  */
 export default function toast(type: 'success' | 'warning' | 'info' | 'error', message: string) {
-
-	// const _opsition = (() => {
-	// 	if (position === 'top') {
-	// 		return WToast.position.TOP;
-	// 	} else if (position === 'center') {
-	// 		return WToast.position.CENTER;
-	// 	} else {
-	// 		return WToast.position.BOTTOM;
-	// 	}
-	// })();
-	const style = (() => {
-		if (type === 'success') {
-			return '#67C23A'
-		} else if (type === 'warning') {
-			return '#E6A23C'
-		} else if (type === 'info') {
-			return '#909399'
-		} else {
-			return '#F56C6C'
-		}
-	})()
-	const options = {
-		backgroundColor: '#444444',
-		data: message,
-		duration: 1000,
-		position: WToast.position.BOTTOM,
-		textColor: style
-	};
-	WToast.show(options);
+	return Toast.show(message, 1000);
 }
