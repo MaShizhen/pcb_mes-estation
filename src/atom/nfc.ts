@@ -2,7 +2,10 @@ import { Platform } from 'react-native'
 import NfcManager, { NfcTech } from 'react-native-nfc-manager';
 
 export default async function nfc() {
-	return new Promise(async (resolve, reject) => {
+	return new Promise<{
+		code: 0 | 1;
+		id: string;
+	}>(async (resolve, reject) => {
 		try {
 			await NfcManager.start();
 			const tech = Platform.OS === 'ios' ? NfcTech.MifareIOS : NfcTech.NfcA;

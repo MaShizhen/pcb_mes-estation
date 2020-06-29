@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Image, Picker, ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import { Dimensions, Image, Picker, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { AnyAction, Dispatch } from 'redux';
 import uuid from 'uuid';
 import { get_file } from '../atom/config';
@@ -50,6 +50,9 @@ export default (props: IProps) => {
 		name: 'ic',
 		flag: '2'
 	}]
+
+	// const windowWidth = Dimensions.get('window').width;
+	const windowHeight = Dimensions.get('window').height;
 
 	// 查询报警代码列表
 	useEffect(() => {
@@ -161,8 +164,8 @@ export default (props: IProps) => {
 	}
 
 	return (
-		<ScrollView style={{ backgroundColor: '#fff' }}>
-			<View style={{ flexDirection: 'row', paddingTop: 20 }}>
+		<ScrollView style={{ height: '100%', backgroundColor: '#fff' }}>
+			<View style={{ flexDirection: 'row', marginTop: 20 }}>
 				<View style={{ width: '25%' }}>
 					<View style={{
 						height: 45, marginBottom: 20
@@ -191,7 +194,7 @@ export default (props: IProps) => {
 					})()}
 				</View>
 				<View style={{ borderRightWidth: 0.5, borderColor: '#e2e1de', height: '100%' }}></View>
-				<View style={{ paddingLeft: 10, paddingRight: 10, width: '75%' }}>
+				<View style={{ paddingLeft: 10, paddingRight: 10, width: '75%', height: windowHeight }}>
 					<View style={{ height: 45, marginBottom: 20 }}><Text style={{ lineHeight: 45, textAlign: 'center', fontSize: 18 }}>报警代码详情</Text></View>
 					<View style={{ flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center' }}>
 						{(() => {
@@ -257,37 +260,6 @@ export default (props: IProps) => {
 							})
 						}
 					</Picker>
-				</View>
-			</MessageBox>
-
-			<MessageBox args={message_box.args} title="验证" visible={message_box.index === 2} toConfirm={(args: { _index: number }) => {
-				check(args)
-			}} toCencel={(args: { _index: number }) => {
-				set_message_box({ index: args._index, args: null })
-			}}>
-				<View style={{ flexDirection: 'row', alignItems: "center", justifyContent: 'center' }}>
-					<Picker selectedValue={card_type} onValueChange={(i) => set_card_type(i)} style={{ height: 35, width: 250 }} >
-						{
-							cards.map((item, index) => {
-								return <Picker.Item label={item.name} key={index} value={item.flag} />
-							})
-						}
-					</Picker>
-					<Text style={{ fontSize: 16, color: '#333333', textAlign: 'center', lineHeight: 150 }}>请刷卡验证登录</Text>
-				</View>
-			</MessageBox>
-
-			<MessageBox args={message_box.args} title="提示" visible={message_box.index === 3} toConfirm={(args) => {
-				set_message_box({
-					index: 2,
-					args: {
-						...args,
-						_index: 3
-					}
-				})
-			}} toCencel={() => set_message_box({ index: 0, args: null })}>
-				<View style={{ flexDirection: 'row', alignItems: "center", justifyContent: 'center' }}>
-					<Text style={{ fontSize: 16, color: '#333333', textAlign: 'center', lineHeight: 150 }}>是否解除安灯报警？</Text>
 				</View>
 			</MessageBox>
 
@@ -382,7 +354,38 @@ export default (props: IProps) => {
 				}
 			})()} */}
 			{/* 筛选 end */}
-		</ScrollView >
 
+			<MessageBox args={message_box.args} title="验证" visible={message_box.index === 2} toConfirm={(args: { _index: number }) => {
+				check(args)
+			}} toCencel={(args: { _index: number }) => {
+				set_message_box({ index: args._index, args: null })
+			}}>
+				<View style={{ flexDirection: 'row', alignItems: "center", justifyContent: 'center' }}>
+					<Picker selectedValue={card_type} onValueChange={(i) => set_card_type(i)} style={{ height: 35, width: 100 }} >
+						{
+							cards.map((item, index) => {
+								return <Picker.Item label={item.name} key={index} value={item.flag} />
+							})
+						}
+					</Picker>
+					<Text style={{ fontSize: 16, color: '#333333', textAlign: 'center', lineHeight: 150 }}>请刷卡验证登录</Text>
+				</View>
+			</MessageBox>
+
+			<MessageBox args={message_box.args} title="提示" visible={message_box.index === 3} toConfirm={(args) => {
+				set_message_box({
+					index: 2,
+					args: {
+						...args,
+						_index: 3
+					}
+				})
+			}} toCencel={() => set_message_box({ index: 0, args: null })}>
+				<View style={{ flexDirection: 'row', alignItems: "center", justifyContent: 'center' }}>
+					<Text style={{ fontSize: 16, color: '#333333', textAlign: 'center', lineHeight: 150 }}>是否解除安灯报警？</Text>
+				</View>
+			</MessageBox>
+
+		</ScrollView >
 	);
 }

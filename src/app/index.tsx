@@ -1,9 +1,8 @@
 import RNSerialPort from '@koimy/react-native-serial-port'
 import { NavigationContainer, NavigationContainerRef } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { View } from 'native-base';
 import React, { useEffect, useRef, useState } from 'react';
-import { Text } from 'react-native'
+import { Button, Text, View } from 'react-native'
 import RNBootSplash from "react-native-bootsplash";
 import { connect, Provider } from 'react-redux';
 import check_new_version from '../atom/check-new-version'
@@ -12,6 +11,7 @@ import get_changelog from '../atom/get-changelog'
 import MessageBox from '../atom/message-box'
 import { ticket_login } from '../atom/server'
 import { get, set } from '../atom/storage';
+import toast from '../atom/toast';
 import upgrade_app from '../atom/upgrade-app';
 import store from '../store/index'
 
@@ -20,8 +20,7 @@ import home from '../home'
 import login from '../login'
 // import nfc from '../nfc'
 
-// tslint:disable-next-line: variable-name
-const Stack = createStackNavigator();
+const { Navigator, Screen } = createStackNavigator();
 
 export default function App() {
 	const navigation_container = useRef<NavigationContainerRef>(null);
@@ -72,31 +71,39 @@ export default function App() {
 
 	// 开启串口监听
 	useEffect(() => {
-		RNSerialPort.openSerialPort('/dev/ttyS4', '9600')
-		// 监听接收串口开关的状态
-		// DeviceEventEmitter.addListener('onSerialPortOpenStatus', (status) => {
-		// 	console.log("onSerialPortOpenStatus", status);
-		// })
+		setTimeout(() => {
+			RNSerialPort.openSerialPort('/dev/ttyS4', '9600')
+			// 监听接收串口开关的状态
+			// DeviceEventEmitter.addListener('onSerialPortOpenStatus', (status) => {
+			// 	console.log("onSerialPortOpenStatus", status);
+			// })
+		}, 1000);
 	}, [])
+	// return <Button
+	// 	title="测试"
+	// 	onPress={() => {
+	// 		return toast('success', '11111111111111')
+	// 	}}
+	// />
 
 	return (
 		<Provider store={store}>
 			<NavigationContainer ref={navigation_container}>
-				<Stack.Navigator initialRouteName='login' screenOptions={{
+				<Navigator initialRouteName='login' screenOptions={{
 					headerStyle: {
 						height: 0
 					},
 					headerTitle: '',
 					headerBackTitle: ''
 				}}>
-					<Stack.Screen name='login' component={login} />
-					<Stack.Screen name='home' component={
+					<Screen name='login' component={login} />
+					<Screen name='home' component={
 						connect(
 							(state: { equipment_mes_id: string, process_mes_id: string }) => ({ equipment_mes_id: state.equipment_mes_id, process_mes_id: state.process_mes_id })
 						)(home)
 					} />
-					{/* <Stack.Screen name='nfc' component={nfc} /> */}
-				</Stack.Navigator>
+					{/* <Screen name='nfc' component={nfc} /> */}
+				</Navigator>
 
 				<MessageBox visible={update.new} toCencel={() => set_update({
 					...update,

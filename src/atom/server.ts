@@ -21,14 +21,16 @@ export function service<T>(message_type: string, condition: unknown) {
  * @param usercode 用户usecode
  * @param userpw 用户密码
  */
-export function login(usercode: string, userpw: string) {
+export function login(usercode: string, userpw: string, type: '0' | '1' | '2', card_id: string) {
 	const fid = uniqueid()
 	return request<{
 		sessionID: string, remember_me_ticket: string, usercode: string, mes_staff_code: string; mes_staff_name: string;
 	}>(`/login`, JSON.stringify({
 		usercode,
 		userpw,
-		fid
+		fid,
+		type,
+		card_id
 	}))
 }
 

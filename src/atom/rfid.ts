@@ -3,7 +3,10 @@ import { DeviceEventEmitter } from 'react-native';
 import bytes2str from './bytes2str'
 
 export default async function rfid() {
-	return new Promise(async (resolve, reject) => {
+	return new Promise<{
+		code: 0 | 1;
+		id: string;
+	}>(async (resolve, reject) => {
 		try {
 			// RNSerialPort.openSerialPort('/dev/ttyS4', '9600')
 			// 监听串口回传数据
