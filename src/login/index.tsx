@@ -39,8 +39,10 @@ export default () => {
 			}
 			if (login_type === '2') {
 				if (!account) {
+					await load.destroy()
 					return toast('warning', '请输入账号');
 				} else if (!pwd) {
+					await load.destroy()
 					return toast('warning', '请密码');
 				}
 			}
@@ -137,20 +139,20 @@ export default () => {
 					{/* <Fdicon name='zhiwen-xianxing' size={67} color='#242c3a'></Fdicon> */}
 					<Fdicon onPress={() => { set_login_type('2') }} name='jianpan' size={70} color={login_type === '2' ? '#409eff' : '#242c3a'}></Fdicon>
 					<Fdicon onPress={async () => {
-						set_login_type('0')
+						await set_login_type('0')
 						const res = await rfid()
 						if (res.code === 1) {
 							set_card_id(res.id)
 						}
-						tologin()
+						await tologin()
 					}} name='id1' size={70} color={login_type === '0' ? '#409eff' : '#242c3a'}></Fdicon>
 					<Fdicon onPress={async () => {
-						set_login_type('1')
+						await set_login_type('1')
 						const res = await nfc()
 						if (res.code === 1) {
 							set_card_id(res.id)
 						}
-						tologin()
+						await tologin()
 					}} name='nfc-1' size={70} color={login_type === '1' ? '#409eff' : '#242c3a'}></Fdicon>
 				</View>
 				<View style={{ marginTop: 20 }}>

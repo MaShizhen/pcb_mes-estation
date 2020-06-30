@@ -15,4 +15,4 @@ export const login = `customs-login`;
 export const mqtt = 'mqtt://dev.koimy.com:1080/ws';
 
 // export const update_url = 'https://dev.koimy.com:1081/public/pcb_erp/AppUpdate/update.json';// 静态文件地址
-export const update_url = '';// 静态文件地址
+export const update_url = 'http://192.168.1.238/soft/app-update/pcb_mes-estation/update.json';// 静态文件地址

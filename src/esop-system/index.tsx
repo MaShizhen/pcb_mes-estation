@@ -38,10 +38,10 @@ export default (props: IProps) => {
 			if (useresoplist_res.data.length > 0) {
 				set_states({
 					...states,
-					useresoplist: useresoplist_res.data[1],
-					file_names: useresoplist_res.data[1].file_name,
-					recovery_time: useresoplist_res.data[1].recovery_time,
-					file_address: get_file + useresoplist_res.data[1].file_address,
+					useresoplist: useresoplist_res.data[0],
+					file_names: useresoplist_res.data[0].file_name,
+					recovery_time: useresoplist_res.data[0].recovery_time,
+					file_address: get_file + useresoplist_res.data[0].file_address,
 					currentPage: Number(page),
 					next: useresoplist_res.data[1] ? useresoplist_res.data[1].file_name : ''
 				})
